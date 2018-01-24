@@ -54,6 +54,30 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Content\bin.png" />
+    <Content Include="Content\climbbot_walk_d_1.png" />
+    <Content Include="Content\climbbot_walk_d_2.png" />
+    <Content Include="Content\climbbot_walk_d_3.png" />
+    <Content Include="Content\climbbot_walk_d_4.png" />
+    <Content Include="Content\climbbot_walk_d_5.png" />
+    <Content Include="Content\climbbot_walk_d_6.png" />
+    <Content Include="Content\climbbot_walk_l_1.png" />
+    <Content Include="Content\climbbot_walk_l_2.png" />
+    <Content Include="Content\climbbot_walk_l_3.png" />
+    <Content Include="Content\climbbot_walk_l_4.png" />
+    <Content Include="Content\climbbot_walk_l_5.png" />
+    <Content Include="Content\climbbot_walk_l_6.png" />
+    <Content Include="Content\climbbot_walk_r_1.png" />
+    <Content Include="Content\climbbot_walk_r_2.png" />
+    <Content Include="Content\climbbot_walk_r_3.png" />
+    <Content Include="Content\climbbot_walk_r_4.png" />
+    <Content Include="Content\climbbot_walk_r_5.png" />
+    <Content Include="Content\climbbot_walk_r_6.png" />
+    <Content Include="Content\climbbot_walk_u_1.png" />
+    <Content Include="Content\climbbot_walk_u_2.png" />
+    <Content Include="Content\climbbot_walk_u_3.png" />
+    <Content Include="Content\climbbot_walk_u_4.png" />
+    <Content Include="Content\climbbot_walk_u_5.png" />
+    <Content Include="Content\climbbot_walk_u_6.png" />
     <Content Include="Content\minifig_walk_l_1.png" />
     <Content Include="Content\minifig_walk_l_10.png" />
     <Content Include="Content\minifig_walk_l_2.png" />
