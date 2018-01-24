@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{95B88154-68A8-4519-A43C-0FFD5184687F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Junkbot</RootNamespace>
+    <AssemblyName>Junkbot</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Pencil.Gaming">
+      <HintPath>D:\Backup Documents\Libraries\PencilGaming\Pencil.Gaming.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\bin.png" />
+    <Content Include="Content\minifig_walk_l_1.png" />
+    <Content Include="Content\minifig_walk_l_10.png" />
+    <Content Include="Content\minifig_walk_l_2.png" />
+    <Content Include="Content\minifig_walk_l_3.png" />
+    <Content Include="Content\minifig_walk_l_4.png" />
+    <Content Include="Content\minifig_walk_l_5.png" />
+    <Content Include="Content\minifig_walk_l_6.png" />
+    <Content Include="Content\minifig_walk_l_7.png" />
+    <Content Include="Content\minifig_walk_l_8.png" />
+    <Content Include="Content\minifig_walk_l_9.png" />
+    <Content Include="Content\minifig_walk_r_1.png" />
+    <Content Include="Content\minifig_walk_r_10.png" />
+    <Content Include="Content\minifig_walk_r_2.png" />
+    <Content Include="Content\minifig_walk_r_3.png" />
+    <Content Include="Content\minifig_walk_r_4.png" />
+    <Content Include="Content\minifig_walk_r_5.png" />
+    <Content Include="Content\minifig_walk_r_7.png" />
+    <Content Include="Content\minifig_walk_r_8.png" />
+    <Content Include="Content\minifig_walk_r_9.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
