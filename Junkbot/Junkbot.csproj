@@ -45,8 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer\Gl\GlRenderer.cs" />
+    <Compile Include="Renderer\IRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
