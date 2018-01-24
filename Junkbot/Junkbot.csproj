@@ -78,6 +78,10 @@
     <Content Include="Content\climbbot_walk_u_4.png" />
     <Content Include="Content\climbbot_walk_u_5.png" />
     <Content Include="Content\climbbot_walk_u_6.png" />
+    <Content Include="Content\gearbot_walk_l_1.png" />
+    <Content Include="Content\gearbot_walk_l_2.png" />
+    <Content Include="Content\gearbot_walk_r_1.png" />
+    <Content Include="Content\gearbot_walk_r_2.png" />
     <Content Include="Content\minifig_walk_l_1.png" />
     <Content Include="Content\minifig_walk_l_10.png" />
     <Content Include="Content\minifig_walk_l_2.png" />
