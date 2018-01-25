@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Junkbot.Game.World;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,12 @@ namespace Junkbot.Game
 {
     internal class JunkbotGame
     {
+        private Scene GameScene;
+
+
         public JunkbotGame()
         {
-
+            GameScene = new Scene();
         }
 
 
