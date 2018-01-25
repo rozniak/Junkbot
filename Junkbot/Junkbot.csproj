@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Pencil.Gaming">
       <HintPath>D:\Backup Documents\Libraries\PencilGaming\Pencil.Gaming.dll</HintPath>
     </Reference>
@@ -60,6 +63,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Content\Atlas\atlas.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
