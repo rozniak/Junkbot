@@ -16,7 +16,14 @@ namespace Junkbot.Renderer.Gl
 
         private JunkbotGame Game;
         private int GlVaoId;
+        private List<IRenderStrategy> ActiveRenderStrategies;
         private GlfwWindowPtr WindowPtr;
+
+
+        public GlRenderer()
+        {
+            ActiveRenderStrategies = new List<IRenderStrategy>();
+        }
 
 
         public void RenderFrame()
@@ -28,6 +35,11 @@ namespace Junkbot.Renderer.Gl
             }
 
             GL.Clear(ClearBufferMask.ColorBufferBit);
+
+            foreach (IRenderStrategy strategy in ActiveRenderStrategies)
+            {
+                strategy.RenderFrame();
+            }
 
             Glfw.SwapBuffers(WindowPtr);
             Glfw.PollEvents();
@@ -68,6 +80,7 @@ namespace Junkbot.Renderer.Gl
         
         public void Stop()
         {
+            ActiveRenderStrategies.Clear();
             IsOpen = false;
             Glfw.Terminate();
         }
