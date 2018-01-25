@@ -1,6 +1,7 @@
 ﻿using Junkbot.Game;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Pencil.Gaming.Graphics;
 using Pencil.Gaming.MathUtils;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,13 @@ namespace Junkbot.Renderer.Gl.Strategies
         private Vector2 SpriteAtlasDimensions;
 
         private Dictionary<string, Rectanglei> SpriteAtlasMap;
+
+        private int SpriteAtlasTextureId;
         
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GL.DeleteTexture(SpriteAtlasTextureId);
         }
 
         public bool Initialize(JunkbotGame gameReference)
@@ -43,6 +46,7 @@ namespace Junkbot.Renderer.Gl.Strategies
             var atlasNodeArray = JArray.Parse(atlasJson);
 
             SpriteAtlasMap = new Dictionary<string, Rectanglei>();
+            SpriteAtlasDimensions = new Vector2(atlasBmp.Width, atlasBmp.Height);
 
             foreach (JToken token in atlasNodeArray)
             {
@@ -60,6 +64,14 @@ namespace Junkbot.Renderer.Gl.Strategies
                     new Rectanglei(rectangleComponents[0], rectangleComponents[1], rectangleComponents[2], rectangleComponents[3])
                     );
             }
+
+            // Load the bitmap into OpenGL
+            //
+            SpriteAtlasTextureId = GlUtil.LoadBitmapTexture(atlasBmp);
+
+            // Dispose the atlas resource
+            //
+            atlasBmp.Dispose();
 
             return true;
         }

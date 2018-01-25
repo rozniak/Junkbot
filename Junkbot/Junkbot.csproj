@@ -60,6 +60,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\Gl\GlRenderer.cs" />
+    <Compile Include="Renderer\Gl\GlUtil.cs" />
     <Compile Include="Renderer\Gl\Strategies\GlWorldRenderStrategy.cs" />
     <Compile Include="Renderer\IRenderStrategy.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
