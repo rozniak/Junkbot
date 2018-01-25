@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\JunkbotGame.cs" />
+    <Compile Include="Game\JunkbotGameState.cs" />
     <Compile Include="Game\World\Actors\BrickActor.cs" />
     <Compile Include="Game\World\Actors\BrickColor.cs" />
     <Compile Include="Game\World\Actors\IActor.cs" />
@@ -64,12 +66,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Content\Atlas\atlas.json" />
+    <None Include="Content\Atlas\atlas.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Content\Atlas\atlas.png" />
+    <Content Include="Content\Atlas\atlas.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\RippedSprites\bin.png" />
     <Content Include="Content\RippedSprites\brick_blue_1.png" />
     <Content Include="Content\RippedSprites\brick_blue_2.png" />

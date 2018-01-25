@@ -1,4 +1,5 @@
 ﻿using Junkbot.Game;
+using Junkbot.Renderer.Gl.Strategies;
 using Pencil.Gaming;
 using Pencil.Gaming.Graphics;
 using System;
@@ -76,8 +77,12 @@ namespace Junkbot.Renderer.Gl
             GL.BindVertexArray(GlVaoId);
 
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+            // Now attach the game state event to update our strategies
+            //
+            Game.ChangeState += Game_ChangeState;
         }
-        
+
         public void Stop()
         {
             ActiveRenderStrategies.Clear();
@@ -85,6 +90,27 @@ namespace Junkbot.Renderer.Gl
             Glfw.Terminate();
         }
 
+
+        private void Game_ChangeState(object sender, EventArgs e)
+        {
+            var game = (JunkbotGame)sender;
+
+            switch (game.GameState)
+            {
+                case JunkbotGameState.Nothing:
+                    ActiveRenderStrategies.Clear();
+                    break;
+
+                case JunkbotGameState.World:
+                    var worldStrategy = new GlWorldRenderStrategy();
+
+                    worldStrategy.Initialize(game);
+
+                    ActiveRenderStrategies.Add(worldStrategy);
+
+                    break;
+            }
+        }
 
         private void OnError(GlfwError code, string desc)
         {
