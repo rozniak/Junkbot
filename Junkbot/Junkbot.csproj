@@ -80,6 +80,9 @@
     <Content Include="Content\RippedSprites\brick_blue_1.png" />
     <Content Include="Content\RippedSprites\brick_blue_2.png" />
     <Content Include="Content\RippedSprites\brick_blue_3.png" />
+    <Content Include="Content\RippedSprites\brick_immobile_1.png" />
+    <Content Include="Content\RippedSprites\brick_immobile_2.png" />
+    <Content Include="Content\RippedSprites\brick_immobile_3.png" />
     <Content Include="Content\RippedSprites\climbbot_walk_d_1.png" />
     <Content Include="Content\RippedSprites\climbbot_walk_d_2.png" />
     <Content Include="Content\RippedSprites\climbbot_walk_d_3.png" />
