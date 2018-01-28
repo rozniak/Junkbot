@@ -1,0 +1,93 @@
+﻿[
+  {
+    "name": "junkbot-walk-left",
+    "frames": [
+      {
+        "sprite": "minifig_walk_l_1",
+        "ticks": 3,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_2",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_3",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_4",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_5",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_6",
+        "ticks": 3,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_7",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_8",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_9",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_l_10",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "name": "junkbot-walk-right",
+    "frames": [
+
+    ]
+  }
+]
