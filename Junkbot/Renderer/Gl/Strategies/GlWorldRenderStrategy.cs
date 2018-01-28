@@ -34,15 +34,15 @@ namespace Junkbot.Renderer.Gl.Strategies
         {
             Game = gameReference;
 
-            if (!File.Exists(Environment.CurrentDirectory + @"\Content\Atlas\atlas.json") ||
-                !File.Exists(Environment.CurrentDirectory + @"\Content\Atlas\atlas.png"))
+            if (!File.Exists(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.json") ||
+                !File.Exists(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.png"))
             {
                 Console.WriteLine("Atlas is missing!");
                 return false;
             }
 
-            var atlasBmp = (Bitmap)Image.FromFile(Environment.CurrentDirectory + @"\Content\Atlas\atlas.png");
-            var atlasJson = File.ReadAllText(Environment.CurrentDirectory + @"\Content\Atlas\atlas.json");
+            var atlasBmp = (Bitmap)Image.FromFile(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.png");
+            var atlasJson = File.ReadAllText(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.json");
             var atlasNodeArray = JArray.Parse(atlasJson);
 
             SpriteAtlasMap = new Dictionary<string, Rectanglei>();
