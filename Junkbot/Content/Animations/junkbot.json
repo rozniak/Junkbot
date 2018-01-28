@@ -3,6 +3,7 @@
     "name": "junkbot-walk-left",
     "frames": [
       {
+        "emit_event": true,
         "sprite": "minifig_walk_l_1",
         "ticks": 3,
         "offset": {
@@ -43,6 +44,7 @@
         }
       },
       {
+        "emit_event": true,
         "sprite": "minifig_walk_l_6",
         "ticks": 3,
         "offset": {
