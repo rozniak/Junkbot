@@ -89,7 +89,88 @@
   {
     "name": "junkbot-walk-right",
     "frames": [
-
+      {
+        "emit_event": true,
+        "sprite": "minifig_walk_r_1",
+        "ticks": 3,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_2",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_3",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_4",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_5",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "emit_event": true,
+        "sprite": "minifig_walk_r_6",
+        "ticks": 3,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_7",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_8",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_9",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "sprite": "minifig_walk_r_10",
+        "ticks": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
     ]
   }
 ]
