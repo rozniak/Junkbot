@@ -37,5 +37,512 @@
         }
       }
     ]
+  },
+  {
+    "name": "legopart-brick-blue-4",
+    "frames": [
+      {
+        "sprite": "brick_blue_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-blue-6",
+    "frames": [
+      {
+        "sprite": "brick_blue_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-blue-8",
+    "frames": [
+      {
+        "sprite": "brick_blue_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-green-1",
+    "frames": [
+      {
+        "sprite": "brick_green_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-green-2",
+    "frames": [
+      {
+        "sprite": "brick_green_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-green-3",
+    "frames": [
+      {
+        "sprite": "brick_green_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-green-4",
+    "frames": [
+      {
+        "sprite": "brick_green_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-green-6",
+    "frames": [
+      {
+        "sprite": "brick_green_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-green-8",
+    "frames": [
+      {
+        "sprite": "brick_green_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-immobile-1",
+    "frames": [
+      {
+        "sprite": "brick_immobile_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-immobile-2",
+    "frames": [
+      {
+        "sprite": "brick_immobile_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-immobile-3",
+    "frames": [
+      {
+        "sprite": "brick_immobile_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-immobile-4",
+    "frames": [
+      {
+        "sprite": "brick_immobile_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-immobile-6",
+    "frames": [
+      {
+        "sprite": "brick_immobile_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-immobile-8",
+    "frames": [
+      {
+        "sprite": "brick_immobile_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-1",
+    "frames": [
+      {
+        "sprite": "brick_red_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-2",
+    "frames": [
+      {
+        "sprite": "brick_red_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-3",
+    "frames": [
+      {
+        "sprite": "brick_red_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-4",
+    "frames": [
+      {
+        "sprite": "brick_red_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-6",
+    "frames": [
+      {
+        "sprite": "brick_red_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-8",
+    "frames": [
+      {
+        "sprite": "brick_red_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-white-1",
+    "frames": [
+      {
+        "sprite": "brick_white_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-white-2",
+    "frames": [
+      {
+        "sprite": "brick_white_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-white-3",
+    "frames": [
+      {
+        "sprite": "brick_white_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-white-4",
+    "frames": [
+      {
+        "sprite": "brick_white_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-white-6",
+    "frames": [
+      {
+        "sprite": "brick_white_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-white-8",
+    "frames": [
+      {
+        "sprite": "brick_white_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-1",
+    "frames": [
+      {
+        "sprite": "brick_red_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-2",
+    "frames": [
+      {
+        "sprite": "brick_red_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-3",
+    "frames": [
+      {
+        "sprite": "brick_red_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-4",
+    "frames": [
+      {
+        "sprite": "brick_red_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-6",
+    "frames": [
+      {
+        "sprite": "brick_red_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-red-8",
+    "frames": [
+      {
+        "sprite": "brick_red_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-yellow-1",
+    "frames": [
+      {
+        "sprite": "brick_yellow_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-yellow-2",
+    "frames": [
+      {
+        "sprite": "brick_yellow_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-yellow-3",
+    "frames": [
+      {
+        "sprite": "brick_yellow_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-yellow-4",
+    "frames": [
+      {
+        "sprite": "brick_yellow_4",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-yellow-6",
+    "frames": [
+      {
+        "sprite": "brick_yellow_6",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-yellow-8",
+    "frames": [
+      {
+        "sprite": "brick_yellow_8",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": -14
+        }
+      }
+    ]
   }
 ]
