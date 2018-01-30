@@ -1,0 +1,15 @@
+﻿[
+  {
+    "name": "flag-trashcan",
+    "frames": [
+      {
+        "sprite": "bin",
+        "ticks": 0,
+        "offset": {
+          "x": 4,
+          "y": 3
+        }
+      }
+    ]
+  }
+]
