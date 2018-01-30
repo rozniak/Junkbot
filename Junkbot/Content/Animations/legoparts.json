@@ -1,0 +1,41 @@
+﻿[
+  {
+    "name": "legopart-brick-blue-1",
+    "frames": [
+      {
+        "sprite": "brick_blue_1",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-blue-2",
+    "frames": [
+      {
+        "sprite": "brick_blue_2",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "name": "legopart-brick-blue-3",
+    "frames": [
+      {
+        "sprite": "brick_blue_3",
+        "ticks": 0,
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  }
+]
