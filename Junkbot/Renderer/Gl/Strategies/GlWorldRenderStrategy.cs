@@ -73,12 +73,15 @@ namespace Junkbot.Renderer.Gl.Strategies
             //
             atlasBmp.Dispose();
 
+            // Set up GL props
+            //
+
             return true;
         }
 
         public void RenderFrame()
         {
-            throw new NotImplementedException();
+            GL.Clear(ClearBufferMask.ColorBufferBit);
         }
     }
 }

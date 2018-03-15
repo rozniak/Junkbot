@@ -75,8 +75,8 @@ namespace Junkbot.Renderer.Gl
             //
             GlVaoId = GL.GenVertexArray();
             GL.BindVertexArray(GlVaoId);
-
-            GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            
+            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f); // Approx. cornflower blue
 
             // Now attach the game state event to update our strategies
             //
