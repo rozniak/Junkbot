@@ -51,6 +51,9 @@
   <ItemGroup>
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\JunkbotGameState.cs" />
+    <Compile Include="Game\World\Actors\Animation\ActorAnimation.cs" />
+    <Compile Include="Game\World\Actors\Animation\ActorAnimationFrame.cs" />
+    <Compile Include="Game\World\Actors\Animation\AnimationServer.cs" />
     <Compile Include="Game\World\Actors\BrickActor.cs" />
     <Compile Include="Game\World\Actors\BrickColor.cs" />
     <Compile Include="Game\World\Actors\IActor.cs" />
@@ -67,23 +70,57 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Content\Atlas\atlas.json">
+    <None Include="Content\Animations\flags.json" />
+    <None Include="Content\Animations\junkbot.json" />
+    <None Include="Content\Animations\legoparts.json" />
+    <None Include="Content\Atlas\actors-atlas.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Content\Atlas\atlas.png">
+    <Content Include="Content\Atlas\actors-atlas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Levels\New Employee Training.txt" />
     <Content Include="Content\RippedSprites\bin.png" />
     <Content Include="Content\RippedSprites\brick_blue_1.png" />
     <Content Include="Content\RippedSprites\brick_blue_2.png" />
     <Content Include="Content\RippedSprites\brick_blue_3.png" />
+    <Content Include="Content\RippedSprites\brick_blue_4.png" />
+    <Content Include="Content\RippedSprites\brick_blue_6.png" />
+    <Content Include="Content\RippedSprites\brick_blue_8.png" />
+    <Content Include="Content\RippedSprites\brick_green_1.png" />
+    <Content Include="Content\RippedSprites\brick_green_2.png" />
+    <Content Include="Content\RippedSprites\brick_green_3.png" />
+    <Content Include="Content\RippedSprites\brick_green_4.png" />
+    <Content Include="Content\RippedSprites\brick_green_6.png" />
+    <Content Include="Content\RippedSprites\brick_green_8.png" />
     <Content Include="Content\RippedSprites\brick_immobile_1.png" />
     <Content Include="Content\RippedSprites\brick_immobile_2.png" />
     <Content Include="Content\RippedSprites\brick_immobile_3.png" />
+    <Content Include="Content\RippedSprites\brick_immobile_4.png" />
+    <Content Include="Content\RippedSprites\brick_immobile_6.png" />
+    <Content Include="Content\RippedSprites\brick_immobile_8.png" />
+    <Content Include="Content\RippedSprites\brick_red_1.png" />
+    <Content Include="Content\RippedSprites\brick_red_2.png" />
+    <Content Include="Content\RippedSprites\brick_red_3.png" />
+    <Content Include="Content\RippedSprites\brick_red_4.png" />
+    <Content Include="Content\RippedSprites\brick_red_6.png" />
+    <Content Include="Content\RippedSprites\brick_red_8.png" />
+    <Content Include="Content\RippedSprites\brick_white_1.png" />
+    <Content Include="Content\RippedSprites\brick_white_2.png" />
+    <Content Include="Content\RippedSprites\brick_white_3.png" />
+    <Content Include="Content\RippedSprites\brick_white_4.png" />
+    <Content Include="Content\RippedSprites\brick_white_6.png" />
+    <Content Include="Content\RippedSprites\brick_white_8.png" />
+    <Content Include="Content\RippedSprites\brick_yellow_1.png" />
+    <Content Include="Content\RippedSprites\brick_yellow_2.png" />
+    <Content Include="Content\RippedSprites\brick_yellow_3.png" />
+    <Content Include="Content\RippedSprites\brick_yellow_4.png" />
+    <Content Include="Content\RippedSprites\brick_yellow_6.png" />
+    <Content Include="Content\RippedSprites\brick_yellow_8.png" />
     <Content Include="Content\RippedSprites\climbbot_walk_d_1.png" />
     <Content Include="Content\RippedSprites\climbbot_walk_d_2.png" />
     <Content Include="Content\RippedSprites\climbbot_walk_d_3.png" />
@@ -128,6 +165,7 @@
     <Content Include="Content\RippedSprites\minifig_walk_r_3.png" />
     <Content Include="Content\RippedSprites\minifig_walk_r_4.png" />
     <Content Include="Content\RippedSprites\minifig_walk_r_5.png" />
+    <Content Include="Content\RippedSprites\minifig_walk_r_6.png" />
     <Content Include="Content\RippedSprites\minifig_walk_r_7.png" />
     <Content Include="Content\RippedSprites\minifig_walk_r_8.png" />
     <Content Include="Content\RippedSprites\minifig_walk_r_9.png" />
