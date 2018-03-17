@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\GameStateChangedEventArgs.cs" />
+    <Compile Include="Game\Input\InputEvents.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\IGameState.cs" />
     <Compile Include="Game\State\MenuGameState.cs" />

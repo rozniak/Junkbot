@@ -1,4 +1,5 @@
 ﻿using Junkbot.Game;
+using Junkbot.Game.Input;
 using Junkbot.Game.State;
 using Junkbot.Renderer.Gl.Strategies;
 using Pencil.Gaming;
@@ -16,6 +17,7 @@ namespace Junkbot.Renderer.Gl
         public bool IsOpen { get; private set; }
 
 
+        private InputEvents CurrentInputState;
         private JunkbotGame Game;
         private int GlVaoId;
         private List<IRenderStrategy> ActiveRenderStrategies;
@@ -27,6 +29,17 @@ namespace Junkbot.Renderer.Gl
             ActiveRenderStrategies = new List<IRenderStrategy>();
         }
 
+
+        public InputEvents GetInputEvents()
+        {
+            var thisUpdate = CurrentInputState;
+
+            thisUpdate.FinalizeForReporting();
+
+            CurrentInputState = new InputEvents(thisUpdate.DownedInputs);
+
+            return thisUpdate;
+        }
 
         public void RenderFrame()
         {
@@ -50,6 +63,7 @@ namespace Junkbot.Renderer.Gl
         public void Start(JunkbotGame gameInstance)
         {
             Game = gameInstance;
+            CurrentInputState = new InputEvents();
 
             // Setup GLFW parameters and create window
             //
@@ -79,18 +93,23 @@ namespace Junkbot.Renderer.Gl
             
             GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f); // Approx. cornflower blue
 
+            // Set up input callbacks
+            //
+            Glfw.SetCharCallback(WindowPtr, OnChar);
+            Glfw.SetKeyCallback(WindowPtr, OnKey);
+
             // Now attach the game state event to update our strategies
             //
             Game.ChangeState += Game_ChangeState;
         }
-
+        
         public void Stop()
         {
             ActiveRenderStrategies.Clear();
             IsOpen = false;
             Glfw.Terminate();
         }
-
+        
 
         private void Game_ChangeState(object sender, EventArgs e)
         {
@@ -117,9 +136,24 @@ namespace Junkbot.Renderer.Gl
             }
         }
 
+        private void OnChar(GlfwWindowPtr wnd, char ch)
+        {
+            CurrentInputState.ReportConsoleInput(ch);
+        }
+
         private void OnError(GlfwError code, string desc)
         {
             Console.WriteLine(desc);
+        }
+
+        private void OnKey(GlfwWindowPtr wnd, Key key, int scanCode, KeyAction action, KeyModifiers mods)
+        {
+            string inputString = "vk." + key.ToString();
+
+            if (action == KeyAction.Press)
+                CurrentInputState.ReportPress(inputString);
+            else if (action == KeyAction.Release)
+                CurrentInputState.ReportRelease(inputString);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Junkbot.Game.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,6 @@ namespace Junkbot.Game.State
 
         bool Initialize(JunkbotGame gameReference);
 
-        void Update(TimeSpan deltaTime);
+        void Update(TimeSpan deltaTime, InputEvents inputs);
     }
 }

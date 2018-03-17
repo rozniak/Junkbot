@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Junkbot.Game.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,9 +28,9 @@ namespace Junkbot.Game.State
             return true;
         }
 
-        public void Update(TimeSpan deltaTime)
+        public void Update(TimeSpan deltaTime, InputEvents inputs)
         {
-
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Junkbot.Game;
+using Junkbot.Game.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace Junkbot.Renderer
     {
         bool IsOpen { get; }
 
+
+        InputEvents GetInputEvents();
 
         void RenderFrame();
 

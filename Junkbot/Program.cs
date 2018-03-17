@@ -1,4 +1,5 @@
 ﻿using Junkbot.Game;
+using Junkbot.Game.Input;
 using Junkbot.Renderer.Gl;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,9 @@ namespace Junkbot
                 TimeSpan deltaTime = gameTimer.Elapsed;
                 gameTimer.Reset();
 
-                game.Update(deltaTime);
+                InputEvents inputs = renderer.GetInputEvents();
+
+                game.Update(deltaTime, inputs);
                 renderer.RenderFrame();
             }
 
