@@ -1,4 +1,5 @@
 ﻿using Junkbot.Game;
+using Junkbot.Game.State;
 using Junkbot.Renderer.Gl.Strategies;
 using Pencil.Gaming;
 using Pencil.Gaming.Graphics;
@@ -95,8 +96,12 @@ namespace Junkbot.Renderer.Gl
         {
             var game = (JunkbotGame)sender;
 
-            switch (game.GameState)
+            switch (game.GameState.Identifier)
             {
+                case JunkbotGameState.Menu:
+
+                    break;
+
                 case JunkbotGameState.Nothing:
                     ActiveRenderStrategies.Clear();
                     break;

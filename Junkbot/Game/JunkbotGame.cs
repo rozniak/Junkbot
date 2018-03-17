@@ -1,4 +1,5 @@
-﻿using Junkbot.Game.World;
+﻿using Junkbot.Game.State;
+using Junkbot.Game.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Junkbot.Game
 {
     internal class JunkbotGame
     {
-        public JunkbotGameState GameState
+        public IGameState GameState
         {
             get { return _GameState; }
             private set
@@ -18,10 +19,7 @@ namespace Junkbot.Game
                 ChangeState?.Invoke(this, EventArgs.Empty);
             }
         }
-        private JunkbotGameState _GameState;
-
-
-        private Scene GameScene;
+        private IGameState _GameState;
         
 
         public event EventHandler ChangeState;
@@ -29,15 +27,19 @@ namespace Junkbot.Game
 
         public JunkbotGame()
         {
-            GameScene = new Scene();
-            GameState = JunkbotGameState.Nothing;
+            // Load straight into the menu gamestate for now
+            //
+            var menuState = new MenuGameState();
+
+            menuState.Initialize(this);
+
+            GameState = menuState;
         }
 
 
         public void Update(TimeSpan deltaTime)
         {
-            if (GameState == JunkbotGameState.Nothing)
-                GameState = JunkbotGameState.World;
+            GameState.Update(deltaTime);
         }
     }
 }
