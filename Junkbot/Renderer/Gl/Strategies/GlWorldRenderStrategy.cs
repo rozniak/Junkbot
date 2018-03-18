@@ -15,30 +15,21 @@ namespace Junkbot.Renderer.Gl.Strategies
 {
     internal class GlWorldRenderStrategy : IRenderStrategy
     {
+        private SpriteAtlas ActorAtlas;
+
         private JunkbotGame Game;
-
-
-        private Vector2i SpriteAtlasDimensions;
-
-        private Dictionary<string, Rectanglei> SpriteAtlasMap;
-
-        private int SpriteAtlasTextureId;
         
 
         public void Dispose()
         {
-            GL.DeleteTexture(SpriteAtlasTextureId);
+            ActorAtlas?.Dispose();
         }
 
         public bool Initialize(JunkbotGame gameReference)
         {
             Game = gameReference;
 
-            SpriteAtlasMap = GlUtil.LoadAtlas(
-                Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas",
-                out SpriteAtlasDimensions,
-                out SpriteAtlasTextureId
-                );
+            ActorAtlas = GlUtil.LoadAtlas(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas");
 
             return true;
         }

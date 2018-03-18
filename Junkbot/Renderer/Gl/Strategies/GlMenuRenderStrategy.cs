@@ -12,16 +12,19 @@ namespace Junkbot.Renderer.Gl.Strategies
     {
         private JunkbotGame Game;
 
+        private SpriteAtlas MenuAtlas;
+
 
         public void Dispose()
         {
+            MenuAtlas?.Dispose();
         }
 
         public bool Initialize(JunkbotGame gameReference)
         {
             Game = gameReference;
 
-
+            MenuAtlas = GlUtil.LoadAtlas(Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas");
 
             return true;
         }

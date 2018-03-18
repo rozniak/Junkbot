@@ -14,10 +14,8 @@ namespace Junkbot.Renderer.Gl
 {
     internal static class GlUtil
     {
-        public static Dictionary<string, Rectanglei> LoadAtlas(string filename, out Vector2i atlasDimensions, out int glTextureId)
+        public static SpriteAtlas LoadAtlas(string filename)
         {
-            glTextureId = -1; // Set texture ID output to -1 in case this routine fails
-
             // Read texture atlas information and bitmap data
             //
             string atlasPath = Path.GetFullPath(filename);
@@ -53,20 +51,20 @@ namespace Junkbot.Renderer.Gl
 
             // Read out atlas dimensions
             //
-            atlasDimensions = new Vector2i(
+            Vector2i atlasDimensions = new Vector2i(
                 atlasBmp.Width,
                 atlasBmp.Height
                 );
 
             // Load the bitmap into OpenGL
             //
-            glTextureId = GlUtil.LoadBitmapTexture(atlasBmp);
+            int glTextureId = GlUtil.LoadBitmapTexture(atlasBmp);
 
             // Dispose the atlas resource
             //
             atlasBmp.Dispose();
 
-            return atlasMap;
+            return new SpriteAtlas(atlasDimensions, glTextureId, atlasMap);
         }
 
         public static int LoadBitmapTexture(Bitmap bmp)
