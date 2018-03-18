@@ -28,6 +28,12 @@ namespace Junkbot.Game
 
         public JunkbotGame()
         {
+            
+        }
+
+
+        public void Begin()
+        {
             // Load straight into the menu gamestate for now
             //
             var menuState = new MenuGameState();
@@ -36,7 +42,6 @@ namespace Junkbot.Game
 
             GameState = menuState;
         }
-
 
         public void Update(TimeSpan deltaTime, InputEvents inputs)
         {

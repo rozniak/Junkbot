@@ -4,6 +4,7 @@ using Junkbot.Game.State;
 using Junkbot.Renderer.Gl.Strategies;
 using Pencil.Gaming;
 using Pencil.Gaming.Graphics;
+using Pencil.Gaming.MathUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,21 +15,42 @@ namespace Junkbot.Renderer.Gl
 {
     internal class GlRenderer : IRenderer
     {
+        public static readonly Vector2 JUNKBOT_VIEWPORT = new Vector2(650, 420);
+
+
         public bool IsOpen { get; private set; }
 
 
+        private List<GlRenderStrategy> ActiveRenderStrategies;
         private InputEvents CurrentInputState;
         private JunkbotGame Game;
         private int GlVaoId;
-        private List<IRenderStrategy> ActiveRenderStrategies;
+        private GlResourceCache ResourceCache;
         private GlfwWindowPtr WindowPtr;
 
 
         public GlRenderer()
         {
-            ActiveRenderStrategies = new List<IRenderStrategy>();
+            ActiveRenderStrategies = new List<GlRenderStrategy>();
+            ResourceCache = new GlResourceCache();
         }
 
+
+        public void Dispose()
+        {
+            if (IsOpen)
+                throw new InvalidOperationException("GlRenderer: Cannot dispose renderer whilst it is running.");
+
+            for (int i = ActiveRenderStrategies.Count - 1; i >= 0; i--)
+            {
+                ActiveRenderStrategies[i].Dispose();
+                ActiveRenderStrategies.RemoveAt(i);
+            }
+
+            ResourceCache.Dispose();
+
+            Glfw.Terminate();
+        }
 
         public InputEvents GetInputEvents()
         {
@@ -93,6 +115,8 @@ namespace Junkbot.Renderer.Gl
             
             GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f); // Approx. cornflower blue
 
+            GL.Viewport(0, 0, (int)JUNKBOT_VIEWPORT.X, (int)JUNKBOT_VIEWPORT.Y);
+
             // Set up input callbacks
             //
             Glfw.SetCharCallback(WindowPtr, OnChar);
@@ -105,9 +129,8 @@ namespace Junkbot.Renderer.Gl
         
         public void Stop()
         {
-            ActiveRenderStrategies.Clear();
             IsOpen = false;
-            Glfw.Terminate();
+            Dispose();
         }
         
 
@@ -118,6 +141,12 @@ namespace Junkbot.Renderer.Gl
             switch (game.GameState.Identifier)
             {
                 case JunkbotGameState.Menu:
+                    var menuStrategy = new GlMenuRenderStrategy();
+
+                    menuStrategy.Resources = ResourceCache;
+                    menuStrategy.Initialize(game);
+
+                    ActiveRenderStrategies.Add(menuStrategy);
 
                     break;
 

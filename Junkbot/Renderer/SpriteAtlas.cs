@@ -12,13 +12,13 @@ namespace Junkbot.Renderer
     {
         public int GlTextureId { get; private set; }
 
-        public Vector2i Size { get; private set; }
+        public Vector2 Size { get; private set; }
 
 
         private Dictionary<string, Rectanglei> AtlasMap;
 
 
-        public SpriteAtlas(Vector2i size, int glTextureId, Dictionary<string, Rectanglei> map)
+        public SpriteAtlas(Vector2 size, int glTextureId, Dictionary<string, Rectanglei> map)
         {
             AtlasMap = map;
             GlTextureId = glTextureId;
@@ -29,6 +29,11 @@ namespace Junkbot.Renderer
         public void Dispose()
         {
             GL.DeleteTexture(GlTextureId);
+        }
+
+        public Rectanglei GetSpriteUV(string spriteName)
+        {
+            return AtlasMap[spriteName];
         }
     }
 }

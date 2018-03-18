@@ -66,8 +66,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\Gl\GlRenderer.cs" />
+    <Compile Include="Renderer\Gl\GlResourceCache.cs" />
     <Compile Include="Renderer\Gl\GlUtil.cs" />
     <Compile Include="Renderer\Gl\Strategies\GlMenuRenderStrategy.cs" />
+    <Compile Include="Renderer\Gl\Strategies\GlRenderStrategy.cs" />
     <Compile Include="Renderer\Gl\Strategies\GlWorldRenderStrategy.cs" />
     <Compile Include="Renderer\IRenderStrategy.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
@@ -81,11 +83,23 @@
     <None Include="Content\Atlas\actors-atlas.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\menu-atlas.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Shaders\OpenGL\SimpleUVs\fragment.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Shaders\OpenGL\SimpleUVs\vertex.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Content\Atlas\actors-atlas.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Atlas\menu-atlas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Levels\New Employee Training.txt" />

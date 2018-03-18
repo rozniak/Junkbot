@@ -19,7 +19,7 @@ namespace Junkbot
             var gameTimer = new Stopwatch();
 
             renderer.Start(game);
-
+            game.Begin();
             gameTimer.Start();
 
             while (renderer.IsOpen)
@@ -32,8 +32,6 @@ namespace Junkbot
                 game.Update(deltaTime, inputs);
                 renderer.RenderFrame();
             }
-
-            Console.ReadKey(true);
         }
     }
 }

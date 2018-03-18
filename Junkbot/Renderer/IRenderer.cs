@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Junkbot.Renderer
 {
-    internal interface IRenderer
+    internal interface IRenderer : IDisposable
     {
         bool IsOpen { get; }
 

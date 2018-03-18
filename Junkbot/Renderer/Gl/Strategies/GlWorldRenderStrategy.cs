@@ -13,19 +13,19 @@ using System.Threading.Tasks;
 
 namespace Junkbot.Renderer.Gl.Strategies
 {
-    internal class GlWorldRenderStrategy : IRenderStrategy
+    internal class GlWorldRenderStrategy : GlRenderStrategy
     {
         private SpriteAtlas ActorAtlas;
 
         private JunkbotGame Game;
         
 
-        public void Dispose()
+        public override void Dispose()
         {
             ActorAtlas?.Dispose();
         }
 
-        public bool Initialize(JunkbotGame gameReference)
+        public override bool Initialize(JunkbotGame gameReference)
         {
             Game = gameReference;
 
@@ -34,7 +34,7 @@ namespace Junkbot.Renderer.Gl.Strategies
             return true;
         }
 
-        public void RenderFrame()
+        public override void RenderFrame()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
         }
