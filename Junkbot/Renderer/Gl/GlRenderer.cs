@@ -112,9 +112,15 @@ namespace Junkbot.Renderer.Gl
             //
             GlVaoId = GL.GenVertexArray();
             GL.BindVertexArray(GlVaoId);
-            
-            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f); // Approx. cornflower blue
 
+            // Set up enabled features
+            //
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            
+            // Set up viewport defaults
+            //
+            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f); // Approx. cornflower blue
             GL.Viewport(0, 0, (int)JUNKBOT_VIEWPORT.X, (int)JUNKBOT_VIEWPORT.Y);
 
             // Set up input callbacks
