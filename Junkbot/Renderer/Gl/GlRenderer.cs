@@ -129,6 +129,7 @@ namespace Junkbot.Renderer.Gl
             Glfw.SetCursorPosCallback(WindowPtr, OnCursorPos);
             Glfw.SetKeyCallback(WindowPtr, OnKey);
             Glfw.SetMouseButtonCallback(WindowPtr, OnMouseButton);
+            Glfw.SetWindowSizeCallback(WindowPtr, OnWindowSize);
 
             // Now attach the game state event to update our strategies
             //
@@ -221,6 +222,11 @@ namespace Junkbot.Renderer.Gl
                 CurrentInputState.ReportPress(inputString);
             else if (action == KeyAction.Release)
                 CurrentInputState.ReportRelease(inputString);
+        }
+
+        private void OnWindowSize(GlfwWindowPtr wnd, int width, int height)
+        {
+            GL.Viewport(0, 0, width, height);
         }
     }
 }
