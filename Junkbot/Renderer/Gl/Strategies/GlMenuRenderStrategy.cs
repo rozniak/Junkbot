@@ -39,11 +39,6 @@ namespace Junkbot.Renderer.Gl.Strategies
             Game = gameReference;
             MenuAtlas = GlUtil.LoadAtlas(Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png");
 
-            // Initialize VAO
-            //
-            int vao = GL.GenVertexArray();
-            GL.BindVertexArray(vao);
-
             // Retrieve shader program properties
             //
             SimpleUVProgramId = Resources.GetShaderProgram("SimpleUVs");
