@@ -103,6 +103,25 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Levels\New Employee Training.txt" />
+    <Content Include="Content\RippedMenus\arrow.png" />
+    <Content Include="Content\RippedMenus\building_icon_1.png" />
+    <Content Include="Content\RippedMenus\building_icon_2.png" />
+    <Content Include="Content\RippedMenus\building_icon_2_locked.png" />
+    <Content Include="Content\RippedMenus\building_icon_3.png" />
+    <Content Include="Content\RippedMenus\building_icon_3_locked.png" />
+    <Content Include="Content\RippedMenus\building_icon_4.png" />
+    <Content Include="Content\RippedMenus\building_icon_4_locked.png" />
+    <Content Include="Content\RippedMenus\checkbox_off.png" />
+    <Content Include="Content\RippedMenus\check_light.png" />
+    <Content Include="Content\RippedMenus\key.png" />
+    <Content Include="Content\RippedMenus\key_confirm.png" />
+    <Content Include="Content\RippedMenus\level_end_main.png" />
+    <Content Include="Content\RippedMenus\level_moves_ui.png" />
+    <Content Include="Content\RippedMenus\level_screen.png" />
+    <Content Include="Content\RippedMenus\locked.png" />
+    <Content Include="Content\RippedMenus\neo_title.png" />
+    <Content Include="Content\RippedMenus\play_default.png" />
+    <Content Include="Content\RippedMenus\play_hover.png" />
     <Content Include="Content\RippedSprites\bin.png" />
     <Content Include="Content\RippedSprites\brick_blue_1.png" />
     <Content Include="Content\RippedSprites\brick_blue_2.png" />
