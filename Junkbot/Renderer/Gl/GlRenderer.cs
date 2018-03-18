@@ -76,7 +76,7 @@ namespace Junkbot.Renderer.Gl
             Glfw.WindowHint(WindowHint.OpenGLForwardCompat, 1);
             Glfw.WindowHint(WindowHint.OpenGLProfile, (int)OpenGLProfile.Core);
 
-            WindowPtr = Glfw.CreateWindow(1366, 768, "Junkbot (OpenGL 3.2)", GlfwMonitorPtr.Null, GlfwWindowPtr.Null);
+            WindowPtr = Glfw.CreateWindow(650, 420, "Junkbot (OpenGL 3.2)", GlfwMonitorPtr.Null, GlfwWindowPtr.Null);
 
             IsOpen = true;
 
