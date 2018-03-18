@@ -18,7 +18,7 @@ namespace Junkbot.Renderer.Gl.Strategies
         private JunkbotGame Game;
 
 
-        private Vector2 SpriteAtlasDimensions;
+        private Vector2i SpriteAtlasDimensions;
 
         private Dictionary<string, Rectanglei> SpriteAtlasMap;
 
@@ -34,47 +34,11 @@ namespace Junkbot.Renderer.Gl.Strategies
         {
             Game = gameReference;
 
-            if (!File.Exists(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.json") ||
-                !File.Exists(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.png"))
-            {
-                Console.WriteLine("Atlas is missing!");
-                return false;
-            }
-
-            var atlasBmp = (Bitmap)Image.FromFile(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.png");
-            var atlasJson = File.ReadAllText(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas.json");
-            var atlasNodeArray = JArray.Parse(atlasJson);
-
-            SpriteAtlasMap = new Dictionary<string, Rectanglei>();
-            SpriteAtlasDimensions = new Vector2(atlasBmp.Width, atlasBmp.Height);
-
-            foreach (JToken token in atlasNodeArray)
-            {
-                string key = token.Value<string>("Name");
-                string boundsCsv = token.Value<string>("Bounds");
-                List<int> rectangleComponents = new List<int>();
-
-                foreach (string boundComponent in boundsCsv.Split(','))
-                {
-                    rectangleComponents.Add(Convert.ToInt32(boundComponent));
-                }
-
-                SpriteAtlasMap.Add(
-                    key,
-                    new Rectanglei(rectangleComponents[0], rectangleComponents[1], rectangleComponents[2], rectangleComponents[3])
-                    );
-            }
-
-            // Load the bitmap into OpenGL
-            //
-            SpriteAtlasTextureId = GlUtil.LoadBitmapTexture(atlasBmp);
-
-            // Dispose the atlas resource
-            //
-            atlasBmp.Dispose();
-
-            // Set up GL props
-            //
+            SpriteAtlasMap = GlUtil.LoadAtlas(
+                Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas",
+                out SpriteAtlasDimensions,
+                out SpriteAtlasTextureId
+                );
 
             return true;
         }
