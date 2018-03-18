@@ -58,7 +58,7 @@ namespace Junkbot.Renderer.Gl
 
             thisUpdate.FinalizeForReporting();
 
-            CurrentInputState = new InputEvents(thisUpdate.DownedInputs);
+            CurrentInputState = new InputEvents(thisUpdate.DownedInputs, thisUpdate.MousePosition);
 
             return thisUpdate;
         }
@@ -126,13 +126,15 @@ namespace Junkbot.Renderer.Gl
             // Set up input callbacks
             //
             Glfw.SetCharCallback(WindowPtr, OnChar);
+            Glfw.SetCursorPosCallback(WindowPtr, OnCursorPos);
             Glfw.SetKeyCallback(WindowPtr, OnKey);
+            Glfw.SetMouseButtonCallback(WindowPtr, OnMouseButton);
 
             // Now attach the game state event to update our strategies
             //
             Game.ChangeState += Game_ChangeState;
         }
-        
+
         public void Stop()
         {
             IsOpen = false;
@@ -176,6 +178,11 @@ namespace Junkbot.Renderer.Gl
             CurrentInputState.ReportConsoleInput(ch);
         }
 
+        private void OnCursorPos(GlfwWindowPtr wnd, double x, double y)
+        {
+            CurrentInputState.ReportMouseMovement((float) x, (float) y);
+        }
+
         private void OnError(GlfwError code, string desc)
         {
             Console.WriteLine(desc);
@@ -184,6 +191,31 @@ namespace Junkbot.Renderer.Gl
         private void OnKey(GlfwWindowPtr wnd, Key key, int scanCode, KeyAction action, KeyModifiers mods)
         {
             string inputString = "vk." + key.ToString();
+
+            if (action == KeyAction.Press)
+                CurrentInputState.ReportPress(inputString);
+            else if (action == KeyAction.Release)
+                CurrentInputState.ReportRelease(inputString);
+        }
+
+        private void OnMouseButton(GlfwWindowPtr wnd, MouseButton btn, KeyAction action)
+        {
+            string inputString = String.Empty;
+
+            switch (btn)
+            {
+                case MouseButton.LeftButton:
+                    inputString = "mb.left";
+                    break;
+
+                case MouseButton.MiddleButton:
+                    inputString = "mb.middle";
+                    break;
+
+                case MouseButton.RightButton:
+                    inputString = "mb.right";
+                    break;
+            }
 
             if (action == KeyAction.Press)
                 CurrentInputState.ReportPress(inputString);

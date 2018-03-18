@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pencil.Gaming.MathUtils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,11 @@ namespace Junkbot.Game.Input
         public bool IsReadOnly { get; private set; }
 
         /// <summary>
+        /// Gets the mouse position.
+        /// </summary>
+        public Vector2 MousePosition { get; private set; }
+
+        /// <summary>
         /// Gets inputs that have been pressed since the last state update.
         /// </summary>
         public IList<string> NewPresses { get; private set; }
@@ -46,17 +52,30 @@ namespace Junkbot.Game.Input
 
 
         /// <summary>
-        /// Initializes a new instance of the InputUpdate class.
+        /// Initializes a new instance of the InputEvents class.
         /// </summary>
-        public InputEvents(IList<string> lastDownedInputs = null)
+        public InputEvents()
         {
-            ActiveDownedInputs = lastDownedInputs == null ? new List<string>() : new List<string>(lastDownedInputs);
+            ActiveDownedInputs = new List<string>();
             ConsoleInput = char.MinValue;
             DownedInputs = new List<string>().AsReadOnly();
             IsReadOnly = false;
-            LastDownedInputs = lastDownedInputs;
+            LastDownedInputs = null;
+            MousePosition = Vector2.Zero;
             NewPresses = new List<string>().AsReadOnly();
             NewReleases = new List<string>().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the InputEvents class.
+        /// </summary>
+        /// <param name="lastDownedInputs">The downed inputs of the last input update.</param>
+        /// <param name="lastMousePosition">The mouse position of the last input update.</param>
+        public InputEvents(IList<string> lastDownedInputs, Vector2 lastMousePosition) : this()
+        {
+            ActiveDownedInputs = new List<string>(lastDownedInputs);
+            LastDownedInputs = lastDownedInputs;
+            MousePosition = lastMousePosition;
         }
 
 
@@ -102,6 +121,19 @@ namespace Junkbot.Game.Input
                 throw new InvalidOperationException("This input update state is current read-only and cannot be modified.");
 
             ConsoleInput = input;
+        }
+
+        /// <summary>
+        /// Reports a mouse movement.
+        /// </summary>
+        /// <param name="x">The new mouse x-coordinate.</param>
+        /// <param name="y">The new mouse y-coordinate.</param>
+        public void ReportMouseMovement(float x, float y)
+        {
+            if (IsReadOnly)
+                throw new InvalidOperationException("This input update state is currently read-only and cannot be modified.");
+
+            MousePosition = new Vector2(x, y);
         }
 
         /// <summary>
