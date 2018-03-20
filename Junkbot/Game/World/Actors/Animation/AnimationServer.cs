@@ -8,18 +8,51 @@ namespace Junkbot.Game.World.Actors.Animation
 {
     internal class AnimationServer
     {
-        public ActorAnimation ActiveAnimation { get; private set; }
+        private ActorAnimation ActiveAnimation;
+
+        private AnimationStore AnimationStore;
 
 
-        public AnimationServer()
+        public event EventHandler SpecialFrameEntered
         {
-
+            add { ActiveAnimation.SpecialFrameEntered += value; }
+            remove { ActiveAnimation.SpecialFrameEntered -= value; }
         }
 
 
-        public void GoToAndPlay()
+        public AnimationServer(AnimationStore store)
         {
+            AnimationStore = store;
+        }
 
+
+        public ActorAnimationFrame GetCurrentFrame()
+        {
+            return ActiveAnimation?.CurrentFrame;
+        }
+
+        public void GoToAndPlay(string animName)
+        {
+            if (animName == ActiveAnimation?.Name)
+                ActiveAnimation.Restart();
+            else
+            {
+                ActiveAnimation = AnimationStore.GetAnimation(animName);
+                ActiveAnimation.Play();
+            }
+        }
+
+        public void GoToAndStop(string animName)
+        {
+            if (animName == ActiveAnimation?.Name)
+                ActiveAnimation.Stop();
+            else
+                ActiveAnimation = AnimationStore.GetAnimation(animName);
+        }
+
+        public void Progress()
+        {
+            ActiveAnimation?.Step();
         }
     }
 }
