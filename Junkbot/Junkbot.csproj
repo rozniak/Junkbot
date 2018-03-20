@@ -54,9 +54,12 @@
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\IGameState.cs" />
     <Compile Include="Game\State\MenuGameState.cs" />
+    <Compile Include="Game\UI\Controls\Control.cs" />
+    <Compile Include="Game\UI\JunkbotInterface.cs" />
     <Compile Include="Game\World\Actors\Animation\ActorAnimation.cs" />
     <Compile Include="Game\World\Actors\Animation\ActorAnimationFrame.cs" />
     <Compile Include="Game\World\Actors\Animation\AnimationServer.cs" />
+    <Compile Include="Game\World\Actors\Animation\AnimationStore.cs" />
     <Compile Include="Game\World\Actors\BrickActor.cs" />
     <Compile Include="Game\World\Actors\BrickColor.cs" />
     <Compile Include="Game\World\Actors\IActor.cs" />
@@ -77,9 +80,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Content\Animations\flags.json" />
-    <None Include="Content\Animations\junkbot.json" />
-    <None Include="Content\Animations\legoparts.json" />
+    <None Include="Content\Animations\flags.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Animations\junkbot.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Animations\legoparts.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Atlas\actors-atlas.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,6 +1,7 @@
 ﻿using Junkbot.Game.Input;
 using Junkbot.Game.State;
 using Junkbot.Game.World;
+using Junkbot.Game.World.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,12 @@ namespace Junkbot.Game
         public event EventHandler ChangeState;
 
 
+        private AnimationStore AnimationStore;
+
+
         public JunkbotGame()
         {
-            
+            AnimationStore = new AnimationStore();
         }
 
 
@@ -38,7 +42,7 @@ namespace Junkbot.Game
             //
             var menuState = new MenuGameState();
 
-            menuState.Initialize(this);
+            menuState.Initialize(this, AnimationStore);
 
             GameState = menuState;
         }

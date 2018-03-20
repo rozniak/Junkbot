@@ -1,4 +1,6 @@
 ﻿using Junkbot.Game.Input;
+using Junkbot.Game.UI;
+using Junkbot.Game.World.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +13,18 @@ namespace Junkbot.Game.State
     {
         public JunkbotGameState Identifier { get { return JunkbotGameState.Menu; } }
 
+        public JunkbotInterface Interface { get; private set; }
+
+
+        private AnimationStore AnimationStore;
 
         private JunkbotGame Game;
 
 
-        public MenuGameState()
-        {
-
-        }
-
-
-        public bool Initialize(JunkbotGame gameReference)
+        public bool Initialize(JunkbotGame gameReference, AnimationStore animationStore)
         {
             Game = gameReference;
+            Interface = new JunkbotInterface();
 
             return true;
         }

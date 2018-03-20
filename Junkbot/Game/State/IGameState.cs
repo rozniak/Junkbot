@@ -1,4 +1,5 @@
 ﻿using Junkbot.Game.Input;
+using Junkbot.Game.World.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Junkbot.Game.State
         JunkbotGameState Identifier { get; }
 
 
-        bool Initialize(JunkbotGame gameReference);
+        bool Initialize(JunkbotGame gameReference, AnimationStore animationStore);
 
         void Update(TimeSpan deltaTime, InputEvents inputs);
     }
