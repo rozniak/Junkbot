@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,7 +14,7 @@ namespace BinPacker
 {
     public partial class MainForm : Form
     {
-        const string TexturePath = @"C:\Users\Rory\Source\Repos\Junkbot\Junkbot\Content";
+        const string TexturePath = @"C:\Users\Rory\Source\Repos\Junkbot\Junkbot\Content\RippedMenus";
 
         private Node RootNode;
 
@@ -36,13 +37,13 @@ namespace BinPacker
             {
                 using (var tex = (Bitmap)Image.FromFile(filename))
                 {
-                    LoadToCache(tex);
+                    LoadToCache(tex, Path.GetFileNameWithoutExtension(filename));
                 }
             }
         }
 
 
-        private void LoadToCache(Bitmap img)
+        private void LoadToCache(Bitmap img, string filename)
         {
             Node node = RootNode.Insert(RootNode, new Rectangle(Point.Empty, img.Size));
 
@@ -53,12 +54,69 @@ namespace BinPacker
                     g.DrawImage(img, node.Rect);
                 }
 
-                node.LeaveName = "117";
+                node.LeaveName = filename;
             }
             else
             {
                 MessageBox.Show("Out of room!");
             }
+        }
+
+        private List<SpriteInfo> BuildUvMap()
+        {
+            var sprites = new List<SpriteInfo>();
+
+            sprites = DiscoverSprites(RootNode, sprites);
+
+            return sprites;
+        }
+
+        private List<SpriteInfo> DiscoverSprites(Node node, List<SpriteInfo> list)
+        {
+            if (node.LeftChild != null)
+                list = DiscoverSprites(node.LeftChild, list);
+
+            if (node.RightChild != null)
+                list = DiscoverSprites(node.RightChild, list);
+
+            if (node.LeaveName != null)
+                list.Add(new SpriteInfo(node.LeaveName, node.Rect));
+
+            return list;
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            var dlg = new SaveFileDialog();
+            
+            dlg.Filter = "PNG Image (.png)|*.png";
+            dlg.Title = "Save Atlas As";
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string noExt = Path.GetFileNameWithoutExtension(dlg.FileName);
+                string path = Path.GetDirectoryName(dlg.FileName);
+
+                RenderTarget.BackgroundImage.Save(path + "\\" + noExt + ".png");
+
+                List<SpriteInfo> nodeSpriteInfos = BuildUvMap();
+
+                File.WriteAllText(path + "\\" + noExt + ".json", JsonConvert.SerializeObject(nodeSpriteInfos));
+            }
+        }
+    }
+
+
+    internal class SpriteInfo
+    {
+        public string Name { get; private set; }
+        public Rectangle Bounds { get; private set; }
+
+
+        public SpriteInfo(string name, Rectangle bounds)
+        {
+            Name = name;
+            Bounds = bounds;
         }
     }
 
