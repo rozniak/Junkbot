@@ -40,74 +40,22 @@ namespace Oddmatics.Tools.BinPacker
         {
             throw new NotImplementedException();
         }
-
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            
-        }
         
 
-        //private List<SpriteInfo> BuildUvMap()
-        //{
-        //    var sprites = new List<SpriteInfo>();
-
-        //    sprites = DiscoverSprites(RootNode, sprites);
-
-        //    return sprites;
-        //}
-
-        //private List<SpriteInfo> DiscoverSprites(Node node, List<SpriteInfo> list)
-        //{
-        //    if (node.LeftChild != null)
-        //        list = DiscoverSprites(node.LeftChild, list);
-
-        //    if (node.RightChild != null)
-        //        list = DiscoverSprites(node.RightChild, list);
-
-        //    if (node.LeaveName != null)
-        //        list.Add(new SpriteInfo(node.LeaveName, node.Rect));
-
-        //    return list;
-        //}
-
-        //private void SaveButton_Click(object sender, EventArgs e)
-        //{
-            
-        //}
-
-        //private void FileSaveMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    var dlg = new SaveFileDialog();
-
-        //    dlg.Filter = "PNG Image (.png)|*.png";
-        //    dlg.Title = "Save Atlas As";
-
-        //    if (dlg.ShowDialog() == DialogResult.OK)
-        //    {
-        //        string noExt = Path.GetFileNameWithoutExtension(dlg.FileName);
-        //        string path = Path.GetDirectoryName(dlg.FileName);
-
-        //        RenderTarget.BackgroundImage.Save(path + "\\" + noExt + ".png");
-
-        //        List<SpriteInfo> nodeSpriteInfos = BuildUvMap();
-
-        //        File.WriteAllText(path + "\\" + noExt + ".json", JsonConvert.SerializeObject(nodeSpriteInfos));
-        //    }
-        //}
-    }
-
-
-    internal class SpriteInfo
-    {
-        public string Name { get; private set; }
-        public Rectangle Bounds { get; private set; }
-
-
-        public SpriteInfo(string name, Rectangle bounds)
+        /// <summary>
+        /// (Event) Occurs when the "File > Save As" menu item is clicked.
+        /// </summary>
+        private void FileSaveAsMenuItem_Click(object sender, EventArgs e)
         {
-            Name = name;
-            Bounds = bounds;
+            var dlg = new SaveFileDialog();
+
+            dlg.Filter = "PNG Image (.png)|*.png";
+            dlg.Title = "Save Atlas As";
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Atlas.Save(dlg.FileName);
+            }
         }
     }
 }

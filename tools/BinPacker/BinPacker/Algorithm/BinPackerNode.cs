@@ -12,26 +12,63 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
     /// </summary>
     internal sealed class BinPackerNode
     {
-        public BinPackerNode LeftChild;
-        public BinPackerNode RightChild;
-        public Rectangle Rect;
+        /// <summary>
+        /// Gets or sets the bounding box rectangle of this node.
+        /// </summary>
+        public Rectangle Bounds;
+
+        /// <summary>
+        /// Gets or sets the name of this node.
+        /// </summary>
         public String LeafName;
 
+        /// <summary>
+        /// Gets or sets the "left-hand" child node of this node.
+        /// </summary>
+        public BinPackerNode LeftChild;
 
-        public BinPackerNode(int x, int y, int width, int height, BinPackerNode leftChild, BinPackerNode rightChild, string leafName)
+        /// <summary>
+        /// Gets or sets the "right-hand" child node of this node.
+        /// </summary>
+        public BinPackerNode RightChild;
+
+
+        /// <summary>
+        /// Initializes a new instance of the BinPackerNode class.
+        /// </summary>
+        internal BinPackerNode()
         {
-            Rect = new Rectangle(x, y, width, height);
+            Bounds = new Rectangle();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the BinPackerNode class with specified
+        /// parameters.
+        /// </summary>
+        /// <param name="bounds">The bounding box of the node.</param>
+        /// <param name="leftChild">The node's "left-hand" child node.</param>
+        /// <param name="rightChild">The node's "right-hand" child node.</param>
+        /// <param name="leafName">The name of the node.</param>
+        internal BinPackerNode(
+            Rectangle bounds,
+            BinPackerNode leftChild,
+            BinPackerNode rightChild,
+            string leafName
+            )
+        {
+            Bounds = bounds;
             LeftChild = leftChild;
             RightChild = rightChild;
             LeafName = leafName;
         }
 
-        public BinPackerNode()
-        {
-            Rect = new Rectangle();
-        }
 
-
+        /// <summary>
+        /// Attempts to insert a new node as a child of this node.
+        /// </summary>
+        /// <param name="node">The node to insert.</param>
+        /// <param name="rect">The bounding box rectangle of the node.</param>
+        /// <returns>The inserted node.</returns>
         public BinPackerNode Insert(BinPackerNode node, Rectangle rect)
         {
             if (node.LeafName == null && node.LeftChild != null && node.RightChild != null)
@@ -48,25 +85,25 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
             {
                 if (node.LeafName != null) return null;
 
-                if (node.Rect.Width == rect.Width && node.Rect.Height == rect.Height) return node;
+                if (node.Bounds.Width == rect.Width && node.Bounds.Height == rect.Height) return node;
 
-                if (node.Rect.Width < rect.Width || node.Rect.Height < rect.Height) return null;
+                if (node.Bounds.Width < rect.Width || node.Bounds.Height < rect.Height) return null;
 
                 node.LeftChild = new BinPackerNode();
                 node.RightChild = new BinPackerNode();
 
-                int deltaWidth = node.Rect.Width - rect.Width;
-                int deltaHeight = node.Rect.Height - rect.Height;
+                int deltaWidth = node.Bounds.Width - rect.Width;
+                int deltaHeight = node.Bounds.Height - rect.Height;
 
                 if (deltaWidth > deltaHeight)
                 {
-                    node.LeftChild.Rect = new Rectangle(node.Rect.X, node.Rect.Y, rect.Width, node.Rect.Height);
-                    node.RightChild.Rect = new Rectangle(node.Rect.X + rect.Width, node.Rect.Y, node.Rect.Width - rect.Width, node.Rect.Height);
+                    node.LeftChild.Bounds = new Rectangle(node.Bounds.X, node.Bounds.Y, rect.Width, node.Bounds.Height);
+                    node.RightChild.Bounds = new Rectangle(node.Bounds.X + rect.Width, node.Bounds.Y, node.Bounds.Width - rect.Width, node.Bounds.Height);
                 }
                 else
                 {
-                    node.LeftChild.Rect = new Rectangle(node.Rect.X, node.Rect.Y, node.Rect.Width, rect.Height);
-                    node.RightChild.Rect = new Rectangle(node.Rect.X, node.Rect.Y + rect.Height, node.Rect.Width, node.Rect.Height - rect.Height);
+                    node.LeftChild.Bounds = new Rectangle(node.Bounds.X, node.Bounds.Y, node.Bounds.Width, rect.Height);
+                    node.RightChild.Bounds = new Rectangle(node.Bounds.X, node.Bounds.Y + rect.Height, node.Bounds.Width, node.Bounds.Height - rect.Height);
                 }
 
                 return Insert(node.LeftChild, rect);

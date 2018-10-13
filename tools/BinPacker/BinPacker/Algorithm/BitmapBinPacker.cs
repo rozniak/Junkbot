@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -44,8 +45,15 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
         /// <param name="sourceFiles">The source file list.</param>
         public BitmapBinPacker(Size size, IList<string> sourceFiles)
         {
+            AssertNotDisposed();
+
             Bitmap = new Bitmap(size.Width, size.Height);
-            RootNode = new BinPackerNode(0, 0, size.Width, size.Height, null, null, null);
+            RootNode = new BinPackerNode(
+                new Rectangle(0, 0, size.Width, size.Height),
+                null,
+                null,
+                null
+                );
             Size = size;
 
             // Bin pack the sprites found in source files now
@@ -91,8 +99,9 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
 
                     if (node != null)
                     {
-                        g.DrawImage(sprite, node.Rect);
+                        g.DrawImage(sprite, node.Bounds);
                         node.LeafName = spriteName;
+                        sprite.Dispose();
                     }
                     else
                     {
@@ -100,6 +109,7 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
                         ex = new InvalidOperationException(
                             "There is not enough room in the atlas to contain all of the sprites."
                             );
+                        sprite.Dispose();
 
                         break;
                     }
@@ -116,7 +126,7 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
         /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            AssertNotDisposed();
         }
 
         /// <summary>
@@ -125,7 +135,23 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
         /// <param name="fullFilePath">The full file path (minus extension) to save atlas information at.</param>
         public void Save(string fullFilePath)
         {
-            throw new NotImplementedException();
+            AssertNotDisposed();
+
+            string noExt = Path.GetFileNameWithoutExtension(fullFilePath);
+            string path = Path.GetDirectoryName(fullFilePath);
+
+            Bitmap.Save(path + "\\" + noExt + ".png");
+
+            IList<SpriteInfo> atlasInfo = BuildAtlas();
+
+            File.WriteAllText(
+                String.Format(
+                    @"{0}\\{1}.json",
+                    path,
+                    noExt
+                    ),
+                JsonConvert.SerializeObject(atlasInfo)
+                );
         }
 
 
@@ -134,7 +160,55 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
         /// </summary>
         private void AssertNotDisposed()
         {
+            if (Disposed)
+            {
+                throw new ObjectDisposedException(
+                    "This BitmapBinPacker instance has been disposed."
+                    );
+            }
+        }
 
+        /// <summary>
+        /// Builds the atlas information for this <see cref="BitmapBinPacker"/>
+        /// instance.
+        /// </summary>
+        /// <returns>
+        /// A read-only <see cref="IList{SpriteInfo}"/> collection that contains all
+        /// information about the atlas.
+        /// </returns>
+        private IList<SpriteInfo> BuildAtlas()
+        {
+            var list = new List<SpriteInfo>();
+
+            DiscoverSprites(RootNode, ref list);
+
+            return list.AsReadOnly();
+        }
+
+        /// <summary>
+        /// Maps sprite information to the specified list recursively.
+        /// </summary>
+        /// <param name="currentNode">
+        /// The current node to discover sprites from; if this is to be the first
+        /// iteration, this should be the root node.
+        /// </param>
+        /// <param name="list">
+        /// A reference to the <see cref="List{SpriteInfo}"/> collection into which all
+        /// sprite information will be inserted.
+        /// </param>
+        private void DiscoverSprites(
+            BinPackerNode currentNode,
+            ref List<SpriteInfo> list
+            )
+        {
+            if (currentNode.LeftChild != null)
+                DiscoverSprites(currentNode.LeftChild, ref list);
+
+            if (currentNode.RightChild != null)
+                DiscoverSprites(currentNode.RightChild, ref list);
+
+            if (currentNode.LeafName != null)
+                list.Add(new SpriteInfo(currentNode.LeafName, currentNode.Bounds));
         }
     }
 }

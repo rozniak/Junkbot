@@ -54,6 +54,7 @@
     <Compile Include="Algorithm\BinPackerError.cs" />
     <Compile Include="Algorithm\BinPackerNode.cs" />
     <Compile Include="Algorithm\BitmapBinPacker.cs" />
+    <Compile Include="Algorithm\SpriteInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

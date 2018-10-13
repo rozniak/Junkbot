@@ -161,7 +161,7 @@
             // 
             this.FileNewMenuItem.Name = "FileNewMenuItem";
             this.FileNewMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNewMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileNewMenuItem.Size = new System.Drawing.Size(152, 22);
             this.FileNewMenuItem.Text = "&New";
             // 
             // FileOpenMenuItem
@@ -169,7 +169,7 @@
             this.FileOpenMenuItem.Enabled = false;
             this.FileOpenMenuItem.Name = "FileOpenMenuItem";
             this.FileOpenMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpenMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileOpenMenuItem.Size = new System.Drawing.Size(152, 22);
             this.FileOpenMenuItem.Text = "&Open..";
             // 
             // FileSaveMenuItem
@@ -178,23 +178,23 @@
             this.FileSaveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.FileSaveMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FileSaveMenuItem.Text = "&Save";
-            this.FileSaveMenuItem.Click += new System.EventHandler(this.FileSaveMenuItem_Click);
             // 
             // FileSaveAsMenuItem
             // 
             this.FileSaveAsMenuItem.Name = "FileSaveAsMenuItem";
             this.FileSaveAsMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAsMenuItem.Text = "Save &As...";
+            this.FileSaveAsMenuItem.Click += new System.EventHandler(this.FileSaveAsMenuItem_Click);
             // 
             // FileMenuSeparator1
             // 
             this.FileMenuSeparator1.Name = "FileMenuSeparator1";
-            this.FileMenuSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.FileMenuSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // FileExitMenuItem
             // 
             this.FileExitMenuItem.Name = "FileExitMenuItem";
-            this.FileExitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileExitMenuItem.Size = new System.Drawing.Size(152, 22);
             this.FileExitMenuItem.Text = "E&xit";
             // 
             // CanvasMenu
@@ -238,7 +238,6 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bin Packer Tool";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.RenderTarget)).EndInit();
             this.UiSplitView.Panel1.ResumeLayout(false);
             this.UiSplitView.Panel2.ResumeLayout(false);
