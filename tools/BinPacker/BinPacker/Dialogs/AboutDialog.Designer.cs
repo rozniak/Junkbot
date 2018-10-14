@@ -38,9 +38,9 @@
             this.AboutLabel.Name = "AboutLabel";
             this.AboutLabel.Size = new System.Drawing.Size(320, 114);
             this.AboutLabel.TabIndex = 0;
-            this.AboutLabel.Text = "{APPINFO}\r\n\r\nBy: Rory Fewel (https://oddmatics.uk)\r\n\r\nThis program is licensed un" +
-    "der the GNU General Public License Version 2, refer to the document \"LICENSE\" in" +
-    " the project root for the legal text.";
+            this.AboutLabel.Text = "{APPINFO}\r\n\r\nBy: Rory Fewell (https://oddmatics.uk)\r\n\r\nThis program is licensed u" +
+    "nder the GNU General Public License Version 2, refer to the document \"LICENSE\" i" +
+    "n the project root for the legal text.";
             // 
             // CloseButton
             // 
