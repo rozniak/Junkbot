@@ -26,9 +26,14 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
         public bool Disposed { get; private set; }
 
         /// <summary>
-        /// Gets the size of the atlas.
+        /// Gets or sets the size of the atlas.
         /// </summary>
-        public Size Size { get; private set; }
+        public Size Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source files to use when generating the atlas.
+        /// </summary>
+        public IList<string> SourceFiles { get; set; }
 
 
         /// <summary>
@@ -38,32 +43,54 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
 
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BitmapBinPacker"/> with a
-        /// specified resolution and source file list.
+        /// Initializes a new instance of <see cref="BitmapBinPacker"/>.
         /// </summary>
-        /// <param name="size">The size of the atlas.</param>
-        /// <param name="sourceFiles">The source file list.</param>
-        public BitmapBinPacker(Size size, IList<string> sourceFiles)
+        public BitmapBinPacker()
+        {
+            Bitmap = null;
+            Disposed = false;
+            Size = Size.Empty;
+            SourceFiles = new List<string>().AsReadOnly();
+            RootNode = null;
+        }
+
+
+        /// <summary>
+        /// Releases all resources used by this <see cref="BitmapBinPacker"/>.
+        /// </summary>
+        public void Dispose()
+        {
+            AssertNotDisposed();
+        }
+
+        /// <summary>
+        /// Refreshes the generated atlas <see cref="Bitmap"/>.
+        /// </summary>
+        public void Refresh()
         {
             AssertNotDisposed();
 
-            Bitmap = new Bitmap(size.Width, size.Height);
+            // Get ourselves a clean Bitmap
+            //
+            var newBitmap = new Bitmap(Size.Width, Size.Height);
+
+            // Prepare our root node
+            //
             RootNode = new BinPackerNode(
-                new Rectangle(0, 0, size.Width, size.Height),
+                new Rectangle(0, 0, Size.Width, Size.Height),
                 null,
                 null,
                 null
                 );
-            Size = size;
 
-            // Bin pack the sprites found in source files now
+            // Now do the actual bin packing
             //
             var result = BinPackerError.None;
             var ex = new Exception("Unknown error occurred.");
 
-            using (var g = Graphics.FromImage(Bitmap))
+            using (var g = Graphics.FromImage(newBitmap))
             {
-                foreach (string filePath in sourceFiles)
+                foreach (string filePath in SourceFiles)
                 {
                     Bitmap sprite;
                     string spriteName = Path.GetFileNameWithoutExtension(filePath);
@@ -118,15 +145,9 @@ namespace Oddmatics.Tools.BinPacker.Algorithm
 
             if (result != BinPackerError.None)
                 throw ex;
-        }
 
-
-        /// <summary>
-        /// Releases all resources used by this <see cref="BitmapBinPacker"/>.
-        /// </summary>
-        public void Dispose()
-        {
-            AssertNotDisposed();
+            Bitmap?.Dispose();
+            Bitmap = newBitmap;
         }
 
         /// <summary>

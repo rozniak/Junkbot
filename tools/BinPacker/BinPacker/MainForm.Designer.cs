@@ -58,9 +58,11 @@
             // 
             // RenderTarget
             // 
+            this.RenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.RenderTarget.Location = new System.Drawing.Point(0, 0);
             this.RenderTarget.Name = "RenderTarget";
-            this.RenderTarget.Size = new System.Drawing.Size(2048, 2048);
+            this.RenderTarget.Size = new System.Drawing.Size(128, 128);
+            this.RenderTarget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.RenderTarget.TabIndex = 0;
             this.RenderTarget.TabStop = false;
             // 
@@ -93,6 +95,7 @@
             this.NodeListBox.Name = "NodeListBox";
             this.NodeListBox.Size = new System.Drawing.Size(256, 397);
             this.NodeListBox.TabIndex = 1;
+            this.NodeListBox.SelectedIndexChanged += new System.EventHandler(this.NodeListBox_SelectedIndexChanged);
             // 
             // NodeManagementPanel
             // 
@@ -113,15 +116,18 @@
             this.RefreshButton.TabIndex = 2;
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.UseVisualStyleBackColor = true;
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
             // RemoveButton
             // 
+            this.RemoveButton.Enabled = false;
             this.RemoveButton.Location = new System.Drawing.Point(88, 6);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.RemoveButton.TabIndex = 1;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
             // AddButton
             // 
@@ -131,6 +137,7 @@
             this.AddButton.TabIndex = 0;
             this.AddButton.Text = "Add...";
             this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // MainMenu
             // 
@@ -161,15 +168,16 @@
             // 
             this.FileNewMenuItem.Name = "FileNewMenuItem";
             this.FileNewMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNewMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FileNewMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FileNewMenuItem.Text = "&New";
+            this.FileNewMenuItem.Click += new System.EventHandler(this.FileNewMenuItem_Click);
             // 
             // FileOpenMenuItem
             // 
             this.FileOpenMenuItem.Enabled = false;
             this.FileOpenMenuItem.Name = "FileOpenMenuItem";
             this.FileOpenMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpenMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FileOpenMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FileOpenMenuItem.Text = "&Open..";
             // 
             // FileSaveMenuItem
@@ -178,6 +186,7 @@
             this.FileSaveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.FileSaveMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FileSaveMenuItem.Text = "&Save";
+            this.FileSaveMenuItem.Click += new System.EventHandler(this.FileSaveMenuItem_Click);
             // 
             // FileSaveAsMenuItem
             // 
@@ -189,13 +198,14 @@
             // FileMenuSeparator1
             // 
             this.FileMenuSeparator1.Name = "FileMenuSeparator1";
-            this.FileMenuSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.FileMenuSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // FileExitMenuItem
             // 
             this.FileExitMenuItem.Name = "FileExitMenuItem";
-            this.FileExitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FileExitMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FileExitMenuItem.Text = "E&xit";
+            this.FileExitMenuItem.Click += new System.EventHandler(this.FileExitMenuItem_Click);
             // 
             // CanvasMenu
             // 
@@ -208,8 +218,9 @@
             // CanvasAtlasSizeMenuItem
             // 
             this.CanvasAtlasSizeMenuItem.Name = "CanvasAtlasSizeMenuItem";
-            this.CanvasAtlasSizeMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.CanvasAtlasSizeMenuItem.Size = new System.Drawing.Size(180, 22);
             this.CanvasAtlasSizeMenuItem.Text = "Atlas Si&ze...";
+            this.CanvasAtlasSizeMenuItem.Click += new System.EventHandler(this.CanvasAtlasSizeMenuItem_Click);
             // 
             // HelpMenu
             // 
@@ -222,8 +233,9 @@
             // HelpAboutMenuItem
             // 
             this.HelpAboutMenuItem.Name = "HelpAboutMenuItem";
-            this.HelpAboutMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.HelpAboutMenuItem.Text = "&About Bin Packer Tool";
+            this.HelpAboutMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.HelpAboutMenuItem.Text = "&About Bin Packer Tool...";
+            this.HelpAboutMenuItem.Click += new System.EventHandler(this.HelpAboutMenuItem_Click);
             // 
             // MainForm
             // 
@@ -238,8 +250,11 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bin Packer Tool";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.RenderTarget)).EndInit();
             this.UiSplitView.Panel1.ResumeLayout(false);
+            this.UiSplitView.Panel1.PerformLayout();
             this.UiSplitView.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UiSplitView)).EndInit();
             this.UiSplitView.ResumeLayout(false);
