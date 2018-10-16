@@ -1,0 +1,3 @@
+[submodule "thirdparty/Pencil.Gaming"]
+	path = thirdparty/Pencil.Gaming
+	url = https://github.com/andykorth/Pencil.Gaming.git
