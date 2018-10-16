@@ -36,7 +36,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Pencil.Gaming">
-      <HintPath>D:\Backup Documents\Libraries\PencilGaming\Pencil.Gaming.dll</HintPath>
+      <HintPath>..\..\..\Pencil.Gaming-master\Pencil.Gaming-master\Pencil.Gaming\bin\Core-GLFW2\Pencil.Gaming.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
