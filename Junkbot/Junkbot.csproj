@@ -32,11 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Pencil.Gaming">
-      <HintPath>..\..\..\Pencil.Gaming-master\Pencil.Gaming-master\Pencil.Gaming\bin\Core-GLFW2\Pencil.Gaming.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -103,7 +100,12 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\thirdparty\Pencil.Gaming\Pencil.Gaming\Pencil.Gaming.csproj">
+      <Project>{ddb6db6d-e5de-4bdb-8ac8-26df800e9ff0}</Project>
+      <Name>Pencil.Gaming</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Atlas\actors-atlas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -218,4 +220,11 @@
     <Content Include="Content\RippedSprites\minifig_walk_r_9.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>rmdir /s /q $(TargetDir)natives32\
+SET ERRORLEVEL=0
+mkdir $(TargetDir)natives32\
+SET ERRORLEVEL=0
+copy /Y $(SolutionDir)thirdparty\Pencil.Gaming\Pencil.Gaming\natives32-glfw3\ $(TargetDir)natives32\</PreBuildEvent>
+  </PropertyGroup>
 </Project>
