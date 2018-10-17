@@ -6,3 +6,10 @@ before_build:
 build:
   project: Junkbot.sln
   verbosity: minimal
+  
+after_build:
+  - cmd: 7z a Junkbot.zip %APPVEYOR_BUILD_FOLDER%\Junkbot\bin\Debug\*
+  
+artifacts:
+  - path: Junkbot.zip
+    name: Junkbot-Debug
