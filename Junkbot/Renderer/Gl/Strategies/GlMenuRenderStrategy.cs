@@ -13,88 +13,47 @@ namespace Junkbot.Renderer.Gl.Strategies
     {
         private JunkbotGame Game;
 
-        private SpriteAtlas MenuAtlas;
+        private GlResourceCache ResourceCache;
 
 
-        #region SimpleUV Shader Program
-
-        private uint SimpleUVProgramId;
-        private int SimpleUVCanvasResUniformId;
-        private int SimpleUVMapResUniformId;
-
-        #endregion
-
-
-        private int TitleScreenDrawVboId;
-        private int TitleScreenUVVboId;
+        public GlMenuRenderStrategy(GlResourceCache resourceCache)
+        {
+            ResourceCache = resourceCache;
+        }
 
 
         public override void Dispose()
         {
-            MenuAtlas?.Dispose();
         }
 
         public override bool Initialize(JunkbotGame gameReference)
         {
             Game = gameReference;
-            MenuAtlas = GlUtil.LoadAtlas(Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png");
-
-            // Retrieve shader program properties
-            //
-            SimpleUVProgramId = Resources.GetShaderProgram("SimpleUVs");
-
-            SimpleUVCanvasResUniformId = GL.GetUniformLocation(
-                SimpleUVProgramId,
-                "CanvasResolution"
-                );
-            SimpleUVMapResUniformId = GL.GetUniformLocation(
-                SimpleUVProgramId, 
-                "UvMapResolution"
-                );
-
-            // Create VBOs
-            //
-            Rectanglei neoTitleRect = MenuAtlas.GetSpriteUV("neo_title");
-
-            TitleScreenDrawVboId = GlUtil.MakeVbo(
-                new Rectanglei(Vector2i.Zero, neoTitleRect.Size),
-                BufferUsageHint.StaticDraw
-                );
-            TitleScreenUVVboId = GlUtil.MakeVbo(
-                neoTitleRect,
-                BufferUsageHint.StaticDraw
-                );
-
+            
             return true;
         }
 
         public override void RenderFrame()
         {
-            // Set up shader program
-            //
-            GL.UseProgram(SimpleUVProgramId);
+            uint simpleUvProgramId = ResourceCache.GetShaderProgram("SimpleUVs");
+            var sb = new GlSpriteBatch(
+                Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png",
+                simpleUvProgramId
+                );
 
-            GL.Uniform2(SimpleUVCanvasResUniformId, GlRenderer.JUNKBOT_VIEWPORT);
-            GL.Uniform2(SimpleUVMapResUniformId, MenuAtlas.Size);
-            
-            // Bind the menu atlas
-            //
-            GL.BindTexture(TextureTarget.Texture2D, MenuAtlas.GlTextureId);
+            sb.Draw(
+                "neo_title",
+                new Rectanglei(
+                    new Vector2i(0, 0),
+                    new Vector2i(
+                        (int)GlRenderer.JUNKBOT_VIEWPORT.X,
+                        (int)GlRenderer.JUNKBOT_VIEWPORT.Y
+                        )
+                    )
+                    );
 
-            // Render now
-            //
-            GL.EnableVertexAttribArray(0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, TitleScreenDrawVboId);
-            GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 0, 0);
-
-            GL.EnableVertexAttribArray(1);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, TitleScreenUVVboId);
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
-
-            GL.DrawArrays(BeginMode.Triangles, 0, 12);
-
-            GL.DisableVertexAttribArray(0);
-            GL.DisableVertexAttribArray(1);
+            sb.Finish();
+            sb.Dispose();
         }
     }
 }

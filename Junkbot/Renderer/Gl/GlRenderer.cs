@@ -150,7 +150,7 @@ namespace Junkbot.Renderer.Gl
             switch (game.GameState.Identifier)
             {
                 case JunkbotGameState.Menu:
-                    var menuStrategy = new GlMenuRenderStrategy();
+                    var menuStrategy = new GlMenuRenderStrategy(ResourceCache);
 
                     menuStrategy.Resources = ResourceCache;
                     menuStrategy.Initialize(game);

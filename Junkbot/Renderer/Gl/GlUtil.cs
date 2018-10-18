@@ -81,7 +81,7 @@ namespace Junkbot.Renderer.Gl
             
             foreach (JToken token in atlasNodeArray)
             {
-                string key = token.Value<string>("Name");
+                string key = token.Value<string>("Name").ToLower();
                 string boundsCsv = token.Value<string>("Bounds");
                 var rectangleComponents = new List<int>();
 
@@ -173,7 +173,7 @@ namespace Junkbot.Renderer.Gl
             return textureId;
         }
 
-        public static int MakeVbo(Rectanglei rect, BufferUsageHint usage)
+        public static float[] MakeVboData(Rectanglei rect)
         {
             // Expand the rectangle to coordinates
             //
@@ -188,19 +188,7 @@ namespace Junkbot.Renderer.Gl
                 rect.Right, rect.Bottom
             };
 
-            // Create VBO and upload coordinate data
-            //
-            int vboId = GL.GenBuffer();
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboId);
-            GL.BufferData(
-                BufferTarget.ArrayBuffer,
-                new IntPtr(sizeof(float) * 12),
-                rectPoints,
-                usage
-                );
-
-            return vboId;
+            return rectPoints;
         }
     }
 }
