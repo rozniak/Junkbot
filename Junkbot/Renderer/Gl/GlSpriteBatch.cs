@@ -72,7 +72,7 @@ namespace Junkbot.Renderer.Gl
                 BufferTarget.ArrayBuffer,
                 new IntPtr(sizeof(float) * spriteDrawVerts.Length),
                 spriteDrawVerts,
-                BufferUsageHint.DynamicDraw
+                BufferUsageHint.StreamDraw
                 );
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vboUvId);
@@ -80,7 +80,7 @@ namespace Junkbot.Renderer.Gl
                 BufferTarget.ArrayBuffer,
                 new IntPtr(sizeof(float) * spriteUvVerts.Length),
                 spriteUvVerts,
-                BufferUsageHint.DynamicDraw
+                BufferUsageHint.StreamDraw
                 );
 
             // Set up shader program
