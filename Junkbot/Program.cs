@@ -2,16 +2,18 @@
 using Junkbot.Game.Input;
 using Junkbot.Renderer.Gl;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot
 {
-    class Program
+    /// <summary>
+    /// The main program class.
+    /// </summary>
+    internal sealed class Program
     {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
         static void Main(string[] args)
         {
             var renderer = new GlRenderer();

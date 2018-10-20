@@ -6,14 +6,20 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Renderer.Gl
 {
+    /// <summary>
+    /// Provides various helper methods for doing common tasks with the OpenGL API.
+    /// </summary>
     internal static class GlUtil
     {
+        /// <summary>
+        /// Compiles GLSL source code to an OpenGL Shader Program.
+        /// </summary>
+        /// <param name="vertexSource">The vertex shader GLSL source code.</param>
+        /// <param name="fragmentSource">The fragment shader GLSL source code.</param>
+        /// <returns>The ID of the compiled OpenGL Shader Program.</returns>
         public static uint CompileShaderProgram(string vertexSource, string fragmentSource)
         {
             string infoLog = String.Empty; // Store any error information
@@ -66,7 +72,16 @@ namespace Junkbot.Renderer.Gl
             return programId;
         }
 
-        public static SpriteAtlas LoadAtlas(string filename)
+        /// <summary>
+        /// Loads a sprite atlas from supplied files on disk.
+        /// </summary>
+        /// <param name="filename">
+        /// The filename of the atlas, the extension will be ignored.
+        /// </param>
+        /// <returns>
+        /// A <see cref="GlSpriteAtlas"/> created from the supplied data.
+        /// </returns>
+        public static GlSpriteAtlas LoadAtlas(string filename)
         {
             // Read texture atlas information and bitmap data
             //
@@ -116,9 +131,14 @@ namespace Junkbot.Renderer.Gl
             //
             atlasBmp.Dispose();
 
-            return new SpriteAtlas(atlasDimensions, glTextureId, atlasMap);
+            return new GlSpriteAtlas(atlasDimensions, glTextureId, atlasMap);
         }
 
+        /// <summary>
+        /// Loads the specified <see cref="Bitmap"/> into an OpenGL texture object.
+        /// </summary>
+        /// <param name="bmp">The bitmap image.</param>
+        /// <returns>The ID of the new OpenGL texture object.</returns>
         public static int LoadBitmapTexture(Bitmap bmp)
         {
             // Flip texture before processing
@@ -173,6 +193,14 @@ namespace Junkbot.Renderer.Gl
             return textureId;
         }
 
+        /// <summary>
+        /// Creates data from the specified <see cref="Rectanglei"/> that can be
+        /// uploaded into a vertex buffer object.
+        /// </summary>
+        /// <param name="rect">The rectangle.</param>
+        /// <returns>
+        /// A float array that contains vertex data for the <see cref="Rectanglei"/>.
+        /// </returns>
         public static float[] MakeVboData(Rectanglei rect)
         {
             // Expand the rectangle to coordinates

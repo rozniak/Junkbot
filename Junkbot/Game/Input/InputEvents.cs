@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Game.Input
 {
-    internal class InputEvents
+    /// <summary>
+    /// Represents input events that have occurred during the game loop.
+    /// </summary>
+    internal sealed class InputEvents
     {
         /// <summary>
         /// Gets the latest Unicode console key input.
@@ -52,7 +53,7 @@ namespace Junkbot.Game.Input
 
 
         /// <summary>
-        /// Initializes a new instance of the InputEvents class.
+        /// Initializes a new instance of the <see cref="InputEvents"/> class.
         /// </summary>
         public InputEvents()
         {
@@ -67,10 +68,14 @@ namespace Junkbot.Game.Input
         }
 
         /// <summary>
-        /// Initializes a new instance of the InputEvents class.
+        /// Initializes a new instance of the <see cref="InputEvents"/> class.
         /// </summary>
-        /// <param name="lastDownedInputs">The downed inputs of the last input update.</param>
-        /// <param name="lastMousePosition">The mouse position of the last input update.</param>
+        /// <param name="lastDownedInputs">
+        /// The downed inputs of the last input update.
+        /// </param>
+        /// <param name="lastMousePosition">
+        /// The mouse position of the last input update.
+        /// </param>
         public InputEvents(IList<string> lastDownedInputs, Vector2 lastMousePosition) : this()
         {
             ActiveDownedInputs = new List<string>(lastDownedInputs);
@@ -80,12 +85,12 @@ namespace Junkbot.Game.Input
 
 
         /// <summary>
-        /// Performs a comparison of this input update versus the last, and finalizes the state so no further reports can be made.
+        /// Performs a comparison of this input update versus the last, and finalizes
+        /// the state so no further reports can be made.
         /// </summary>
         public void FinalizeForReporting()
         {
-            if (IsReadOnly)
-                throw new InvalidOperationException("This input update state is current read-only and cannot be modified.");
+            AssertNotReadOnly();
 
             // Set up downed inputs
             //
@@ -106,8 +111,7 @@ namespace Junkbot.Game.Input
                 LastDownedInputs.Except(ActiveDownedInputs);
 
             NewReleases = new List<string>(newReleases).AsReadOnly();
-
-
+            
             IsReadOnly = true;
         }
 
@@ -117,8 +121,7 @@ namespace Junkbot.Game.Input
         /// <param name="input">The filtered Unicode input.</param>
         public void ReportConsoleInput(char input)
         {
-            if (IsReadOnly)
-                throw new InvalidOperationException("This input update state is current read-only and cannot be modified.");
+            AssertNotReadOnly();
 
             ConsoleInput = input;
         }
@@ -130,8 +133,7 @@ namespace Junkbot.Game.Input
         /// <param name="y">The new mouse y-coordinate.</param>
         public void ReportMouseMovement(float x, float y)
         {
-            if (IsReadOnly)
-                throw new InvalidOperationException("This input update state is currently read-only and cannot be modified.");
+            AssertNotReadOnly();
 
             MousePosition = new Vector2(x, y);
         }
@@ -142,8 +144,7 @@ namespace Junkbot.Game.Input
         /// <param name="input">The fully-qualified input name.</param>
         public void ReportPress(string input)
         {
-            if (IsReadOnly)
-                throw new InvalidOperationException("This input update state is currently read-only and cannot be modified.");
+            AssertNotReadOnly();
 
             if (!ActiveDownedInputs.Contains(input))
                 ActiveDownedInputs.Add(input);
@@ -155,11 +156,24 @@ namespace Junkbot.Game.Input
         /// <param name="input">The fully-qualified input name.</param>
         public void ReportRelease(string input)
         {
-            if (IsReadOnly)
-                throw new InvalidOperationException("This input update state is current read-only and cannot be modified.");
+            AssertNotReadOnly();
 
             if (ActiveDownedInputs.Contains(input))
                 ActiveDownedInputs.Remove(input);
+        }
+
+
+        /// <summary>
+        /// Assets that this <see cref="InputEvents"/> instance is not read-only.
+        /// </summary>
+        private void AssertNotReadOnly()
+        {
+            if (IsReadOnly)
+            {
+                throw new InvalidOperationException(
+                    "This input update state is currently read-only and cannot be modified."
+                    );
+            }
         }
     }
 }

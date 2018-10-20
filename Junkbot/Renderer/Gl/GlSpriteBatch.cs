@@ -5,23 +5,54 @@ using System.Collections.Generic;
 
 namespace Junkbot.Renderer.Gl
 {
+    /// <summary>
+    /// Processes a stream of draw commands as a batch to supply to OpenGL.
+    /// </summary>
     internal sealed class GlSpriteBatch : IDisposable
     {
-        private SpriteAtlas Atlas;
+        /// <summary>
+        /// The sprite atlas to use during this batch.
+        /// </summary>
+        private GlSpriteAtlas Atlas;
 
+        /// <summary>
+        /// The ID of the CanvasResolution uniform variable in the associated OpenGL
+        /// Shader Program.
+        /// </summary>
         private int GlCanvasResolutionUniformId;
 
+        /// <summary>
+        /// The ID of the OpenGL Shader Program to use.
+        /// </summary>
         private uint GlProgramId;
 
+        /// <summary>
+        /// The ID of the "UvMapResolution" uniform variable in the associated OpenGL
+        /// Shader Program.
+        /// </summary>
         private int GlUvMapResolutionUniformId;
 
+        /// <summary>
+        /// The vertex data for drawing the sprites.
+        /// </summary>
         private List<float> VboDrawContents;
 
+        /// <summary>
+        /// The vertex data to use for blitting sprite texture data.
+        /// </summary>
         private List<float> VboUvContents;
 
+        /// <summary>
+        /// The number of vertices to draw in this batch.
+        /// </summary>
         private int VertexCount;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GlSpriteBatch"/> class.
+        /// </summary>
+        /// <param name="atlasFullPath"></param>
+        /// <param name="glProgramId"></param>
         public GlSpriteBatch(string atlasFullPath, uint glProgramId)
         {
             Atlas = GlUtil.LoadAtlas(atlasFullPath);
@@ -43,11 +74,19 @@ namespace Junkbot.Renderer.Gl
         }
 
 
+        /// <summary>
+        /// Releases all resources used by this <see cref="GlSpriteBatch"/>.
+        /// </summary>
         public void Dispose()
         {
             Atlas.Dispose();
         }
 
+        /// <summary>
+        /// Issues a draw command to this batch.
+        /// </summary>
+        /// <param name="spriteName">The name of the sprite.</param>
+        /// <param name="rect">The rectangle space to draw the sprite at.</param>
         public void Draw(string spriteName, Rectanglei rect)
         {
             Rectanglei spriteRect = Atlas.GetSpriteUV(spriteName);
@@ -58,6 +97,9 @@ namespace Junkbot.Renderer.Gl
             VertexCount += 12;
         }
 
+        /// <summary>
+        /// Finishes this batch and submits it to OpenGL for drawing.
+        /// </summary>
         public void Finish()
         {
             // Create VBO for the batch

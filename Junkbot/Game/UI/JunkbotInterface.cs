@@ -1,26 +1,34 @@
 ﻿using Junkbot.Game.UI.Controls;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Game.UI
 {
-    internal class JunkbotInterface
+    /// <summary>
+    /// Represents a user interface system for the Junkbot game engine.
+    /// </summary>
+    internal sealed class JunkbotInterface
     {
+        /// <summary>
+        /// The user interface controls inside this interface.
+        /// </summary>
         private Dictionary<string, Control> Controls;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JunkbotInterface"/> class.
+        /// </summary>
         public JunkbotInterface()
         {
             Controls = new Dictionary<string, Control>();
         }
 
 
+        /// <summary>
+        /// Adds a control to this interface.
+        /// </summary>
         public void AddControl()
         {
-
+            // TODO: Code this
         }
     }
 }

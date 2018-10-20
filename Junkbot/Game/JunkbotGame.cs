@@ -1,17 +1,18 @@
 ﻿using Junkbot.Game.Input;
 using Junkbot.Game.State;
-using Junkbot.Game.World;
 using Junkbot.Game.World.Actors.Animation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Game
 {
-    internal class JunkbotGame
+    /// <summary>
+    /// Represents the main Junkbot game engine.
+    /// </summary>
+    internal sealed class JunkbotGame
     {
+        /// <summary>
+        /// Gets or sets the active game state.
+        /// </summary>
         public IGameState GameState
         {
             get { return _GameState; }
@@ -23,19 +24,31 @@ namespace Junkbot.Game
         }
         private IGameState _GameState;
         
-
+        
+        /// <summary>
+        /// Occurs when the active game state has changed.
+        /// </summary>
         public event EventHandler ChangeState;
 
 
+        /// <summary>
+        /// The animation store repository.
+        /// </summary>
         private AnimationStore AnimationStore;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JunkbotGame"/> class.
+        /// </summary>
         public JunkbotGame()
         {
             AnimationStore = new AnimationStore();
         }
 
 
+        /// <summary>
+        /// Begins running the Junkbot game engine.
+        /// </summary>
         public void Begin()
         {
             // Load straight into the menu gamestate for now
@@ -46,7 +59,12 @@ namespace Junkbot.Game
 
             GameState = menuState;
         }
-
+        
+        /// <summary>
+        /// Updates the state of the Junkbot game engine.
+        /// </summary>
+        /// <param name="deltaTime">The time difference since the last update.</param>
+        /// <param name="inputs">The input events that have occurred.</param>
         public void Update(TimeSpan deltaTime, InputEvents inputs)
         {
             GameState.Update(deltaTime, inputs);

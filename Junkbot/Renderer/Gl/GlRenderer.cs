@@ -7,28 +7,60 @@ using Pencil.Gaming.Graphics;
 using Pencil.Gaming.MathUtils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Renderer.Gl
 {
-    internal class GlRenderer : IRenderer
+    /// <summary>
+    /// Renders Junkbot using the OpenGL API.
+    /// </summary>
+    internal sealed class GlRenderer : IRenderer
     {
+        /// <summary>
+        /// The viewport dimensions of Junkbot.
+        /// </summary>
         public static readonly Vector2 JUNKBOT_VIEWPORT = new Vector2(650, 420);
 
 
+        /// <summary>
+        /// Gets the value that indicates whether the renderer window is still open.
+        /// </summary>
         public bool IsOpen { get; private set; }
 
 
+        /// <summary>
+        /// The active render strategies.
+        /// </summary>
         private List<GlRenderStrategy> ActiveRenderStrategies;
+
+        /// <summary>
+        /// The current input events recorded by the renderer window.
+        /// </summary>
         private InputEvents CurrentInputState;
+
+        /// <summary>
+        /// The Junkbot game engine.
+        /// </summary>
         private JunkbotGame Game;
+
+        /// <summary>
+        /// The ID of the vertex array object used by this renderer.
+        /// </summary>
         private int GlVaoId;
+
+        /// <summary>
+        /// The resource cache for OpenGL objects.
+        /// </summary>
         private GlResourceCache ResourceCache;
+
+        /// <summary>
+        /// The pointer to the active GLFW window.
+        /// </summary>
         private GlfwWindowPtr WindowPtr;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GlRenderer"/> class.
+        /// </summary>
         public GlRenderer()
         {
             ActiveRenderStrategies = new List<GlRenderStrategy>();
@@ -36,6 +68,9 @@ namespace Junkbot.Renderer.Gl
         }
 
 
+        /// <summary>
+        /// Releases all resources used by this <see cref="GlRenderer"/>.
+        /// </summary>
         public void Dispose()
         {
             if (IsOpen)
@@ -52,6 +87,13 @@ namespace Junkbot.Renderer.Gl
             Glfw.Terminate();
         }
 
+        /// <summary>
+        /// Retrieves the input events from the renderer window.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="InputEvents"/> instance containing input data pulled from
+        /// the renderer window.
+        /// </returns>
         public InputEvents GetInputEvents()
         {
             var thisUpdate = CurrentInputState;
@@ -63,6 +105,9 @@ namespace Junkbot.Renderer.Gl
             return thisUpdate;
         }
 
+        /// <summary>
+        /// Renders the next frame.
+        /// </summary>
         public void RenderFrame()
         {
             if (Glfw.WindowShouldClose(WindowPtr))
@@ -82,6 +127,12 @@ namespace Junkbot.Renderer.Gl
             Glfw.PollEvents();
         }
 
+        /// <summary>
+        /// Starts this renderer.
+        /// </summary>
+        /// <param name="gameInstance">
+        /// A reference to the Junkbot game engine instance.
+        /// </param>
         public void Start(JunkbotGame gameInstance)
         {
             Game = gameInstance;
@@ -136,6 +187,9 @@ namespace Junkbot.Renderer.Gl
             Game.ChangeState += Game_ChangeState;
         }
 
+        /// <summary>
+        /// Stops this renderer.
+        /// </summary>
         public void Stop()
         {
             IsOpen = false;
@@ -143,6 +197,9 @@ namespace Junkbot.Renderer.Gl
         }
         
 
+        /// <summary>
+        /// (Event) Occurs when the Junkbot game engine changes state.
+        /// </summary>
         private void Game_ChangeState(object sender, EventArgs e)
         {
             var game = (JunkbotGame)sender;
@@ -174,21 +231,45 @@ namespace Junkbot.Renderer.Gl
             }
         }
 
+        /// <summary>
+        /// (Callback) Handles character inputs from the GLFW window.
+        /// </summary>
+        /// <param name="wnd">A pointer to the GLFW window.</param>
+        /// <param name="ch">The character inputted.</param>
         private void OnChar(GlfwWindowPtr wnd, char ch)
         {
             CurrentInputState.ReportConsoleInput(ch);
         }
 
+        /// <summary>
+        /// (Callback) Handles cursor movement inputs from the GLFW window.
+        /// </summary>
+        /// <param name="wnd">A pointer to the GLFW window.</param>
+        /// <param name="x">The x-coordiante of the cursor.</param>
+        /// <param name="y">The y-coordinate of the cursor.</param>
         private void OnCursorPos(GlfwWindowPtr wnd, double x, double y)
         {
             CurrentInputState.ReportMouseMovement((float) x, (float) y);
         }
 
+        /// <summary>
+        /// (Callback) Handles errors that occur within the GLFW library.
+        /// </summary>
+        /// <param name="code">The error code.</param>
+        /// <param name="desc">A description of the error that occurred.</param>
         private void OnError(GlfwError code, string desc)
         {
             Console.WriteLine(desc);
         }
 
+        /// <summary>
+        /// (Callback) Handles keyboard inputs from the GLFW window. 
+        /// </summary>
+        /// <param name="wnd">A pointer to the GLFW window.</param>
+        /// <param name="key">The key that has had its state changed.</param>
+        /// <param name="scanCode">The scancode of the key.</param>
+        /// <param name="action">The action that occurred.</param>
+        /// <param name="mods">Modifier keys pressed at the same time.</param>
         private void OnKey(GlfwWindowPtr wnd, Key key, int scanCode, KeyAction action, KeyModifiers mods)
         {
             string inputString = "vk." + key.ToString();
@@ -199,6 +280,12 @@ namespace Junkbot.Renderer.Gl
                 CurrentInputState.ReportRelease(inputString);
         }
 
+        /// <summary>
+        /// (Callback) Handles mouse inputs from the GLFW window.
+        /// </summary>
+        /// <param name="wnd">A pointer to the GLFW window.</param>
+        /// <param name="btn">The mouse button that has had its state changed.</param>
+        /// <param name="action">The action that occurred.</param>
         private void OnMouseButton(GlfwWindowPtr wnd, MouseButton btn, KeyAction action)
         {
             string inputString = String.Empty;
@@ -224,6 +311,12 @@ namespace Junkbot.Renderer.Gl
                 CurrentInputState.ReportRelease(inputString);
         }
 
+        /// <summary>
+        /// (Callback) Handles window resize events that occurred in the GLFW window.
+        /// </summary>
+        /// <param name="wnd">A pointer to the GLFW window.</param>
+        /// <param name="width">The width of the window in pixels.</param>
+        /// <param name="height">The height of the window in pixels.</param>
         private void OnWindowSize(GlfwWindowPtr wnd, int width, int height)
         {
             GL.Viewport(0, 0, width, height);

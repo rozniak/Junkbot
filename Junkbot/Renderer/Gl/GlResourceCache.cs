@@ -2,21 +2,37 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Renderer.Gl
 {
-    internal class GlResourceCache : IDisposable
+    /// <summary>
+    /// Stores OpenGL objects so they may be created and reused by multiple render
+    /// strategies.
+    /// </summary>
+    internal sealed class GlResourceCache : IDisposable
     {
+        /// <summary>
+        /// Gets the value that indicates whether this <see cref="GlResourceCache"/>
+        /// instance has been disposed.
+        /// </summary>
         public bool Disposed { get; private set; }
 
 
+        /// <summary>
+        /// The value that indicates whether this <see cref="GlResourceCache"/> is
+        /// being disposed.
+        /// </summary>
         private bool Disposing;
+
+        /// <summary>
+        /// The mapping of names to cached OpenGL Shader Programs.
+        /// </summary>
         private Dictionary<string, uint> ShaderPrograms;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GlResourceCache"/> class.
+        /// </summary>
         public GlResourceCache()
         {
             Disposing = false;
@@ -24,6 +40,9 @@ namespace Junkbot.Renderer.Gl
         }
 
 
+        /// <summary>
+        /// Releases all resources used by this <see cref="GlResourceCache"/>.
+        /// </summary>
         public void Dispose()
         {
             Disposing = true;
@@ -40,6 +59,12 @@ namespace Junkbot.Renderer.Gl
             Disposing = false;
         }
 
+        /// <summary>
+        /// Gets an OpenGL Shader Program from the resource cache - if the program is
+        /// not already cached, an attempt will be made to load it.
+        /// </summary>
+        /// <param name="programName">The name of the program.</param>
+        /// <returns>The ID of the OpenGL Shader Program object.</returns>
         public uint GetShaderProgram(string programName)
         {
             if (Disposing || Disposed)

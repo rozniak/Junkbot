@@ -74,7 +74,7 @@
     <Compile Include="Renderer\Gl\Strategies\GlWorldRenderStrategy.cs" />
     <Compile Include="Renderer\IRenderStrategy.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
-    <Compile Include="Renderer\SpriteAtlas.cs" />
+    <Compile Include="Renderer\Gl\GlSpriteAtlas.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
