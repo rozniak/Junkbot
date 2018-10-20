@@ -40,16 +40,12 @@ namespace Junkbot.Renderer.Gl.Strategies
         }
 
         /// <summary>
-        /// Initializes this <see cref="GlMenuRenderStrategy"/> with references to the game
-        /// engine and animation store repository instances.
+        /// Initializes this <see cref="GlMenuRenderStrategy"/>.
         /// </summary>
         /// <param name="gameReference">
-        /// A reference to the game engine instance.
+        /// A reference to the Junkbot game engine.
         /// </param>
-        /// <param name="animationStore">
-        /// A reference to the animation store repository instance.
-        /// </param>
-        /// <returns>True if the initialization routine was successful.</returns>
+        /// <returns>True if the initialization process was successful.</returns>
         public override bool Initialize(JunkbotGame gameReference)
         {
             Game = gameReference;
@@ -58,10 +54,8 @@ namespace Junkbot.Renderer.Gl.Strategies
         }
 
         /// <summary>
-        /// Updates this game state.
+        /// Renders a portion of the next frame.
         /// </summary>
-        /// <param name="deltaTime">The time difference since the last update.</param>
-        /// <param name="inputs">The input events that have occurred.</param>
         public override void RenderFrame()
         {
             uint simpleUvProgramId = ResourceCache.GetShaderProgram("SimpleUVs");
