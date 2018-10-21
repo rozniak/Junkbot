@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\GameStateChangedEventArgs.cs" />
+    <Compile Include="Game\Helpers\PointHelper.cs" />
+    <Compile Include="Game\Helpers\RectangleHelper.cs" />
+    <Compile Include="Game\Helpers\SizeHelper.cs" />
     <Compile Include="Game\Input\InputEvents.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\IGameState.cs" />
@@ -59,9 +62,16 @@
     <Compile Include="Game\World\Actors\Animation\AnimationStore.cs" />
     <Compile Include="Game\World\Actors\BrickActor.cs" />
     <Compile Include="Game\World\Actors\BrickColor.cs" />
+    <Compile Include="Game\World\Actors\BrickSize.cs" />
+    <Compile Include="Game\World\Actors\DecalActor.cs" />
+    <Compile Include="Game\World\Actors\FacingDirection.cs" />
     <Compile Include="Game\World\Actors\IActor.cs" />
     <Compile Include="Game\World\Actors\IThinker.cs" />
     <Compile Include="Game\World\Actors\JunkbotActor.cs" />
+    <Compile Include="Game\World\Actors\LocationChangedEvent.cs" />
+    <Compile Include="Game\World\Level\DecalData.cs" />
+    <Compile Include="Game\World\Level\PartData.cs" />
+    <Compile Include="Game\World\Level\LevelData.cs" />
     <Compile Include="Game\World\Scene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -220,6 +230,7 @@
     <Content Include="Content\RippedSprites\minifig_walk_r_8.png" />
     <Content Include="Content\RippedSprites\minifig_walk_r_9.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>rmdir /s /q $(TargetDir)natives32\
