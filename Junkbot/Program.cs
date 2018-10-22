@@ -3,6 +3,7 @@ using Junkbot.Game.Input;
 using Junkbot.Renderer.Gl;
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Junkbot
 {
@@ -33,6 +34,8 @@ namespace Junkbot
 
                 game.Update(deltaTime, inputs);
                 renderer.RenderFrame();
+
+                Thread.Yield();
             }
         }
     }
