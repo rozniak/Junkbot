@@ -73,68 +73,6 @@ namespace Junkbot.Renderer.Gl
         }
 
         /// <summary>
-        /// Loads a sprite atlas from supplied files on disk.
-        /// </summary>
-        /// <param name="filename">
-        /// The filename of the atlas, the extension will be ignored.
-        /// </param>
-        /// <returns>
-        /// A <see cref="GlSpriteAtlas"/> created from the supplied data.
-        /// </returns>
-        public static GlSpriteAtlas LoadAtlas(string filename)
-        {
-            // Read texture atlas information and bitmap data
-            //
-            string atlasPath = Path.GetDirectoryName(filename);
-            string atlasNoExt = Path.GetFileNameWithoutExtension(filename);
-
-            var atlasBmp = (Bitmap)Image.FromFile(atlasPath + @"\" + atlasNoExt + ".png");
-            var atlasJson = File.ReadAllText(atlasPath + @"\" + atlasNoExt + ".json");
-            var atlasNodeArray = JArray.Parse(atlasJson);
-
-            var atlasMap = new Dictionary<string, Rectanglei>();
-            
-            foreach (JToken token in atlasNodeArray)
-            {
-                string key = token.Value<string>("Name").ToLower();
-                string boundsCsv = token.Value<string>("Bounds");
-                var rectangleComponents = new List<int>();
-
-                foreach (string boundComponent in boundsCsv.Split(','))
-                {
-                    rectangleComponents.Add(Convert.ToInt32(boundComponent));
-                }
-
-                atlasMap.Add(
-                    key,
-                    new Rectanglei(
-                        rectangleComponents[0],
-                        rectangleComponents[1],
-                        rectangleComponents[2],
-                        rectangleComponents[3]
-                        )
-                    );
-            }
-
-            // Read out atlas dimensions
-            //
-            Vector2 atlasDimensions = new Vector2(
-                atlasBmp.Width,
-                atlasBmp.Height
-                );
-
-            // Load the bitmap into OpenGL
-            //
-            int glTextureId = GlUtil.LoadBitmapTexture(atlasBmp);
-
-            // Dispose the atlas resource
-            //
-            atlasBmp.Dispose();
-
-            return new GlSpriteAtlas(atlasDimensions, glTextureId, atlasMap);
-        }
-
-        /// <summary>
         /// Loads the specified <see cref="Bitmap"/> into an OpenGL texture object.
         /// </summary>
         /// <param name="bmp">The bitmap image.</param>

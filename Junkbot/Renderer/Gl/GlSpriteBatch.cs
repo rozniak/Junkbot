@@ -8,7 +8,7 @@ namespace Junkbot.Renderer.Gl
     /// <summary>
     /// Processes a stream of draw commands as a batch to supply to OpenGL.
     /// </summary>
-    internal sealed class GlSpriteBatch : IDisposable
+    internal sealed class GlSpriteBatch
     {
         /// <summary>
         /// The sprite atlas to use during this batch.
@@ -51,11 +51,15 @@ namespace Junkbot.Renderer.Gl
         /// <summary>
         /// Initializes a new instance of the <see cref="GlSpriteBatch"/> class.
         /// </summary>
-        /// <param name="atlasFullPath"></param>
-        /// <param name="glProgramId"></param>
-        public GlSpriteBatch(string atlasFullPath, uint glProgramId)
+        /// <param name="atlasFullPath">
+        /// The atlas to use when drawing sprites.
+        /// </param>
+        /// <param name="glProgramId">
+        /// The ID of the OpenGL Shader Program to use.
+        /// </param>
+        public GlSpriteBatch(GlSpriteAtlas atlas, uint glProgramId)
         {
-            Atlas = GlUtil.LoadAtlas(atlasFullPath);
+            Atlas = atlas;
             GlProgramId = glProgramId;
 
             GlCanvasResolutionUniformId = GL.GetUniformLocation(
@@ -72,15 +76,7 @@ namespace Junkbot.Renderer.Gl
             VboDrawContents = new List<float>();
             VboUvContents = new List<float>();
         }
-
-
-        /// <summary>
-        /// Releases all resources used by this <see cref="GlSpriteBatch"/>.
-        /// </summary>
-        public void Dispose()
-        {
-            Atlas.Dispose();
-        }
+        
 
         /// <summary>
         /// Issues a draw command to this batch.

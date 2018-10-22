@@ -39,7 +39,9 @@ namespace Junkbot.Renderer.Gl.Strategies
         {
             Game = gameReference;
 
-            ActorAtlas = GlUtil.LoadAtlas(Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas");
+            ActorAtlas = GlSpriteAtlas.FromFileSet(
+                Environment.CurrentDirectory + @"\Content\Atlas\actors-atlas"
+                );
 
             return true;
         }

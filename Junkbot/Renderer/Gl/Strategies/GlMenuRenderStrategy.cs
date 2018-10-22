@@ -19,6 +19,11 @@ namespace Junkbot.Renderer.Gl.Strategies
         /// </summary>
         private GlResourceCache ResourceCache;
 
+        /// <summary>
+        /// The title screen sprite atlas.
+        /// </summary>
+        private GlSpriteAtlas TitleAtlas;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GlMenuRenderStrategy"/> class.
@@ -29,6 +34,9 @@ namespace Junkbot.Renderer.Gl.Strategies
         public GlMenuRenderStrategy(GlResourceCache resourceCache)
         {
             ResourceCache = resourceCache;
+            TitleAtlas = GlSpriteAtlas.FromFileSet(
+                Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png"
+                );
         }
 
 
@@ -60,7 +68,7 @@ namespace Junkbot.Renderer.Gl.Strategies
         {
             uint simpleUvProgramId = ResourceCache.GetShaderProgram("SimpleUVs");
             var sb = new GlSpriteBatch(
-                Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png",
+                TitleAtlas,
                 simpleUvProgramId
                 );
 
@@ -76,7 +84,6 @@ namespace Junkbot.Renderer.Gl.Strategies
                     );
 
             sb.Finish();
-            sb.Dispose();
         }
     }
 }
