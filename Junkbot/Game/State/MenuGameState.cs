@@ -2,6 +2,7 @@
 using Junkbot.Game.UI;
 using Junkbot.Game.World.Actors.Animation;
 using System;
+using System.IO;
 
 namespace Junkbot.Game.State
 {
@@ -19,6 +20,11 @@ namespace Junkbot.Game.State
         /// Gets the interface manager used in this game state.
         /// </summary>
         public JunkbotInterface Interface { get; private set; }
+
+        /// <summary>
+        /// Gets the Junkbot game scene.
+        /// </summary>
+        public Scene Scene { get; private set; }
 
 
         /// <summary>
@@ -45,8 +51,13 @@ namespace Junkbot.Game.State
         /// <returns>True if the initialization routine was successful.</returns>
         public bool Initialize(JunkbotGame gameReference, AnimationStore animationStore)
         {
+            AnimationStore = animationStore;
             Game = gameReference;
             Interface = new JunkbotInterface();
+            Scene = Scene.FromLevel(
+                File.ReadAllLines(Environment.CurrentDirectory + @"\Content\Levels\loading_level.txt"),
+                AnimationStore
+                );
 
             return true;
         }

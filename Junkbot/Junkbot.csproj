@@ -216,7 +216,9 @@
     <Content Include="Content\Levels\Junkbot is Brave.txt" />
     <Content Include="Content\Levels\Junkbot%27s Lucky Number.txt" />
     <Content Include="Content\Levels\Junkbot%27s Secret Weapon.txt" />
-    <Content Include="Content\Levels\loading_level.txt" />
+    <Content Include="Content\Levels\loading_level.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Levels\Look Before You Leap.txt" />
     <Content Include="Content\Levels\Move the Stairs.txt" />
     <Content Include="Content\Levels\Movin%27 On Up.txt" />
