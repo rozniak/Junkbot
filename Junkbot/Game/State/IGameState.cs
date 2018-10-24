@@ -25,6 +25,11 @@ namespace Junkbot.Game.State
         /// </summary>
         JunkbotGameState Identifier { get; }
 
+        /// <summary>
+        /// Gets the Junkbot game scene.
+        /// </summary>
+        Scene Scene { get; }
+
 
         /// <summary>
         /// Initializes this <see cref="IGameState"/> with references to the game

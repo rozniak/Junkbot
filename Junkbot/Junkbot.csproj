@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\GameStateChangedEventArgs.cs" />
-    <Compile Include="Game\Helpers\PointHelper.cs" />
-    <Compile Include="Game\Helpers\RectangleHelper.cs" />
-    <Compile Include="Game\Helpers\SizeHelper.cs" />
+    <Compile Include="Helpers\PointHelper.cs" />
+    <Compile Include="Helpers\RectangleHelper.cs" />
+    <Compile Include="Helpers\SizeHelper.cs" />
     <Compile Include="Game\Input\InputEvents.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\IGameState.cs" />

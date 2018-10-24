@@ -15,29 +15,9 @@ namespace Junkbot.Renderer.Gl.Strategies
         private JunkbotGame Game;
 
         /// <summary>
-        /// The OpenGL resource cache.
-        /// </summary>
-        private GlResourceCache ResourceCache;
-
-        /// <summary>
         /// The title screen sprite atlas.
         /// </summary>
         private GlSpriteAtlas TitleAtlas;
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GlMenuRenderStrategy"/> class.
-        /// </summary>
-        /// <param name="resourceCache">
-        /// A reference to the OpenGL resource cache.
-        /// </param>
-        public GlMenuRenderStrategy(GlResourceCache resourceCache)
-        {
-            ResourceCache = resourceCache;
-            TitleAtlas = GlSpriteAtlas.FromFileSet(
-                Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png"
-                );
-        }
 
 
         /// <summary>
@@ -57,7 +37,10 @@ namespace Junkbot.Renderer.Gl.Strategies
         public override bool Initialize(JunkbotGame gameReference)
         {
             Game = gameReference;
-            
+            TitleAtlas = GlSpriteAtlas.FromFileSet(
+                Environment.CurrentDirectory + @"\Content\Atlas\menu-atlas.png"
+                );
+
             return true;
         }
 
@@ -66,7 +49,7 @@ namespace Junkbot.Renderer.Gl.Strategies
         /// </summary>
         public override void RenderFrame()
         {
-            uint simpleUvProgramId = ResourceCache.GetShaderProgram("SimpleUVs");
+            uint simpleUvProgramId = Resources.GetShaderProgram("SimpleUVs");
             var sb = new GlSpriteBatch(
                 TitleAtlas,
                 simpleUvProgramId

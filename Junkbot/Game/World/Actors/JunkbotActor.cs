@@ -1,6 +1,6 @@
 ﻿using Pencil.Gaming.MathUtils;
 using Junkbot.Game.World.Actors.Animation;
-using Junkbot.Game.Helpers;
+using Junkbot.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

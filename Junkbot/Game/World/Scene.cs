@@ -1,7 +1,7 @@
 ﻿using Junkbot.Game.World.Actors;
 using Junkbot.Game.World.Actors.Animation;
 using Junkbot.Game.World.Level;
-using Junkbot.Game.Helpers;
+using Junkbot.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +27,8 @@ namespace Junkbot.Game
         }
         private List<BrickActor> _ImmobileBricks;
 
+        public Size Size { get; private set; }
+
 
         private AnimationStore AnimationStore;
 
@@ -40,6 +42,7 @@ namespace Junkbot.Game
             AnimationStore = store;
             PlayField = new IActor[levelData.Size.Width, levelData.Size.Height];
             CellSize = levelData.Spacing;
+            Size = levelData.Size;
 
             foreach (JunkbotPartData part in levelData.Parts)
             {
