@@ -94,7 +94,7 @@ namespace Junkbot.Game
                 {
                     var brick = (BrickActor)actor;
 
-                    _ImmobileBricks.Add((BrickActor)actor);
+                    _ImmobileBricks.InsertSorted((BrickActor)actor);
                 }
                 else
                     _MobileActors.Add(actor);

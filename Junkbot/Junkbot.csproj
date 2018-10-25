@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\GameStateChangedEventArgs.cs" />
+    <Compile Include="Helpers\ListHelper.cs" />
     <Compile Include="Helpers\PointHelper.cs" />
     <Compile Include="Helpers\RectangleHelper.cs" />
     <Compile Include="Helpers\SizeHelper.cs" />
