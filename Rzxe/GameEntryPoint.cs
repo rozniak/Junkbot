@@ -1,7 +1,7 @@
 ﻿using Oddmatics.Rzxe.Game;
 using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing;
-using Oddmatics.Rzxe.Windowing.Implementations.Glfw;
+using Oddmatics.Rzxe.Windowing.Implementations.GlfwFx;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
