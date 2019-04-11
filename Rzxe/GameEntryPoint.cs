@@ -1,9 +1,13 @@
 ﻿using Oddmatics.Rzxe.Game;
+using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing;
+using Oddmatics.Rzxe.Windowing.Implementations.Glfw;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Oddmatics.Rzxe
 {
@@ -15,10 +19,10 @@ namespace Oddmatics.Rzxe
             get { return _GameEngine; }
             set
             {
-                if (IsRunning)
+                if (Locked)
                 {
                     throw new InvalidOperationException(
-                        "Cannot set game engine when the game is running."
+                        "Game engine state has been locked."
                         );
                 }
                 else
@@ -29,13 +33,34 @@ namespace Oddmatics.Rzxe
         }
 
 
-        public bool IsRunning { get; private set; }
+        public bool Locked { get; private set; }
 
         private IWindowManager WindowManager { get; set; }
 
 
         public void Initialize()
         {
+            if (Locked)
+            {
+                throw new InvalidOperationException(
+                    "Game engine state has been locked."
+                    );
+            }
+
+            if (GameEngine == null)
+            {
+                throw new InvalidOperationException(
+                    "No game engine provided."
+                    );
+            }
+
+            // FIXME: Replace this one day with a way of selecting the window manager
+            //
+            WindowManager = new GlfwWindowManager()
+            {
+                RenderedGameEngine = GameEngine
+            };
+            
             WindowManager.Initialize();
         }
 
@@ -48,7 +73,22 @@ namespace Oddmatics.Rzxe
 
             // Enter the main game loop
             //
+            var gameTime = new Stopwatch();
 
+            gameTime.Start();
+
+            while (WindowManager.IsOpen)
+            {
+                TimeSpan deltaTime = gameTime.Elapsed;
+                gameTime.Reset();
+
+                InputEvents inputs = WindowManager.ReadInputEvents();
+                GameEngine.Update(deltaTime, inputs);
+
+                WindowManager.RenderFrame();
+
+                Thread.Yield();
+            }
         }
     }
 }

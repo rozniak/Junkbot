@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="GameEntryPoint.cs" />
     <Compile Include="Game\IGameEngine.cs" />
+    <Compile Include="Input\InputEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Windowing\Implementations\Glfw\GlfwWindowManager.cs" />
     <Compile Include="Windowing\IWindowManager.cs" />
   </ItemGroup>
   <ItemGroup>
