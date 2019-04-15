@@ -76,6 +76,7 @@ namespace Oddmatics.Rzxe
             var gameTime = new Stopwatch();
 
             gameTime.Start();
+            GameEngine.Begin();
 
             while (WindowManager.IsOpen)
             {
