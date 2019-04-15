@@ -15,8 +15,8 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
         public bool Ready { get; private set; }
 
-        private IGameEngine _RenderedGameEngine;
-        public IGameEngine RenderedGameEngine
+        private GameEngine _RenderedGameEngine;
+        public GameEngine RenderedGameEngine
         {
             get { return _RenderedGameEngine; }
             set
