@@ -9,7 +9,7 @@ using Pencil.Gaming.Graphics;
 
 namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 {
-    internal class GlfwWindowManager : IWindowManager
+    internal sealed class GlfwWindowManager : IWindowManager
     {
         public bool IsOpen { get; private set; }
 
@@ -46,6 +46,8 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
         private int GlVaoId { get; set; }
 
+        private GlfwResourceCache ResourceCache { get; set; }
+
         private GlfwWindowPtr WindowPtr { get; set; }
 
         #endregion
@@ -67,6 +69,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
         public void Initialize()
         {
             CurrentInputState = new InputEvents();
+            ResourceCache = new GlfwResourceCache();
 
             // Set up GLFW parameters and create the window
             //
@@ -107,7 +110,6 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
             // Set up viewport defaults
             //
-            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f); // Approx. cornflower blue
             GL.Viewport(
                 0,
                 0,
@@ -128,7 +130,16 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
         
         public InputEvents ReadInputEvents()
         {
-            throw new NotImplementedException();
+            var lastUpdate = CurrentInputState;
+
+            lastUpdate.FinalizeForReporting();
+
+            CurrentInputState = new InputEvents(
+                lastUpdate.DownedInputs,
+                lastUpdate.MousePosition
+                );
+
+            return lastUpdate;
         }
 
         public void RenderFrame()
@@ -138,12 +149,10 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
                 Dispose();
                 return;
             }
-
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
-            //
-            // TODO: Render the game here
-            //
+            
+            RenderedGameEngine.RenderFrame(
+                new GlfwGraphicsController(ResourceCache)
+                );
 
             Glfw.SwapBuffers(WindowPtr);
             Glfw.PollEvents();

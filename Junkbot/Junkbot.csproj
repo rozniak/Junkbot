@@ -54,7 +54,7 @@
     <Compile Include="Game\Input\InputEvents.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\IGameState.cs" />
-    <Compile Include="Game\State\MenuGameState.cs" />
+    <Compile Include="Game\State\SplashGameState.cs" />
     <Compile Include="Game\UI\Controls\Control.cs" />
     <Compile Include="Game\UI\JunkbotInterface.cs" />
     <Compile Include="Game\World\Actors\Animation\ActorAnimation.cs" />
@@ -175,6 +175,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rzxe\Rzxe.csproj">
+      <Project>{827DBEC3-A270-4273-B69D-194A466BD35B}</Project>
+      <Name>Rzxe</Name>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\Pencil.Gaming\Pencil.Gaming\Pencil.Gaming.csproj">
       <Project>{ddb6db6d-e5de-4bdb-8ac8-26df800e9ff0}</Project>
       <Name>Pencil.Gaming</Name>

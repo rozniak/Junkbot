@@ -1,6 +1,7 @@
 ﻿using Junkbot.Game;
 using Junkbot.Game.Input;
 using Junkbot.Renderer.Gl;
+using Oddmatics.Rzxe;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -17,26 +18,13 @@ namespace Junkbot
         /// </summary>
         static void Main(string[] args)
         {
-            var renderer = new GlRenderer();
-            var game = new JunkbotGame();
-            var gameTimer = new Stopwatch();
-
-            renderer.Start(game);
-            game.Begin();
-            gameTimer.Start();
-
-            while (renderer.IsOpen)
+            var entryPoint = new GameEntryPoint()
             {
-                TimeSpan deltaTime = gameTimer.Elapsed;
-                gameTimer.Reset();
+                GameEngine = new JunkbotGame()
+            };
 
-                InputEvents inputs = renderer.GetInputEvents();
-
-                game.Update(deltaTime, inputs);
-                renderer.RenderFrame();
-
-                Thread.Yield();
-            }
+            entryPoint.Initialize();
+            entryPoint.Run();
         }
     }
 }
