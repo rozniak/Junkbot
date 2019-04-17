@@ -42,6 +42,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
         public ISpriteBatch CreateSpriteBatch(string atlasName)
         {
             return new GLSpriteBatch(
+                this,
                 atlasName,
                 ResourceCache
                 );
