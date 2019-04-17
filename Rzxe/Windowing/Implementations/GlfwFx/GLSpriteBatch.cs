@@ -113,9 +113,10 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
             GL.Uniform2(
                 GlCanvasResolutionUniformId,
-                OwnerController.TargetResolution.Width,
-                OwnerController.TargetResolution.Height
+                (float)OwnerController.TargetResolution.Width,
+                (float)OwnerController.TargetResolution.Height
                 );
+
             GL.Uniform2(GlUvMapResolutionUniformId, SpriteAtlas.Size);
 
             // Bind the atlas
