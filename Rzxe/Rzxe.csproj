@@ -50,6 +50,7 @@
     <Compile Include="GameEntryPoint.cs" />
     <Compile Include="Game\GameState.cs" />
     <Compile Include="Game\GameEngine.cs" />
+    <Compile Include="Game\IGameEngineParameters.cs" />
     <Compile Include="Game\UxComponent.cs" />
     <Compile Include="Input\InputEvents.cs" />
     <Compile Include="Input\InputFocalMode.cs" />

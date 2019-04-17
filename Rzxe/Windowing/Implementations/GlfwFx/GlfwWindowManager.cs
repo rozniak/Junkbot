@@ -69,7 +69,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
         public void Initialize()
         {
             CurrentInputState = new InputEvents();
-            ResourceCache = new GLResourceCache();
+            ResourceCache = new GLResourceCache(RenderedGameEngine.Parameters);
 
             // Set up GLFW parameters and create the window
             //
@@ -83,8 +83,8 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             Glfw.WindowHint(WindowHint.OpenGLProfile, (int)OpenGLProfile.Core);
 
             WindowPtr = Glfw.CreateWindow(
-                RenderedGameEngine.DefaultClientWindowSize.Width,
-                RenderedGameEngine.DefaultClientWindowSize.Height,
+                RenderedGameEngine.Parameters.DefaultClientWindowSize.Width,
+                RenderedGameEngine.Parameters.DefaultClientWindowSize.Height,
                 "Junkbot (OpenGL 3.2)",
                 GlfwMonitorPtr.Null,
                 GlfwWindowPtr.Null
@@ -113,8 +113,8 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             GL.Viewport(
                 0,
                 0,
-                RenderedGameEngine.DefaultClientWindowSize.Width,
-                RenderedGameEngine.DefaultClientWindowSize.Height
+                RenderedGameEngine.Parameters.DefaultClientWindowSize.Width,
+                RenderedGameEngine.Parameters.DefaultClientWindowSize.Height
                 );
 
             // Set up input callbacks
@@ -154,7 +154,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             RenderedGameEngine.RenderFrame(
                 new GLGraphicsController(
                     ResourceCache,
-                    RenderedGameEngine.DefaultClientWindowSize
+                    RenderedGameEngine.Parameters.DefaultClientWindowSize
                     )
                 );
 

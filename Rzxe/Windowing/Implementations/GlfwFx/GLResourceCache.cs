@@ -1,4 +1,5 @@
-﻿using Pencil.Gaming.Graphics;
+﻿using Oddmatics.Rzxe.Game;
+using Pencil.Gaming.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,12 +15,15 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
         private bool Disposing { get; set; }
 
+        private IGameEngineParameters EngineParameters { get; set; }
+
         private Dictionary<string, uint> ShaderPrograms { get; set; }
 
         
-        public GLResourceCache()
+        public GLResourceCache(IGameEngineParameters engineParameters)
         {
             Atlases = new Dictionary<string, GLSpriteAtlas>();
+            EngineParameters = engineParameters;
             ShaderPrograms = new Dictionary<string, uint>();
         }
 
@@ -39,7 +43,13 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             }
             else
             {
-                var newAtlas = GLSpriteAtlas.FromFileSet(atlasName);
+                var newAtlas = GLSpriteAtlas.FromFileSet(
+                    string.Format(
+                        "{0}\\Atlas\\{1}",
+                        EngineParameters.GameContentRoot,
+                        atlasName
+                        )
+                    );
 
                 Atlases.Add(newAtlas.Name, newAtlas);
 
@@ -96,15 +106,15 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             //
             string fragmentSource = File.ReadAllText(
                 string.Format(
-                    "{0}\\Content\\Shaders\\OpenGL\\{1}\\fragment.glsl",
-                    Environment.CurrentDirectory,
+                    "{0}\\Shaders\\OpenGL\\{1}\\fragment.glsl",
+                    EngineParameters.GameContentRoot,
                     programName
                     )
                 );
             string vertexSource = File.ReadAllText(
                 string.Format(
-                    "{0}\\Content\\Shaders\\OpenGL\\{1}\\vertex.glsl",
-                    Environment.CurrentDirectory,
+                    "{0}\\Shaders\\OpenGL\\{1}\\vertex.glsl",
+                    EngineParameters.GameContentRoot,
                     programName
                     )
                 );

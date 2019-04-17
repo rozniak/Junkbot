@@ -12,12 +12,19 @@ namespace Junkbot.Game
     /// </summary>
     internal sealed class JunkbotGame : GameEngine
     {
-        public override Size DefaultClientWindowSize
+        public override IGameEngineParameters Parameters
         {
-            get { return new Size(650, 320); }
+            get { return _Parameters; }
+        }
+        private IGameEngineParameters _Parameters;
+
+
+        public JunkbotGame()
+        {
+            _Parameters = new JunkbotEngineParameters();
         }
 
-        
+
         public override void Begin()
         {
             base.Begin();

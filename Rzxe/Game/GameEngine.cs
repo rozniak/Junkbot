@@ -10,7 +10,7 @@ namespace Oddmatics.Rzxe.Game
 {
     public abstract class GameEngine
     {
-        public abstract Size DefaultClientWindowSize { get; }
+        public abstract IGameEngineParameters Parameters { get; }
 
 
         private List<GameState> StateStack { get; set; }
