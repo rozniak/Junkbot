@@ -54,6 +54,8 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
             // Set up GL fields
             //
+            GlProgramId = ResourceCache.GetShaderProgram("SimpleUVs"); // FIXME: Hard-coded ew!
+
             GlCanvasResolutionUniformId = GL.GetUniformLocation(
                 GlProgramId,
                 "CanvasResolution"
