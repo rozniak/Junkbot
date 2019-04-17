@@ -12,7 +12,7 @@ namespace Junkbot.Game
     {
         public Size DefaultClientWindowSize
         {
-            get { return new Size(650, 320); }
+            get { return new Size(650, 420); }
         }
 
         public string GameContentRoot
