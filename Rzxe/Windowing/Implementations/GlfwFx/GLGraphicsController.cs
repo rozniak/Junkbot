@@ -9,14 +9,21 @@ using System.Threading.Tasks;
 
 namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 {
-    internal sealed class GlfwGraphicsController : IGraphicsController
+    internal sealed class GLGraphicsController : IGraphicsController
     {
-        private GlfwResourceCache ResourceCache { get; set; }
+        public Size TargetResolution { get; private set; }
 
 
-        public GlfwGraphicsController(GlfwResourceCache resourceCache)
+        private GLResourceCache ResourceCache { get; set; }
+
+
+        public GLGraphicsController(
+            GLResourceCache resourceCache,
+            Size targetResolution
+            )
         {
             ResourceCache = resourceCache;
+            TargetResolution = targetResolution;
         }
 
 
@@ -34,7 +41,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
         public ISpriteBatch CreateSpriteBatch(string atlasName)
         {
-            return new GlfwSpriteBatch(
+            return new GLSpriteBatch(
                 atlasName,
                 ResourceCache
                 );

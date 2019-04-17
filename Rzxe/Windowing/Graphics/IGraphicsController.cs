@@ -8,6 +8,9 @@ namespace Oddmatics.Rzxe.Windowing.Graphics
 {
     public interface IGraphicsController
     {
+        Size TargetResolution { get; }
+
+
         void ClearViewport(Color color);
 
         ISpriteBatch CreateSpriteBatch(string atlasName);

@@ -46,7 +46,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
 
         private int GlVaoId { get; set; }
 
-        private GlfwResourceCache ResourceCache { get; set; }
+        private GLResourceCache ResourceCache { get; set; }
 
         private GlfwWindowPtr WindowPtr { get; set; }
 
@@ -69,7 +69,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
         public void Initialize()
         {
             CurrentInputState = new InputEvents();
-            ResourceCache = new GlfwResourceCache();
+            ResourceCache = new GLResourceCache();
 
             // Set up GLFW parameters and create the window
             //
@@ -151,7 +151,10 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             }
             
             RenderedGameEngine.RenderFrame(
-                new GlfwGraphicsController(ResourceCache)
+                new GLGraphicsController(
+                    ResourceCache,
+                    RenderedGameEngine.DefaultClientWindowSize
+                    )
                 );
 
             Glfw.SwapBuffers(WindowPtr);

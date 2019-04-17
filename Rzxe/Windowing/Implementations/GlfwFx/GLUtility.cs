@@ -118,6 +118,24 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             return textureId;
         }
 
+        public static float[] MakeVboData(System.Drawing.Rectangle rect)
+        {
+            // Expand the rectangle to coordinates
+            //
+            float[] rectPoints = new float[]
+            {
+                rect.Left, rect.Bottom,
+                rect.Left, rect.Top,
+                rect.Right, rect.Top,
+
+                rect.Left, rect.Bottom,
+                rect.Right, rect.Top,
+                rect.Right, rect.Bottom
+            };
+
+            return rectPoints;
+        }
+
         public static float[] MakeVboData(Rectanglei rect)
         {
             // Expand the rectangle to coordinates
