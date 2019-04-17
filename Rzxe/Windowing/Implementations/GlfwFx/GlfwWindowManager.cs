@@ -126,6 +126,7 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             Glfw.SetWindowSizeCallback(WindowPtr, OnWindowSize);
 
             Locked = true;
+            Ready = true;
         }
         
         public InputEvents ReadInputEvents()

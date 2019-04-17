@@ -65,7 +65,7 @@ namespace Junkbot.Renderer.Gl.Strategies
             Game = gameReference;
             GlProgramId = Resources.GetShaderProgram("SimpleUVs");
             Origin = Point.Empty;
-            SceneSize = Game.GameState.Scene.Size;
+            //SceneSize = Game.GameState.Scene.Size;
 
             return true;
         }
@@ -82,25 +82,25 @@ namespace Junkbot.Renderer.Gl.Strategies
 
             // Render immobile actors
             //
-            foreach (BrickActor brick in Game.GameState.Scene.ImmobileBricks)
-            {
-                ActorAnimationFrame currentFrame = brick.Animation.GetCurrentFrame();
-                Rectanglei blitRect = ActorAtlas.GetSpriteUV(currentFrame.SpriteName);
-                Point pointLoc = brick.Location
-                    .Product(Game.GameState.Scene.CellSize)
-                    .Add(currentFrame.Offset).Add(Origin.Product(Game.GameState.Scene.CellSize));
-                Vector2i drawLoc = new Vector2i(
-                    pointLoc.X, pointLoc.Y
-                    );
+            //foreach (BrickActor brick in Game.GameState.Scene.ImmobileBricks)
+            //{
+            //    ActorAnimationFrame currentFrame = brick.Animation.GetCurrentFrame();
+            //    Rectanglei blitRect = ActorAtlas.GetSpriteUV(currentFrame.SpriteName);
+            //    Point pointLoc = brick.Location
+            //        .Product(Game.GameState.Scene.CellSize)
+            //        .Add(currentFrame.Offset).Add(Origin.Product(Game.GameState.Scene.CellSize));
+            //    Vector2i drawLoc = new Vector2i(
+            //        pointLoc.X, pointLoc.Y
+            //        );
 
-                sb.Draw(
-                    currentFrame.SpriteName,
-                    new Rectanglei(
-                        drawLoc,
-                        blitRect.Size
-                        )
-                    );
-            }
+            //    sb.Draw(
+            //        currentFrame.SpriteName,
+            //        new Rectanglei(
+            //            drawLoc,
+            //            blitRect.Size
+            //            )
+            //        );
+            //}
 
             sb.Finish();
         }

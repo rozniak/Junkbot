@@ -184,7 +184,7 @@ namespace Junkbot.Renderer.Gl
 
             // Now attach the game state event to update our strategies
             //
-            Game.ChangeState += Game_ChangeState;
+            //Game.ChangeState += Game_ChangeState;
         }
 
         /// <summary>
@@ -202,44 +202,7 @@ namespace Junkbot.Renderer.Gl
         /// </summary>
         private void Game_ChangeState(object sender, EventArgs e)
         {
-            var game = (JunkbotGame)sender;
-
-            switch (game.GameState.Identifier)
-            {
-                case JunkbotGameState.Menu:
-                    // Add strategy for rendering the demo scene
-                    //
-                    var demoSceneStrategy = new GlWorldRenderStrategy();
-
-                    demoSceneStrategy.Resources = ResourceCache;
-                    demoSceneStrategy.Initialize(game);
-
-                    ActiveRenderStrategies.Add(demoSceneStrategy);
-
-                    // Add strategy for main menu
-                    //
-                    var menuStrategy = new GlMenuRenderStrategy();
-
-                    menuStrategy.Resources = ResourceCache;
-                    menuStrategy.Initialize(game);
-
-                    ActiveRenderStrategies.Add(menuStrategy);
-
-                    break;
-
-                case JunkbotGameState.Nothing:
-                    ActiveRenderStrategies.Clear();
-                    break;
-
-                case JunkbotGameState.World:
-                    var worldStrategy = new GlWorldRenderStrategy();
-
-                    worldStrategy.Initialize(game);
-
-                    ActiveRenderStrategies.Add(worldStrategy);
-
-                    break;
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>

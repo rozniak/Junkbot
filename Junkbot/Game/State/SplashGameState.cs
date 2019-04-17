@@ -2,6 +2,7 @@
 using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
+using System.Drawing;
 using System.IO;
 
 namespace Junkbot.Game.State
@@ -24,7 +25,19 @@ namespace Junkbot.Game.State
 
         public override void RenderFrame(IGraphicsController graphics)
         {
-            throw new NotImplementedException();
+            var sb = graphics.CreateSpriteBatch("menu-atlas");
+
+            graphics.ClearViewport(Color.CornflowerBlue);
+
+            sb.Draw(
+                "neo_title",
+                new Rectangle(
+                    Point.Empty,
+                    graphics.TargetResolution
+                    )
+                );
+
+            sb.Finish();
         }
     }
 }
