@@ -46,18 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\GameStateChangedEventArgs.cs" />
     <Compile Include="Game\JunkbotEngineParameters.cs" />
     <Compile Include="Helpers\ListHelper.cs" />
     <Compile Include="Helpers\PointHelper.cs" />
     <Compile Include="Helpers\RectangleHelper.cs" />
     <Compile Include="Helpers\SizeHelper.cs" />
-    <Compile Include="Game\Input\InputEvents.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
-    <Compile Include="Game\State\IGameState.cs" />
     <Compile Include="Game\State\SplashGameState.cs" />
-    <Compile Include="Game\UI\Controls\Control.cs" />
-    <Compile Include="Game\UI\JunkbotInterface.cs" />
     <Compile Include="Game\World\Actors\Animation\ActorAnimation.cs" />
     <Compile Include="Game\World\Actors\Animation\ActorAnimationFrame.cs" />
     <Compile Include="Game\World\Actors\Animation\AnimationServer.cs" />
@@ -77,16 +72,6 @@
     <Compile Include="Game\World\Scene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderer\Gl\GlRenderer.cs" />
-    <Compile Include="Renderer\Gl\GlResourceCache.cs" />
-    <Compile Include="Renderer\Gl\GlSpriteBatch.cs" />
-    <Compile Include="Renderer\Gl\GlUtil.cs" />
-    <Compile Include="Renderer\Gl\Strategies\GlMenuRenderStrategy.cs" />
-    <Compile Include="Renderer\Gl\Strategies\GlRenderStrategy.cs" />
-    <Compile Include="Renderer\Gl\Strategies\GlWorldRenderStrategy.cs" />
-    <Compile Include="Renderer\IRenderStrategy.cs" />
-    <Compile Include="Renderer\IRenderer.cs" />
-    <Compile Include="Renderer\Gl\GlSpriteAtlas.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

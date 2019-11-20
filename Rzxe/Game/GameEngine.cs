@@ -12,11 +12,39 @@ namespace Oddmatics.Rzxe.Game
     {
         public abstract IGameEngineParameters Parameters { get; }
 
+        
+        private List<GameState> InputWatchingStates { get; set; }
 
         private List<GameState> StateStack { get; set; }
+        
 
+        public virtual void Begin()
+        {
+            InputWatchingStates = new List<GameState>();
+            StateStack = new List<GameState>();
+        }
 
-        protected void PushState(GameState state)
+        public void PopState()
+        {
+            if (StateStack.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    "No states to pop."
+                    );
+            }
+
+            int stackTop    = StateStack.Count - 1;
+            GameState state = StateStack[stackTop];
+
+            StateStack.RemoveAt(stackTop);
+
+            if (state.FocalMode == InputFocalMode.Always)
+            {
+                InputWatchingStates.Remove(state);
+            }
+        }
+
+        public void PushState(GameState state)
         {
             if (StateStack.Contains(state))
             {
@@ -27,31 +55,10 @@ namespace Oddmatics.Rzxe.Game
 
             StateStack.Add(state);
 
-            //
-            // TODO: Handle adding input events based on InputFocalMode
-            //
-        }
-
-        protected void PopState()
-        {
-            if (StateStack.Count == 0)
+            if (state.FocalMode == InputFocalMode.Always)
             {
-                throw new InvalidOperationException(
-                    "No states to pop."
-                    );
+                InputWatchingStates.Add(state);
             }
-
-            StateStack.RemoveAt(StateStack.Count - 1);
-
-            //
-            // TODO: Handle removing input events based on InputFocalMode
-            //
-        }
-
-
-        public virtual void Begin()
-        {
-            StateStack = new List<GameState>();
         }
 
         public virtual void RenderFrame(IGraphicsController graphics)
@@ -70,9 +77,24 @@ namespace Oddmatics.Rzxe.Game
 
         public virtual void Update(TimeSpan deltaTime, InputEvents inputs)
         {
-            //
-            // Nothing yet
-            //
+            int stackTop = StateStack.Count - 1;
+
+            for (int i = stackTop; i >= 0; i--)
+            {
+                GameState state = StateStack[i];
+
+                if (
+                    state.FocalMode == InputFocalMode.Always ||
+                    (i == stackTop && state.FocalMode == InputFocalMode.WhenCurrentStateOnly)
+                )
+                {
+                    state.Update(deltaTime, inputs);
+                }
+                else
+                {
+                    state.Update(deltaTime, null);
+                }
+            }
         }
     }
 }

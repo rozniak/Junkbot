@@ -1,6 +1,6 @@
-﻿using Pencil.Gaming.MathUtils;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Oddmatics.Rzxe.Input
@@ -13,7 +13,7 @@ namespace Oddmatics.Rzxe.Input
         
         public bool IsReadOnly { get; private set; }
         
-        public Vector2 MousePosition { get; private set; }
+        public PointF MousePosition { get; private set; }
         
         public IList<string> NewPresses { get; private set; }
         
@@ -28,20 +28,23 @@ namespace Oddmatics.Rzxe.Input
         public InputEvents()
         {
             ActiveDownedInputs = new List<string>();
-            ConsoleInput = char.MinValue;
-            DownedInputs = new List<string>().AsReadOnly();
-            IsReadOnly = false;
-            LastDownedInputs = null;
-            MousePosition = Vector2.Zero;
-            NewPresses = new List<string>().AsReadOnly();
-            NewReleases = new List<string>().AsReadOnly();
+            ConsoleInput       = char.MinValue;
+            DownedInputs       = new List<string>().AsReadOnly();
+            IsReadOnly         = false;
+            LastDownedInputs   = null;
+            MousePosition      = PointF.Empty;
+            NewPresses         = new List<string>().AsReadOnly();
+            NewReleases        = new List<string>().AsReadOnly();
         }
         
-        public InputEvents(IList<string> lastDownedInputs, Vector2 lastMousePosition) : this()
+        public InputEvents(
+            IList<string> lastDownedInputs,
+            PointF lastMousePosition
+        ) : this()
         {
             ActiveDownedInputs = new List<string>(lastDownedInputs);
-            LastDownedInputs = lastDownedInputs;
-            MousePosition = lastMousePosition;
+            LastDownedInputs   = lastDownedInputs;
+            MousePosition      = lastMousePosition;
         }
 
         
@@ -83,7 +86,7 @@ namespace Oddmatics.Rzxe.Input
         {
             AssertNotReadOnly();
 
-            MousePosition = new Vector2(x, y);
+            MousePosition = new PointF(x, y);
         }
         
         public void ReportPress(string input)

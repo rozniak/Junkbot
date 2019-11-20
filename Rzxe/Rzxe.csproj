@@ -51,10 +51,14 @@
     <Compile Include="Game\GameState.cs" />
     <Compile Include="Game\GameEngine.cs" />
     <Compile Include="Game\IGameEngineParameters.cs" />
-    <Compile Include="Game\UxComponent.cs" />
+    <Compile Include="Game\Interface\UxComponent.cs" />
+    <Compile Include="Game\Interface\UxShell.cs" />
+    <Compile Include="Game\Interface\ZIndexComparer.cs" />
     <Compile Include="Input\InputEvents.cs" />
     <Compile Include="Input\InputFocalMode.cs" />
+    <Compile Include="Logic\Collision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Collections\SortedList2.cs" />
     <Compile Include="Windowing\Graphics\IGraphicsController.cs" />
     <Compile Include="Windowing\Graphics\ISpriteBatch.cs" />
     <Compile Include="Windowing\Implementations\GlfwFx\GLGraphicsController.cs" />
