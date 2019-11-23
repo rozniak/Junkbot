@@ -64,8 +64,10 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             string atlasPath = Path.GetDirectoryName(pathNoExt);
             string atlasNoExt = Path.GetFileNameWithoutExtension(pathNoExt);
 
-            string atlasBmpSrc = atlasPath + "\\" + atlasNoExt + ".png";
-            string atlasJsonSrc = atlasPath + "\\" + atlasNoExt + ".json";
+            string atlasBmpSrc  = atlasPath + Path.DirectorySeparatorChar +
+                                  atlasNoExt + ".png";
+            string atlasJsonSrc = atlasPath + Path.DirectorySeparatorChar +
+                                  atlasNoExt + ".json";
 
             var atlasBmp = (Bitmap)Image.FromFile(atlasBmpSrc);
             var atlasJson = File.ReadAllText(atlasJsonSrc);

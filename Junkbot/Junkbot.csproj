@@ -783,10 +783,6 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>rmdir /s /q $(TargetDir)natives32\
-SET ERRORLEVEL=0
-mkdir $(TargetDir)natives32\
-SET ERRORLEVEL=0
-copy /Y $(SolutionDir)thirdparty\Pencil.Gaming\Pencil.Gaming\natives32-glfw3\ $(TargetDir)natives32\</PreBuildEvent>
+    <PreBuildEvent></PreBuildEvent>
   </PropertyGroup>
 </Project>

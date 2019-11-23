@@ -45,11 +45,12 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             {
                 var newAtlas = GLSpriteAtlas.FromFileSet(
                     string.Format(
-                        "{0}\\Atlas\\{1}",
+                        "{0}{2}Atlas{2}{1}",
                         EngineParameters.GameContentRoot,
-                        atlasName
-                        )
-                    );
+                        atlasName,
+                        Path.DirectorySeparatorChar
+                    )
+                );
 
                 Atlases.Add(newAtlas.Name, newAtlas);
 
@@ -106,22 +107,24 @@ namespace Oddmatics.Rzxe.Windowing.Implementations.GlfwFx
             //
             string fragmentSource = File.ReadAllText(
                 string.Format(
-                    "{0}\\Shaders\\OpenGL\\{1}\\fragment.glsl",
+                    "{0}{2}Shaders{2}OpenGL{2}{1}{2}fragment.glsl",
                     EngineParameters.GameContentRoot,
-                    programName
-                    )
-                );
+                    programName,
+                    Path.DirectorySeparatorChar
+                )
+            );
             string vertexSource = File.ReadAllText(
                 string.Format(
-                    "{0}\\Shaders\\OpenGL\\{1}\\vertex.glsl",
+                    "{0}{2}Shaders{2}OpenGL{2}{1}{2}vertex.glsl",
                     EngineParameters.GameContentRoot,
-                    programName
-                    )
-                );
+                    programName,
+                    Path.DirectorySeparatorChar
+                )
+            );
             uint compiledProgramId = GLUtility.CompileShaderProgram(
                 vertexSource,
                 fragmentSource
-                );
+            );
 
             ShaderPrograms.Add(programName, compiledProgramId);
 

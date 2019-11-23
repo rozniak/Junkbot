@@ -1,5 +1,4 @@
-﻿using Junkbot.Game.Input;
-using Junkbot.Game.State;
+﻿using Junkbot.Game.State;
 using Junkbot.Game.World.Actors.Animation;
 using Oddmatics.Rzxe.Game;
 using System;
