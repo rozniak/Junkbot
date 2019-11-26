@@ -13,8 +13,8 @@ namespace Oddmatics.Rzxe
 {
     public sealed class GameEntryPoint
     {
-        private GameEngine _GameEngine;
-        public GameEngine GameEngine
+        private IGameEngine _GameEngine;
+        public IGameEngine GameEngine
         {
             get { return _GameEngine; }
             set

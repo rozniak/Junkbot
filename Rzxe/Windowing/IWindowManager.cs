@@ -13,7 +13,7 @@ namespace Oddmatics.Rzxe.Windowing
 
         bool Ready { get; }
 
-        GameEngine RenderedGameEngine { get; set; }
+        IGameEngine RenderedGameEngine { get; set; }
 
 
         void Initialize();

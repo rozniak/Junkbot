@@ -1,6 +1,8 @@
 ﻿using Junkbot.Game.State;
 using Junkbot.Game.World.Actors.Animation;
 using Oddmatics.Rzxe.Game;
+using Oddmatics.Rzxe.Input;
+using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Drawing;
 
@@ -9,13 +11,19 @@ namespace Junkbot.Game
     /// <summary>
     /// Represents the main Junkbot game engine.
     /// </summary>
-    internal sealed class JunkbotGame : GameEngine
+    internal sealed class JunkbotGame : IGameEngine
     {
-        public override IGameEngineParameters Parameters
+        public IGameEngineParameters Parameters
         {
             get { return _Parameters; }
         }
         private IGameEngineParameters _Parameters;
+
+        public GameState CurrentGameState
+        {
+            get;
+            set;
+        }
 
 
         public JunkbotGame()
@@ -24,13 +32,21 @@ namespace Junkbot.Game
         }
 
 
-        public override void Begin()
+        public void Begin()
         {
-            base.Begin();
+            CurrentGameState = new SplashGameState();
+        }
 
-            // Start with the splash screen
-            //
-            PushState(new SplashGameState());
+        public void RenderFrame(IGraphicsController graphics)
+        {
+            graphics.ClearViewport(Color.CornflowerBlue);
+
+            CurrentGameState.RenderFrame(graphics);
+        }
+
+        public void Update(TimeSpan deltaTime, InputEvents inputs)
+        {
+            CurrentGameState.Update(deltaTime, inputs);
         }
     }
 }
