@@ -4,11 +4,11 @@ before_build:
   - cmd: nuget restore
   
 build:
-  project: Junkbot.sln
+  project: src\Junkbot.sln
   verbosity: minimal
   
 after_build:
-  - cmd: 7z a Junkbot.zip %APPVEYOR_BUILD_FOLDER%\Junkbot\bin\Debug\*
+  - cmd: 7z a Junkbot.zip %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\*
   
 artifacts:
   - path: Junkbot.zip
