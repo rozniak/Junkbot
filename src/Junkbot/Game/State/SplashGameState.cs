@@ -32,18 +32,26 @@ namespace Junkbot.Game.State
         {
             Shell = new UxShell();
             
-            Shell.Components.Add(new JunkbotUxButton());
+            Shell.Components.Add(
+                new JunkbotUxButton()
+                {
+                    Location = new Point(139, 148),
+                    Size = new Size(116, 45),
+                    Text = "play"
+                }
+            );
         }
 
 
         public override void RenderFrame(IGraphicsController graphics)
         {
-            var sb = graphics.CreateSpriteBatch("menu-atlas");
+            ISpriteAtlas atlas = graphics.GetSpriteAtlas("menu");
+            ISpriteBatch sb    = graphics.CreateSpriteBatch(atlas);
 
             graphics.ClearViewport(Color.CornflowerBlue);
 
             sb.Draw(
-                "neo_title",
+                atlas.Sprites["neo_title"],
                 new Rectangle(
                     Point.Empty,
                     graphics.TargetResolution
