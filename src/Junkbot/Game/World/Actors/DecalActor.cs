@@ -1,4 +1,4 @@
-﻿using Junkbot.Game.World.Actors.Animation;
+﻿using Oddmatics.Rzxe.Game.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -51,9 +51,11 @@ namespace Junkbot.Game.World.Actors
         }
 
 
-        public void Update()
+        public void Update(
+            TimeSpan deltaTime
+        )
         {
-            Animation.Progress();
+            Animation.Progress(deltaTime);
         }
 
 

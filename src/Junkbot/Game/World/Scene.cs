@@ -1,7 +1,8 @@
 ﻿using Junkbot.Game.World.Actors;
-using Junkbot.Game.World.Actors.Animation;
 using Junkbot.Game.World.Level;
 using Junkbot.Helpers;
+using Oddmatics.Rzxe.Game.Actors.Animation;
+using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,17 +16,9 @@ namespace Junkbot.Game
     {
         public Size CellSize { get; private set; }
 
-        public IList<IActor> MobileActors
-        {
-            get { return _MobileActors.AsReadOnly(); }
-        }
-        private List<IActor> _MobileActors;
+        public IList<IActor> Actors { get; private set; }
 
-        public IList<BrickActor> ImmobileBricks
-        {
-            get { return _ImmobileBricks.AsReadOnly(); }
-        }
-        private List<BrickActor> _ImmobileBricks;
+        public IList<IActor> MobileActors { get; private set; }
 
         public Size Size { get; private set; }
 
@@ -37,18 +30,21 @@ namespace Junkbot.Game
 
         public Scene(JunkbotLevelData levelData, AnimationStore store)
         {
-            _MobileActors = new List<IActor>();
-            _ImmobileBricks = new List<BrickActor>();
-            AnimationStore = store;
-            PlayField = new IActor[levelData.Size.Width, levelData.Size.Height];
-            CellSize = levelData.Spacing;
-            Size = levelData.Size;
+            AnimationStore  = store;
+            PlayField       = new IActor[levelData.Size.Width, levelData.Size.Height];
+            CellSize        = levelData.Spacing;
+            Size            = levelData.Size;
 
+            // Read part/actor data in
+            //
+            var actors       = new List<IActor>();
+            var mobileActors = new List<IActor>();
+            
             foreach (JunkbotPartData part in levelData.Parts)
             {
-                IActor actor = null;
-                Color color = Color.FromName(levelData.Colors[part.ColorIndex]);
-                Point location = part.Location; // Subtract one to get zero-indexed location
+                IActor actor    = null;
+                Color  color    = Color.FromName(levelData.Colors[part.ColorIndex]);
+                Point  location = part.Location; // Subtract one to get zero-indexed location
 
                 switch (levelData.Types[part.TypeIndex])
                 {
@@ -84,27 +80,24 @@ namespace Junkbot.Game
                         Console.WriteLine("Unknown actor: " + levelData.Types[part.TypeIndex]);
                         continue;
                 }
-
+                
                 actor.Location = location.Subtract(new Point(1, actor.GridSize.Height));
                 UpdateActorGridPosition(actor, actor.Location);
-
+                
                 actor.LocationChanged += Actor_LocationChanged;
 
-                if (actor is BrickActor)
+                actors.Add(actor);
+
+                if (!(actor is BrickActor))
                 {
-                    var brick = (BrickActor)actor;
-
-                    _ImmobileBricks.InsertSorted((BrickActor)actor);
+                    mobileActors.Add(actor);
                 }
-                else
-                    _MobileActors.Add(actor);
             }
-        }
 
-        private void Actor_LocationChanged(object sender, LocationChangedEventArgs e)
-        {
-            UpdateActorGridPosition((IActor)sender, e.NewLocation, e.OldLocation);
+            Actors       = actors.AsReadOnly();
+            MobileActors = mobileActors.AsReadOnly();
         }
+        
 
         public bool CheckGridRegionFree(Rectangle region)
         {
@@ -121,12 +114,61 @@ namespace Junkbot.Game
 
             return true;
         }
-
-        public void UpdateActors()
+        
+        public void RenderFrame(
+            IGraphicsController graphics
+        )
         {
-            foreach (IActor actor in _MobileActors)
+            //
+            // FIXME: The below code is preliminary and subject to the overlapping
+            //        problem described in issue #15
+            //
+            
+            ISpriteBatch sb =
+                graphics.CreateSpriteBatch(
+                    graphics.GetSpriteAtlas("actors")
+                );
+            
+            for (int y = PlayField.GetLength(1) - 1; y >= 0; y--)
             {
-                actor.Update();
+                for (int x = 0; x < PlayField.GetLength(0); x++)
+                {
+                    IActor actor = PlayField[x, y];
+                    
+                    if (actor == null)
+                    {
+                        continue;
+                    }
+                    
+                    if (
+                        actor.Location.X != x ||
+                        actor.Location.Y != y
+                    )
+                    {
+                        continue;
+                    }
+
+                    // Draw now!
+                    //
+                    ActorAnimationFrame frame = actor.Animation.GetCurrentFrame();
+
+                    sb.Draw(
+                        sb.Atlas.Sprites[frame.SpriteName],
+                        actor.Location.Product(CellSize).Add(frame.Offset)
+                    );
+                }
+            }
+
+            sb.Finish();
+        }
+
+        public void UpdateActors(
+            TimeSpan deltaTime
+        )
+        {
+            foreach (IActor actor in MobileActors)
+            {
+                actor.Update(deltaTime);
             }
         }
 
@@ -191,12 +233,19 @@ namespace Junkbot.Game
 
             AssignGridCells(actor, newCells.ToArray());
         }
+        
+        
+        private void Actor_LocationChanged(object sender, LocationChangedEventArgs e)
+        {
+            UpdateActorGridPosition((IActor)sender, e.NewLocation, e.OldLocation);
+        }
 
 
         public static Scene FromLevel(string[] lvlFile, AnimationStore store)
         {
+            var decals    = new List<JunkbotDecalData>();
             var levelData = new JunkbotLevelData();
-            var parts = new List<JunkbotPartData>();
+            var parts     = new List<JunkbotPartData>();
 
             foreach (string line in lvlFile)
             {
@@ -205,17 +254,57 @@ namespace Junkbot.Game
                 string[] definition = line.Split('=');
 
                 if (definition.Length != 2)
+                {
                     continue; // Not a definition
+                }
 
                 // Retrieve key and value
                 //
-                string key = definition[0].ToLower();
+                string key   = definition[0].ToLower();
                 string value = definition[1];
 
                 switch (key)
                 {
+                    case "backdrop":
+                        levelData.Backdrop = value;
+                        break;
+                
                     case "colors":
                         levelData.Colors = value.ToLower().Split(',');
+                        break;
+                        
+                    case "decals":
+                        string[] decalsDef = value.Split(',');
+
+                        foreach (string def in decalsDef)
+                        {
+                            //
+                            // DECAL FORMAT:
+                            //     [0] - x position
+                            //     [1] - y position
+                            //     [2] - decal sprite name
+                            //
+                            string[] decalData = def.Split(';');
+                            
+                            if (decalData.Length != 3)
+                            {
+                                Console.WriteLine("Invalid decal data encountered");
+                                continue;
+                            }
+                            
+                            var decal = new JunkbotDecalData();
+                            
+                            decal.Location =
+                                new Point(
+                                    Convert.ToInt32(decalData[0]),
+                                    Convert.ToInt32(decalData[1])
+                                );
+                                
+                            decal.SpriteName = decalData[2];
+
+                            decals.Add(decal);
+                        }
+                        
                         break;
 
                     case "hint":
@@ -231,6 +320,15 @@ namespace Junkbot.Game
 
                         foreach (string def in partsDefs)
                         {
+                            //
+                            // PART FORMAT:
+                            //     [0] - x position
+                            //     [1] - y position
+                            //     [2] - type index
+                            //     [3] - colour index
+                            //     [4] - animation name
+                            //     [5] - (UNUSED ATM) ??? possibly whether to animate
+                            //
                             string[] partData = def.Split(';');
 
                             if (partData.Length != 7)
@@ -241,14 +339,16 @@ namespace Junkbot.Game
 
                             var part = new JunkbotPartData();
 
-                            part.Location = new Point(
-                                Convert.ToInt32(partData[0]),
-                                Convert.ToInt32(partData[1])
+                            part.Location =
+                                new Point(
+                                    Convert.ToInt32(partData[0]),
+                                    Convert.ToInt32(partData[1])
                                 );
-
-                            part.TypeIndex = (byte)(Convert.ToByte(partData[2]) - 1); // Minus one to convert to zero-indexed index
-
-                            part.ColorIndex = (byte)(Convert.ToByte(partData[3]) - 1); // Minus one to convert to zero-indexed index
+                                
+                            // Minus one to convert to zero-indexed index
+                            //
+                            part.TypeIndex  = (byte)(Convert.ToByte(partData[2]) - 1);
+                            part.ColorIndex = (byte)(Convert.ToByte(partData[3]) - 1);
 
                             part.AnimationName = partData[4].ToLower();
 
@@ -270,9 +370,10 @@ namespace Junkbot.Game
                             continue;
                         }
 
-                        levelData.Size = new Size(
-                            Convert.ToInt32(sizeCsv[0]),
-                            Convert.ToInt32(sizeCsv[1])
+                        levelData.Size =
+                            new Size(
+                                Convert.ToInt32(sizeCsv[0]),
+                                Convert.ToInt32(sizeCsv[1])
                             );
 
                         break;
@@ -286,9 +387,10 @@ namespace Junkbot.Game
                             continue;
                         }
 
-                        levelData.Spacing = new Size(
-                            Convert.ToInt32(spacingCsv[0]),
-                            Convert.ToInt32(spacingCsv[1])
+                        levelData.Spacing =
+                            new Size(
+                                Convert.ToInt32(spacingCsv[0]),
+                                Convert.ToInt32(spacingCsv[1])
                             );
 
                         break;
@@ -301,42 +403,21 @@ namespace Junkbot.Game
                         var types = new List<string>();
 
                         if (levelData.Types != null)
+                        {
                             types.AddRange(levelData.Types);
+                        }
 
                         types.AddRange(value.ToLower().Split(','));
 
                         levelData.Types = types.ToArray();
 
                         break;
-                    case "decals":
-                        string[] decalsDef = value.Split(','); //Splits up each decal in a row.
-
-                        foreach (string def in decalsDef)
-                        {
-                            string[] decalData = def.Split(';'); //first two define X and Y, then the Decal type
-                            if (decalData.Length != 3)
-                            {
-                                Console.WriteLine("Invalid decal data encountered");
-                                continue;
-                            }
-                            var decals = new JunkbotDecalData(); //a new struct for storing decal data: its sprite and position.
-                            decals.Location = new Point(
-                                Convert.ToInt32(decalData[0]),
-                                Convert.ToInt32(decalData[1])
-                                );
-                            decals.Decal = decalData[2]; //If I'm not mistaken, this will pass the relevant information from the level to the decal entry.
-                                                         //Now, all that remains is to get stuff sorted out.
-
-                        }
-                        break;
-                    case "backdrop":
-                        levelData.Backdrop = value;
-                        break;
                 }
             }
 
-            levelData.Parts = parts.AsReadOnly();
-
+            levelData.Decals = decals.AsReadOnly();
+            levelData.Parts  = parts.AsReadOnly();
+            
             return new Scene(levelData, store);
         }
     }

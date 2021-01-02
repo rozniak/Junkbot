@@ -1,4 +1,4 @@
-﻿using Junkbot.Game.World.Actors.Animation;
+﻿using Oddmatics.Rzxe.Game.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,8 +18,19 @@ namespace Junkbot.Game.World.Actors
 
         public AnimationServer Animation { get; private set; }
 
-        public IReadOnlyList<Rectangle> BoundingBoxes { get { return this._BoundingBoxes; } }
-        private IReadOnlyList<Rectangle> _BoundingBoxes;
+        public IReadOnlyList<Rectangle> BoundingBoxes
+        {
+            get
+            {
+                return new List<Rectangle>()
+                {
+                    new Rectangle(
+                        Point.Empty,
+                        GridSize
+                    )
+                }.AsReadOnly();
+            }
+        }
 
         public Color Color
         {
@@ -58,11 +69,9 @@ namespace Junkbot.Game.World.Actors
             get { return _Size; }
             set
             {
-                _Size = value;
-                _BoundingBoxes = new List<Rectangle>(new Rectangle[] {
-                    new Rectangle(0, 0, (int)value, 1)
-                }).AsReadOnly();
-                _GridSize = new Size((int)value, 1);
+                _Size     = value;
+                _GridSize = new Size((int) value, 1);
+                
                 UpdateBrickAnim();
             }
         }
@@ -75,7 +84,6 @@ namespace Junkbot.Game.World.Actors
         public BrickActor(AnimationStore store, Point location, Color color, BrickSize size)
         {
             Animation = new AnimationServer(store);
-            _BoundingBoxes = new List<Rectangle>().AsReadOnly();
             _Color = color;
             _GridSize = new Size((int)size, 1);
             Location = location;
@@ -85,9 +93,11 @@ namespace Junkbot.Game.World.Actors
         }
 
 
-        public void Update()
+        public void Update(
+            TimeSpan deltaTime
+        )
         {
-            Animation.Progress();
+            Animation.Progress(deltaTime);
         }
 
 

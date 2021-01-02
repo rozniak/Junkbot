@@ -1,4 +1,4 @@
-﻿using Junkbot.Game.World.Actors.Animation;
+﻿using Oddmatics.Rzxe.Game.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,6 +22,8 @@ namespace Junkbot.Game.World.Actors
         event LocationChangedEventHandler LocationChanged;
 
 
-        void Update();
+        void Update(
+            TimeSpan deltaTime
+        );
     }
 }

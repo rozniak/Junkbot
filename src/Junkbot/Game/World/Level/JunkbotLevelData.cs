@@ -15,8 +15,8 @@ namespace Junkbot.Game.World.Level
         public string Hint;
 
         // [background]
-        public string Backdrop;
-        public string[] Decals;
+        public string                  Backdrop;
+        public IList<JunkbotDecalData> Decals;
 
         // [playfield]
         public Size Size;
@@ -24,8 +24,8 @@ namespace Junkbot.Game.World.Level
         public byte Scale; // Is this even used?
 
         // [partslist]
-        public string[] Types;
-        public string[] Colors;
+        public string[]               Types;
+        public string[]               Colors;
         public IList<JunkbotPartData> Parts;
     }
 }

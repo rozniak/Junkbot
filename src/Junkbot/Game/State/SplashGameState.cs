@@ -23,21 +23,29 @@ namespace Junkbot.Game.State
         {
             get { return "SplashScreen"; }
         }
-
-
+        
+        
+        private Scene DemoScene { get; set; }
+        
         private UxShell Shell { get; set; }
-
-
-        public SplashGameState()
+        
+        
+        public SplashGameState(
+            JunkbotGame junkbot
+        )
         {
-            Shell = new UxShell();
+            DemoScene = Scene.FromLevel(
+                            junkbot.Levels.GetLevelSource(0, 0),
+                            junkbot.Animations
+                        );
+            Shell     = new UxShell();
             
             Shell.Components.Add(
                 new JunkbotUxButton()
                 {
                     Location = new Point(139, 148),
-                    Size = new Size(116, 45),
-                    Text = "play"
+                    Size     = new Size(116, 45),
+                    Text     = "play"
                 }
             );
         }
@@ -45,10 +53,16 @@ namespace Junkbot.Game.State
 
         public override void RenderFrame(IGraphicsController graphics)
         {
+            graphics.ClearViewport(Color.CornflowerBlue);
+            
+            // Render scene first, it's below everything
+            //
+            DemoScene.RenderFrame(graphics);
+            
+            // Render the splash next (FIXME: Separate into another method)
+            //
             ISpriteAtlas atlas = graphics.GetSpriteAtlas("menu");
             ISpriteBatch sb    = graphics.CreateSpriteBatch(atlas);
-
-            graphics.ClearViewport(Color.CornflowerBlue);
 
             sb.Draw(
                 atlas.Sprites["neo_title"],
@@ -58,9 +72,11 @@ namespace Junkbot.Game.State
                 ),
                 DrawMode.Stretch
             );
-
+            
             sb.Finish();
-
+            
+            // Render the UI on top of everything
+            //
             Shell.RenderFrame(graphics);
         }
 
@@ -70,6 +86,8 @@ namespace Junkbot.Game.State
             {
                 Shell.HandleMouseInputs(inputs);
             }
+
+            DemoScene.UpdateActors(deltaTime);
         }
     }
 }

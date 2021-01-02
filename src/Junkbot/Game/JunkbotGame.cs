@@ -1,5 +1,6 @@
 ﻿using Junkbot.Game.State;
-using Junkbot.Game.World.Actors.Animation;
+using Junkbot.Game.World.Level;
+using Oddmatics.Rzxe.Game.Actors.Animation;
 using Oddmatics.Rzxe.Game;
 using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing.Graphics;
@@ -13,28 +14,31 @@ namespace Junkbot.Game
     /// </summary>
     internal sealed class JunkbotGame : IGameEngine
     {
-        public IGameEngineParameters Parameters
-        {
-            get { return _Parameters; }
-        }
-        private IGameEngineParameters _Parameters;
+        public AnimationStore Animations { get; private set; }
 
         public GameState CurrentGameState
         {
             get;
             set;
         }
+        
+        public JunkbotLevelStore Levels { get; private set; }
+
+        public IGameEngineParameters Parameters { get; private set; }
 
 
         public JunkbotGame()
         {
-            _Parameters = new JunkbotEngineParameters();
+            Parameters = new JunkbotEngineParameters();
         }
 
 
         public void Begin()
         {
-            CurrentGameState = new SplashGameState();
+            Animations = new AnimationStore(Parameters);
+            Levels     = new JunkbotLevelStore(this);
+            
+            CurrentGameState = new SplashGameState(this);
         }
 
         public void RenderFrame(IGraphicsController graphics)

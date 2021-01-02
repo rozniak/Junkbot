@@ -9,9 +9,8 @@ namespace Junkbot.Game.World.Level
 {
     internal struct JunkbotDecalData
     {
-
         public Point Location;
 
-        public string Decal;
+        public string SpriteName;
     }
 }
