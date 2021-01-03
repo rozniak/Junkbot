@@ -781,6 +781,7 @@
     <ProjectReference Include="..\..\submodules\Rzxe\src\lib\Rzxe\Rzxe.csproj">
       <Project>{827dbec3-a270-4273-b69d-194a466bd35b}</Project>
       <Name>Rzxe</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -1,13 +1,18 @@
 version: 1.0.{build}
+image: Visual Studio 2019
 before_build:
   - cmd: git submodule update --init --recursive
-  - cmd: nuget restore
+  - cmd: nuget restore src\Junkbot.sln
   
 build:
   project: src\Junkbot.sln
   verbosity: minimal
   
 after_build:
+  - cmd: rmdir /s /q %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\natives32-glfw2
+  - cmd: rmdir /s /q %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\natives64-glfw2
+  - cmd: move %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\natives32-glfw3 %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\natives32
+  - cmd: move %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\natives64-glfw3 %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\natives64
   - cmd: 7z a Junkbot.zip %APPVEYOR_BUILD_FOLDER%\src\Junkbot\bin\Debug\*
   
 artifacts:
