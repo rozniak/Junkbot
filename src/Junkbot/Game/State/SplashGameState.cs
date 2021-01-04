@@ -1,35 +1,57 @@
-﻿using Junkbot.Game.Interface;
+﻿/**
+ * SplashGameState.cs - Splash Screen Game State
+ *
+ * This source-code is part of a clean-room recreation of Lego Junkbot by Oddmatics:
+ * <<https://www.oddmatics.uk>>
+ *
+ * Author(s): Rory Fewell <roryf@oddmatics.uk>
+ */
+
+using Junkbot.Game.Interface;
 using Oddmatics.Rzxe.Game;
 using Oddmatics.Rzxe.Game.Interface;
 using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Drawing;
-using System.IO;
 
 namespace Junkbot.Game.State
 {
     /// <summary>
-    /// Represents the main menu game state.
+    /// Represents the splash screen game state.
     /// </summary>
     internal class SplashGameState : GameState
     {
+        /// <inhertdoc />
         public override InputFocalMode FocalMode
         {
             get { return InputFocalMode.Always; }
         }
-
+        
+        /// <inhertdoc />
         public override string Name
         {
             get { return "SplashScreen"; }
         }
         
         
+        /// <summary>
+        /// The demo/loading level game scene.
+        /// </summary>
         private Scene DemoScene { get; set; }
         
+        /// <summary>
+        /// The user interface shell.
+        /// </summary>
         private UxShell Shell { get; set; }
         
         
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SplashGameState"/> class.
+        /// </summary>
+        /// <param name="junkbot">
+        /// The running Junkbot game instance.
+        /// </param>
         public SplashGameState(
             JunkbotGame junkbot
         )
@@ -49,9 +71,12 @@ namespace Junkbot.Game.State
                 }
             );
         }
-
-
-        public override void RenderFrame(IGraphicsController graphics)
+        
+        
+        /// <inheritdoc />
+        public override void RenderFrame(
+            IGraphicsController graphics
+        )
         {
             graphics.ClearViewport(Color.CornflowerBlue);
             
@@ -79,8 +104,12 @@ namespace Junkbot.Game.State
             //
             Shell.RenderFrame(graphics);
         }
-
-        public override void Update(TimeSpan deltaTime, InputEvents inputs)
+        
+        /// <inheritdoc />
+        public override void Update(
+            TimeSpan    deltaTime,
+            InputEvents inputs
+        )
         {
             if (inputs != null)
             {

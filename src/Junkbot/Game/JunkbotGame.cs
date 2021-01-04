@@ -1,4 +1,13 @@
-﻿using Junkbot.Game.State;
+﻿/**
+ * JunkbotGame.cs - Junkbot Game Engine
+ *
+ * This source-code is part of a clean-room recreation of Lego Junkbot by Oddmatics:
+ * <<https://www.oddmatics.uk>>
+ *
+ * Author(s): Rory Fewell <roryf@oddmatics.uk>
+ */
+
+using Junkbot.Game.State;
 using Junkbot.Game.World.Level;
 using Oddmatics.Rzxe.Game.Actors.Animation;
 using Oddmatics.Rzxe.Game;
@@ -10,29 +19,37 @@ using System.Drawing;
 namespace Junkbot.Game
 {
     /// <summary>
-    /// Represents the main Junkbot game engine.
+    /// Represents the Junkbot game engine.
     /// </summary>
     internal sealed class JunkbotGame : IGameEngine
     {
+        /// <summary>
+        /// Gets the animation store.
+        /// </summary>
         public AnimationStore Animations { get; private set; }
-
-        public GameState CurrentGameState
-        {
-            get;
-            set;
-        }
         
+        /// <inheritdoc />
+        public GameState CurrentGameState { get; set; }
+        
+        /// <summary>
+        /// Gets the level store.
+        /// </summary>
         public JunkbotLevelStore Levels { get; private set; }
-
+        
+        /// <inheritdoc />
         public IGameEngineParameters Parameters { get; private set; }
-
-
+        
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JunkbotGame"/>.
+        /// </summary>
         public JunkbotGame()
         {
             Parameters = new JunkbotEngineParameters();
         }
-
-
+        
+        
+        /// <inheritdoc />
         public void Begin()
         {
             Animations = new AnimationStore(Parameters);
@@ -40,15 +57,22 @@ namespace Junkbot.Game
             
             CurrentGameState = new SplashGameState(this);
         }
-
-        public void RenderFrame(IGraphicsController graphics)
+        
+        /// <inheritdoc />
+        public void RenderFrame(
+            IGraphicsController graphics
+        )
         {
             graphics.ClearViewport(Color.CornflowerBlue);
 
             CurrentGameState.RenderFrame(graphics);
         }
-
-        public void Update(TimeSpan deltaTime, InputEvents inputs)
+        
+        /// <inheritdoc />
+        public void Update(
+            TimeSpan    deltaTime,
+            InputEvents inputs
+        )
         {
             CurrentGameState.Update(deltaTime, inputs);
         }

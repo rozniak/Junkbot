@@ -1,4 +1,13 @@
-﻿using Junkbot.Game.World.Actors;
+﻿/**
+ * Scene.cs - Junkbot Game Scene/Playfield
+ *
+ * This source-code is part of a clean-room recreation of Lego Junkbot by Oddmatics:
+ * <<https://www.oddmatics.uk>>
+ *
+ * Author(s): Rory Fewell <roryf@oddmatics.uk>
+ */
+
+using Junkbot.Game.World.Actors;
 using Junkbot.Game.World.Level;
 using Junkbot.Helpers;
 using Oddmatics.Rzxe.Game.Actors.Animation;
@@ -6,29 +15,59 @@ using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Game
 {
-    internal class Scene
+    /// <summary>
+    /// Represents the main Junkbot game scene.
+    /// </summary>
+    internal sealed class Scene
     {
-        public Size CellSize { get; private set; }
-
+        /// <summary>
+        /// Gets the actors in the scene.
+        /// </summary>
         public IList<IActor> Actors { get; private set; }
-
+        
+        /// <summary>
+        /// Gets the size of a single cell in the grid.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        
+        /// <summary>
+        /// Gets the mobile actors in the scene.
+        /// </summary>
         public IList<IActor> MobileActors { get; private set; }
-
+        
+        /// <summary>
+        /// Gets the size of the scene.
+        /// </summary>
         public Size Size { get; private set; }
-
-
+        
+        
+        /// <summary>
+        /// The backing animation store.
+        /// </summary>
         private AnimationStore AnimationStore;
-
+        
+        /// <summary>
+        /// The playfield grid.
+        /// </summary>
         private IActor[,] PlayField;
-
-
-        public Scene(JunkbotLevelData levelData, AnimationStore store)
+        
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Scene"/> class.
+        /// </summary>
+        /// <param name="levelData">
+        /// The level data.
+        /// </param>
+        /// <param name="store">
+        /// The animation store.
+        /// </param>
+        public Scene(
+            JunkbotLevelData levelData,
+            AnimationStore   store
+        )
         {
             AnimationStore  = store;
             PlayField       = new IActor[levelData.Size.Width, levelData.Size.Height];
@@ -44,9 +83,10 @@ namespace Junkbot.Game
             {
                 IActor actor    = null;
                 Color  color    = Color.FromName(levelData.Colors[part.ColorIndex]);
-                Point  location = part.Location; // Subtract one to get zero-indexed location
+                Point  location = part.Location;
+                string partName = levelData.Types[part.TypeIndex];
 
-                switch (levelData.Types[part.TypeIndex])
+                switch (partName)
                 {
                     case "brick_01":
                         actor = new BrickActor(store, location, color, BrickSize.One);
@@ -73,14 +113,25 @@ namespace Junkbot.Game
                         break;
 
                     case "minifig":
-                        actor = new JunkbotActor(store, this, location, (part.AnimationName == "WALK_L" ? FacingDirection.Left : FacingDirection.Right));
+                        actor =
+                            new JunkbotActor(
+                                store,
+                                this,
+                                location,
+                                part.AnimationName == "WALK_L" ?
+                                  FacingDirection.Left :
+                                  FacingDirection.Right
+                            );
                         break;
 
                     default:
-                        Console.WriteLine("Unknown actor: " + levelData.Types[part.TypeIndex]);
-                        continue;
+                        throw new ArgumentException(
+                            $"Unknown actor '{partName}' in level data."
+                        );
                 }
                 
+                // Shift location offset to get true location
+                //
                 actor.Location = location.Subtract(new Point(1, actor.GridSize.Height));
                 UpdateActorGridPosition(actor, actor.Location);
                 
@@ -98,23 +149,129 @@ namespace Junkbot.Game
             MobileActors = mobileActors.AsReadOnly();
         }
         
-
-        public bool CheckGridRegionFree(Rectangle region)
+        
+        /// <summary>
+        /// Checks that a region of the grid is free.
+        /// </summary>
+        /// <param name="region">
+        /// The region to check.
+        /// </param>
+        /// <returns>
+        /// True if the region is free.
+        /// </returns>
+        public bool CheckGridRegionFree(
+            Rectangle region
+        )
         {
-            Point[] cellsToCheck = region.ExpandToGridCoordinates();
+            Point[] cellsToCheck = RectToGridCells(region);
 
             foreach (Point cell in cellsToCheck)
             {
-                if (cell.X < 0 || cell.X >= PlayField.GetLength(0) || cell.Y < 0 || cell.Y >= PlayField.GetLength(1))
+                if (
+                    cell.X < 0 || cell.X >= PlayField.GetLength(0) ||
+                    cell.Y < 0 || cell.Y >= PlayField.GetLength(1)
+                )
+                {
                     return false;
+                }
 
                 if (PlayField[cell.X, cell.Y] != null)
+                {
                     return false;
+                }
             }
 
             return true;
         }
-        
+
+        /// <summary>
+        /// Computes the location of the specified point to grid coordinates.
+        /// </summary>
+        /// <param name="origin">
+        /// The <see cref="Point"/> to convert.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Point"/> that represents the converted <see cref="Point"/>,
+        /// in grid coordinates.
+        /// </returns>
+        public Point PointToGrid(
+            Point origin
+        )
+        {
+            return origin.Reduce(CellSize);
+        }
+
+        /// <summary>
+        /// Computes the location and size of the specified rectangle to grid units.
+        /// </summary>
+        /// <param name="rect">
+        /// The <see cref="Rectangle"/> to convert.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Rectangle"/> that represents the converted
+        /// <see cref="Rectangle"/>, in grid cell units.
+        /// </returns>
+        public Rectangle PointToGrid(
+            Rectangle rect
+        )
+        {
+            return new Rectangle(
+                PointToGrid(rect.Location),
+                PointToGrid(rect.Size)
+            );
+        }
+
+        /// <summary>
+        /// Computes the size in grid units.
+        /// </summary>
+        /// <param name="subject">
+        /// The <see cref="Size"/> to convert.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Size"/> that represents the converted <see cref="Size"/>, in
+        /// in grid units.
+        /// </returns>
+        public Size PointToGrid(
+            Size subject
+        )
+        {
+            return subject.Reduce(CellSize);
+        }
+
+        /// <summary>
+        /// Converts a <see cref="Rectangle"/> region into individual points on the
+        /// grid that it covers.
+        /// </summary>
+        /// <param name="rect">
+        /// The <see cref="Rectangle"/> to convert.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Point[]"/> array that contains a <see cref="Point"/> for each
+        /// cell on the grid covered by the rectangle.
+        /// </returns>
+        public static Point[] RectToGridCells(
+            Rectangle rect
+        )
+        {
+            var coords = new List<Point>();
+
+            for (int h = 0; h < rect.Height; h++)
+            {
+                for (int w = 0; w < rect.Width; w++)
+                {
+                    coords.Add(new Point(rect.X + w, rect.Y + h));
+                }
+            }
+
+            return coords.ToArray();
+        }
+
+        /// <summary>
+        /// Renders the scene.
+        /// </summary>
+        /// <param name="graphics">
+        /// The graphics interface for the renderer.
+        /// </param>
         public void RenderFrame(
             IGraphicsController graphics
         )
@@ -161,7 +318,13 @@ namespace Junkbot.Game
 
             sb.Finish();
         }
-
+        
+        /// <summary>
+        /// Updates the actors.
+        /// </summary>
+        /// <param name="deltaTime">
+        /// The time difference since the last update.
+        /// </param>
         public void UpdateActors(
             TimeSpan deltaTime
         )
@@ -171,39 +334,95 @@ namespace Junkbot.Game
                 actor.Update(deltaTime);
             }
         }
-
-
-        private void AssertGridInSync(IActor actor, Point[] cellsToCheck)
+        
+        
+        /// <summary>
+        /// Asserts that the grid cells are in sync with the actor.
+        /// </summary>
+        /// <param name="actor">
+        /// The actor to verify.
+        /// </param>
+        /// <param name="cellsToCheck">
+        /// The cells to verify.
+        /// </param>
+        private void AssertGridInSync(
+            IActor  actor,
+            Point[] cellsToCheck
+        )
         {
             foreach (Point cell in cellsToCheck)
             {
                 if (PlayField[cell.X, cell.Y] != actor)
-                    throw new Exception("Scene.VerifyGridInSync: Grid out of sync!! X:" + cell.X.ToString() + ", Y:" + cell.Y.ToString());
+                {
+                    throw new Exception(
+                        $"Grid out of sync. X:{cell.X}, Y:{cell.Y}"
+                    );
+                }
             }
         }
-
-        private void AssignGridCells(IActor actor, Point[] cells)
+        
+        /// <summary>
+        /// Assigns the grid cells.
+        /// </summary>
+        /// <param name="actor">
+        /// The actor.
+        /// </param>
+        /// <param name="cells">
+        /// The cells to assign.
+        /// </param>
+        private void AssignGridCells(
+            IActor  actor,
+            Point[] cells
+        )
         {
             foreach (Point cell in cells)
             {
                 // Bomb out if the cell is not free (naughty actor!)
                 //
                 if (PlayField[cell.X, cell.Y] != null)
-                    throw new Exception("Scene.AssignGridCells: Attempted to assign an occupied cell!! X:" + cell.X.ToString() + ", Y:" + cell.Y.ToString());
+                {
+                    throw new Exception(
+                        $"Attempted to assign an occupied cell. X:{cell.X}, Y:{cell.Y}"
+                    );
+                }
 
                 PlayField[cell.X, cell.Y] = actor;
             }
         }
-
-        private void ClearGridCells(Point[] cells)
+        
+        /// <summary>
+        /// Clears the grid cells.
+        /// </summary>
+        /// <param name="cells">
+        /// The cells to clear.
+        /// </param>
+        private void ClearGridCells(
+            Point[] cells
+        )
         {
             foreach (Point cell in cells)
             {
                 PlayField[cell.X, cell.Y] = null;
             }
         }
-
-        private void UpdateActorGridPosition(IActor actor, Point newPos, Point? oldPos = null)
+        
+        /// <summary>
+        /// Updates the actor grid position.
+        /// </summary>
+        /// <param name="actor">
+        /// The actor.
+        /// </param>
+        /// <param name="newPos">
+        /// The new position.
+        /// </param>
+        /// <param name="oldPos">
+        /// The old position.
+        /// </param>
+        private void UpdateActorGridPosition(
+            IActor actor,
+            Point  newPos,
+            Point? oldPos = null
+        )
         {
             // If oldPos has been specified, verify and clear
             //
@@ -213,7 +432,15 @@ namespace Junkbot.Game
 
                 foreach (Rectangle rect in actor.BoundingBoxes)
                 {
-                    oldCells.AddRange((new Rectangle(((Point)oldPos).Add(rect.Location), rect.Size)).ExpandToGridCoordinates());
+                    var oldRect =
+                        new Rectangle(
+                            ((Point) oldPos).Add(rect.Location),
+                            rect.Size
+                        );
+                    
+                    oldCells.AddRange(
+                        RectToGridCells(oldRect)
+                    );
                 }
 
                 var oldCellsArr = oldCells.ToArray();
@@ -228,20 +455,53 @@ namespace Junkbot.Game
 
             foreach (Rectangle rect in actor.BoundingBoxes)
             {
-                newCells.AddRange((new Rectangle(newPos.Add(rect.Location), rect.Size)).ExpandToGridCoordinates());
+                var newRect =
+                    new Rectangle(
+                        newPos.Add(rect.Location),
+                        rect.Size
+                    );
+                
+                newCells.AddRange(
+                    RectToGridCells(newRect)
+                );
             }
 
             AssignGridCells(actor, newCells.ToArray());
         }
         
         
-        private void Actor_LocationChanged(object sender, LocationChangedEventArgs e)
+        /// <summary>
+        /// (Event) Handles when an actor has changed its location.
+        /// </summary>
+        private void Actor_LocationChanged(
+            object                   sender,
+            LocationChangedEventArgs e
+        )
         {
-            UpdateActorGridPosition((IActor)sender, e.NewLocation, e.OldLocation);
+            UpdateActorGridPosition(
+                (IActor) sender,
+                e.NewLocation,
+                e.OldLocation
+            );
         }
-
-
-        public static Scene FromLevel(string[] lvlFile, AnimationStore store)
+        
+        
+        /// <summary>
+        /// Creates a <see cref="Scene"/> from the specified file source.
+        /// </summary>
+        /// <param name="lvlFile">
+        /// The lines of the level file.
+        /// </param>
+        /// <param name="store">
+        /// The animation store.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Scene"/> this method creates.
+        /// </returns>
+        public static Scene FromLevel(
+            string[]       lvlFile,
+            AnimationStore store
+        )
         {
             var decals    = new List<JunkbotDecalData>();
             var levelData = new JunkbotLevelData();
@@ -278,6 +538,11 @@ namespace Junkbot.Game
 
                         foreach (string def in decalsDef)
                         {
+                            if (string.IsNullOrWhiteSpace(def))
+                            {
+                                continue;
+                            }
+
                             //
                             // DECAL FORMAT:
                             //     [0] - x position
@@ -288,8 +553,9 @@ namespace Junkbot.Game
                             
                             if (decalData.Length != 3)
                             {
-                                Console.WriteLine("Invalid decal data encountered");
-                                continue;
+                                throw new ArgumentException(
+                                    "Invalid decal data."
+                                );
                             }
                             
                             var decal = new JunkbotDecalData();
@@ -320,6 +586,11 @@ namespace Junkbot.Game
 
                         foreach (string def in partsDefs)
                         {
+                            if (string.IsNullOrWhiteSpace(def))
+                            {
+                                continue;
+                            }
+
                             //
                             // PART FORMAT:
                             //     [0] - x position
@@ -333,8 +604,9 @@ namespace Junkbot.Game
 
                             if (partData.Length != 7)
                             {
-                                Console.WriteLine("Invalid part data encountered");
-                                continue;
+                                throw new ArgumentException(
+                                    "Invalid part data encountered."
+                                );
                             }
 
                             var part = new JunkbotPartData();
@@ -366,8 +638,9 @@ namespace Junkbot.Game
 
                         if (sizeCsv.Length != 2)
                         {
-                            Console.WriteLine("Invalid playfield size encountered");
-                            continue;
+                            throw new ArgumentException(
+                                "Invalid playfield size."
+                            );
                         }
 
                         levelData.Size =
@@ -383,8 +656,9 @@ namespace Junkbot.Game
 
                         if (spacingCsv.Length != 2)
                         {
-                            Console.WriteLine("Invalid playfield spacing encountered");
-                            continue;
+                            throw new ArgumentException(
+                                "Invalid playfield spacing."
+                            );
                         }
 
                         levelData.Spacing =

@@ -1,16 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/**
+ * JunkbotDecalData.cs - Junkbot Level Decal Data
+ *
+ * This source-code is part of a clean-room recreation of Lego Junkbot by Oddmatics:
+ * <<https://www.oddmatics.uk>>
+ *
+ * Author(s): Rory Fewell <roryf@oddmatics.uk>
+ */
+
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Junkbot.Game.World.Level
 {
+    /// <summary>
+    /// Represets a data model for decal data within Junkbot levels.
+    /// </summary>
     internal struct JunkbotDecalData
     {
-        public Point Location;
-
-        public string SpriteName;
+        /// <summary>
+        /// Gets or sets the location of the decal.
+        /// </summary>
+        public Point Location { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the sprite name of the decal.
+        /// </summary>
+        public string SpriteName { get; set; }
     }
 }

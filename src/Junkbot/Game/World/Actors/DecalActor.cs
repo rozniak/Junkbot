@@ -1,4 +1,14 @@
-﻿using Oddmatics.Rzxe.Game.Actors.Animation;
+﻿//
+// TODO:
+//     Not sure if this class is needed... decals could simply be rendered as part of
+//     the level within Scene.cs.
+//
+//     Don't *think* we need an entire actor for decals seeing as they're just
+//     background stuff and logically are not actors.
+//
+
+
+using Oddmatics.Rzxe.Game.Actors.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

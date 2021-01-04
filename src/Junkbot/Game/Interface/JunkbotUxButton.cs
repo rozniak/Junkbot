@@ -1,16 +1,37 @@
-﻿using Oddmatics.Rzxe.Game.Interface;
+﻿/**
+ * JunkbotUxButton.cs - Junkbot Button UI Component
+ *
+ * This source-code is part of a clean-room recreation of Lego Junkbot by Oddmatics:
+ * <<https://www.oddmatics.uk>>
+ *
+ * Author(s): Rory Fewell <roryf@oddmatics.uk>
+ */
+
+using Oddmatics.Rzxe.Game.Interface;
 using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Drawing;
 
 namespace Junkbot.Game.Interface
 {
+    /// <summary>
+    /// Represents a Junkbot themed button user interface component.
+    /// </summary>
     public class JunkbotUxButton : UxComponent
     {
+        /// <summary>
+        /// The border metrics for the content area.
+        /// </summary>
+        /// <remarks>
+        /// These metrics differ slightly from the slices used to draw the border
+        /// itself as the border contents a small bit of the content area due to the
+        /// shape of it.
+        /// </remarks>
         private static readonly EdgeMetrics ContentAreaBorder =
             new EdgeMetrics(3, 8, 5, 1);
-    
-    
+        
+        
+        /// <inheritdoc />
         public override Point Location
         {
             get { return _Location; }
@@ -22,6 +43,7 @@ namespace Junkbot.Game.Interface
         }
         private Point _Location;
         
+        /// <inheritdoc />
         public override Size Size
         {
             get { return _Size; }
@@ -32,7 +54,8 @@ namespace Junkbot.Game.Interface
             }
         }
         private Size _Size;
-
+        
+        /// <inheritdoc />
         public string Text
         {
             get { return _Text; }
@@ -51,16 +74,32 @@ namespace Junkbot.Game.Interface
         }
         private string _Text;
         
-
+        
+        /// <summary>
+        /// The value that indicates whether the state of the button is dirty and
+        /// the sprite batches must be regenerated on the next render call.
+        /// </summary>
         private bool Dirty { get; set; }
         
+        /// <summary>
+        /// The font resource used for the button text.
+        /// </summary>
         private IFont Font { get; set; }
         
+        /// <summary>
+        /// The sub-batch used to draw the button in its hover state.
+        /// </summary>
         private ISubSpriteBatch StateHoverSpriteBatch { get; set; }
         
+        /// <summary>
+        /// The sub-batch used to draw the button in its normal state.
+        /// </summary>
         private ISubSpriteBatch StateNormalSpriteBatch { get; set; }
-
-
+        
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JunkbotUxButton"/> class.
+        /// </summary>
         public JunkbotUxButton()
         {
             _Location = new Point(64, 64);
@@ -71,7 +110,10 @@ namespace Junkbot.Game.Interface
         }
         
         
-        public override void Render(ISpriteBatch sb)
+        /// <inheritdoc />
+        public override void Render(
+            ISpriteBatch sb
+        )
         {
             if (Dirty)
             {
