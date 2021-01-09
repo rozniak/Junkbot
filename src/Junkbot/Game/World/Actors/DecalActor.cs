@@ -8,7 +8,7 @@
 //
 
 
-using Oddmatics.Rzxe.Game.Actors.Animation;
+using Oddmatics.Rzxe.Game.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,7 +29,7 @@ namespace Junkbot.Game.World.Actors
             "sign_keepout", "sign_no_access", "sign_skull", "sign_voltage", "terminal_1dial", "terminal_chart", "terminal_circuit", "window", "word_danger", "word_level"
         }).AsReadOnly();
 //All valid decal strings, as read directly from the level file.
-        public AnimationServer Animation { get; private set; }
+        public SpriteAnimationServer Animation { get; private set; }
         public string Decal
         {
             get { return _Decal; }
@@ -54,9 +54,9 @@ namespace Junkbot.Game.World.Actors
 
         
 
-        public DecalActor(AnimationStore store, Point location)
+        public DecalActor(SpriteAnimationStore store, Point location)
         {
-            Animation = new AnimationServer(store);
+            Animation = new SpriteAnimationServer(store);
             Location = location;
         }
 

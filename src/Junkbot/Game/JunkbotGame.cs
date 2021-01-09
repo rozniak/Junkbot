@@ -9,7 +9,7 @@
 
 using Junkbot.Game.State;
 using Junkbot.Game.World.Level;
-using Oddmatics.Rzxe.Game.Actors.Animation;
+using Oddmatics.Rzxe.Game.Animation;
 using Oddmatics.Rzxe.Game;
 using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing.Graphics;
@@ -26,7 +26,7 @@ namespace Junkbot.Game
         /// <summary>
         /// Gets the animation store.
         /// </summary>
-        public AnimationStore Animations { get; private set; }
+        public SpriteAnimationStore Animations { get; private set; }
         
         /// <inheritdoc />
         public GameState CurrentGameState { get; set; }
@@ -52,7 +52,7 @@ namespace Junkbot.Game
         /// <inheritdoc />
         public void Begin()
         {
-            Animations = new AnimationStore(Parameters);
+            Animations = new SpriteAnimationStore(Parameters);
             Levels     = new JunkbotLevelStore(this);
             
             CurrentGameState = new SplashGameState(this);

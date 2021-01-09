@@ -7,7 +7,7 @@
  * Author(s): Rory Fewell <roryf@oddmatics.uk>
  */
 
-using Oddmatics.Rzxe.Game.Actors.Animation;
+using Oddmatics.Rzxe.Game.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,7 +17,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Represents a Lego brick in Junkbot.
     /// </summary>
-    internal class BrickActor : IActor
+    internal class BrickActor : JunkbotActorBase
     {
         /// <summary>
         /// The valid colors for Lego bricks in Junkbot.
@@ -32,10 +32,25 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <inheritdoc />
-        public AnimationServer Animation { get; private set; }
-        
-        /// <inheritdoc />
-        public IList<Rectangle> BoundingBoxes { get; private set; }
+        public override IList<Rectangle> BoundingBoxes
+        {
+            get
+            {
+                if (_BoundingBoxes == null)
+                {
+                    var box =
+                        new List<Rectangle>()
+                        {
+                            new Rectangle(Point.Empty, GridSize)
+                        };
+
+                    _BoundingBoxes = box.AsReadOnly();
+                }
+
+                return _BoundingBoxes;
+            }
+        }
+        private IList<Rectangle> _BoundingBoxes;
 
         /// <summary>
         /// Gets the color of the brick.
@@ -52,21 +67,14 @@ namespace Junkbot.Game.World.Actors
         private Color _Color;
         
         /// <inheritdoc />
-        public Size GridSize
+        public override Size GridSize
         {
-            get { return _GridSize; }
-            private set
+            get
             {
-                _GridSize = value;
-                
-                BoundingBoxes =
-                    new List<Rectangle>()
-                    {
-                        new Rectangle(
-                            Point.Empty,
-                            GridSize
-                        )
-                    }.AsReadOnly();
+                return new Size(
+                    (int) Size,
+                    1
+                );
             }
         }
         private Size _GridSize;
@@ -79,24 +87,6 @@ namespace Junkbot.Game.World.Actors
             get { return _Color.Name == "Gray"; }
         }
         
-        /// <inheritdoc />
-        public Point Location
-        {
-            get { return _Location; }
-            set
-            {
-                Point oldLocation = _Location;
-                _Location = value;
-
-                LocationChanged?.Invoke(
-                    this,
-                    new LocationChangedEventArgs(oldLocation, value)
-                );
-            }
-        }
-        private Point _Location;
-        
-        
         /// <summary>
         /// Gets the size of the brick.
         /// </summary>
@@ -106,16 +96,10 @@ namespace Junkbot.Game.World.Actors
             set
             {
                 _Size    = value;
-                GridSize = new Size((int) value, 1);
-                
                 UpdateBrickAnim();
             }
         }
         private BrickSize _Size;
-        
-        
-        /// <inheritdoc />
-        public event LocationChangedEventHandler LocationChanged;
         
         
         /// <summary>
@@ -134,14 +118,13 @@ namespace Junkbot.Game.World.Actors
         /// The size of the brick.
         /// </param>
         public BrickActor(
-            AnimationStore store,
-            Point          location,
-            Color          color,
-            BrickSize      size
+            SpriteAnimationStore store,
+            Point                location,
+            Color                color,
+            BrickSize            size
         )
         {
-            Animation = new AnimationServer(store);
-            GridSize  = new Size((int) size, 1);
+            Animation = new SpriteAnimationServer(store);
             Location  = location;
             _Color    = color;
             _Size     = size;
@@ -151,7 +134,24 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <inheritdoc />
-        public void Update(
+        public override SpriteAnimationSpriteData GetSpriteAtCell(
+            int x,
+            int y
+        )
+        {
+            if (
+                x != Location.X ||
+                y != Location.Y
+            )
+            {
+                return null;
+            }
+
+            return Animation.GetCurrentFrame().Sprites[0];
+        }
+
+        /// <inheritdoc />
+        public override void Update(
             TimeSpan deltaTime
         )
         {

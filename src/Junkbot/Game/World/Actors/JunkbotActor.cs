@@ -8,7 +8,7 @@
  */
 
 using Junkbot.Helpers;
-using Oddmatics.Rzxe.Game.Actors.Animation;
+using Oddmatics.Rzxe.Game.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,7 +18,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Represents Junkbot himself.
     /// </summary>
-    internal class JunkbotActor : IActor
+    internal class JunkbotActor : JunkbotActorBase
     {
         /// <summary>
         /// The bounding boxes of Junkbot.
@@ -37,36 +37,18 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <inheritdoc />
-        public AnimationServer Animation { get; private set; }
-        
-        /// <inheritdoc />
-        public IList<Rectangle> BoundingBoxes
+        public override IList<Rectangle> BoundingBoxes
         {
             get { return JunkbotBoundingBoxes; }
         }
         
         /// <inheritdoc />
-        public Point Location
+        public override Size GridSize
         {
-            get { return _Location; }
-            set
-            {
-                Point oldLocation = _Location;
-                
-                _Location = value;
-
-                LocationChanged?.Invoke(
-                    this,
-                    new LocationChangedEventArgs(oldLocation, value)
-                );
-            }
+            get { return JunkbotGridSize; }
         }
-        private Point _Location;
-        
-        /// <inheritdoc />
-        public Size GridSize { get { return JunkbotGridSize; } }
-        
-        
+
+
         /// <summary>
         /// The direction that Junkbot is currently facing.
         /// </summary>
@@ -76,10 +58,6 @@ namespace Junkbot.Game.World.Actors
         /// The scene.
         /// </summary>
         private Scene Scene;
-        
-        
-        /// <inhertdoc />
-        public event LocationChangedEventHandler LocationChanged;
         
         
         /// <summary>
@@ -98,13 +76,13 @@ namespace Junkbot.Game.World.Actors
         /// The initial direction for Junkbot to face.
         /// </param>
         public JunkbotActor(
-            AnimationStore  store,
-            Scene           scene,
-            Point           location,
-            FacingDirection initialDirection
+            SpriteAnimationStore store,
+            Scene                scene,
+            Point                location,
+            FacingDirection      initialDirection
         )
         {
-            Animation = new AnimationServer(store);
+            Animation = new SpriteAnimationServer(store);
             Location  = location;
             Scene     = scene;
             
@@ -113,7 +91,7 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <inheritdoc />
-        public void Update(
+        public override void Update(
             TimeSpan deltaTime
         )
         {

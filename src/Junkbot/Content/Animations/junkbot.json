@@ -4,56 +4,216 @@
     "tick-size": 66.667,
     "frames": [
       {
-        "sprite": "minifig_walk_l_1",
-        "ticks": 3,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_1_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_1_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_1_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_1_s1",
+            "offset": "0, 5"
+          }
+        ],
+        "ticks": 3
       },
       {
-        "sprite": "minifig_walk_l_2",
-        "ticks": 1,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_2_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_2_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_2_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_2_s1",
+            "offset": "11, 5"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_l_3",
-        "ticks": 1,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_3_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_3_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_3_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_3_s1",
+            "offset": "2, 5"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_l_4",
-        "ticks": 1,
-        "offset": "-6, -11"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_4_s4",
+            "offset": "-6, 3"
+          },
+          {
+            "sprite": "minifig_walk_l_4_s3",
+            "offset": "-6, 8"
+          },
+          {
+            "sprite": "minifig_walk_l_4_s2",
+            "offset": "-6, -4"
+          },
+          {
+            "sprite": "minifig_walk_l_4_s1",
+            "offset": "-6, -4"
+          }
+        ],
+        "ticks": 1
       },
       {
         "emit_event": true,
-        "sprite": "minifig_walk_l_5",
-        "ticks": 1,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_5_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_5_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_5_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_5_s1",
+            "offset": "14, 5"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_l_6",
-        "ticks": 3,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_6_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_6_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_6_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_6_s1",
+            "offset": "14, 5"
+          }
+        ],
+        "ticks": 3
       },
       {
-        "sprite": "minifig_walk_l_7",
-        "ticks": 1,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_7_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_7_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_7_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_7_s1",
+            "offset": "14, 5"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_l_8",
-        "ticks": 1,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_8_s4",
+            "offset": "2, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_8_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_8_s2",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_8_s1",
+            "offset": "5, 10"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_l_9",
-        "ticks": 1,
-        "offset": "-5, -11"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_9_s4",
+            "offset": "-5, 3"
+          },
+          {
+            "sprite": "minifig_walk_l_9_s3",
+            "offset": "-5, 9"
+          },
+          {
+            "sprite": "minifig_walk_l_9_s2",
+            "offset": "-5, -4"
+          },
+          {
+            "sprite": "minifig_walk_l_9_s1",
+            "offset": "-5, -4"
+          }
+        ],
+        "ticks": 1
       },
       {
         "emit_event": true,
-        "sprite": "minifig_walk_l_10",
-        "ticks": 1,
-        "offset": "0, -9"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_l_10_s4",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_l_10_s3",
+            "offset": "0, 8"
+          },
+          {
+            "sprite": "minifig_walk_l_10_s2",
+            "offset": "0, 8"
+          },
+          {
+            "sprite": "minifig_walk_l_10_s1",
+            "offset": "0, 8"
+          }
+        ],
+        "ticks": 1
       }
     ]
   },
@@ -62,57 +222,217 @@
     "tick-size": 66.667,
     "frames": [
       {
-        "sprite": "minifig_walk_r_1",
-        "ticks": 3,
-        "offset": "0, -7"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_1_s4",
+            "offset": "0, 7"
+          },
+          {
+            "sprite": "minifig_walk_r_1_s3",
+            "offset": "0, 6"
+          },
+          {
+            "sprite": "minifig_walk_r_1_s2",
+            "offset": "0, 4"
+          },
+          {
+            "sprite": "minifig_walk_r_1_s1",
+            "offset": "0, 14"
+          }
+        ],
+        "ticks": 3
       },
       {
-        "sprite": "minifig_walk_r_2",
-        "ticks": 1,
-        "offset": "0, -7"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_2_s4",
+            "offset": "0, 7"
+          },
+          {
+            "sprite": "minifig_walk_r_2_s3",
+            "offset": "0, 6"
+          },
+          {
+            "sprite": "minifig_walk_r_2_s2",
+            "offset": "0, 4"
+          },
+          {
+            "sprite": "minifig_walk_r_2_s1",
+            "offset": "0, 14"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_r_3",
-        "ticks": 1,
-        "offset": "0, -8"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_3_s4",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_r_3_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_r_3_s2",
+            "offset": "0, 3"
+          },
+          {
+            "sprite": "minifig_walk_r_3_s1",
+            "offset": "0, 13"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_r_4",
-        "ticks": 1,
-        "offset": "-3, -10"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_4_s4",
+            "offset": "5, 3"
+          },
+          {
+            "sprite": "minifig_walk_r_4_s3",
+            "offset": "5, 1"
+          },
+          {
+            "sprite": "minifig_walk_r_4_s2",
+            "offset": "1, -2"
+          },
+          {
+            "sprite": "minifig_walk_r_4_s1",
+            "offset": "-3, 11"
+          }
+        ],
+        "ticks": 1
       },
       {
         "emit_event": true,
-        "sprite": "minifig_walk_r_5",
-        "ticks": 1,
-        "offset": "-8, -7"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_5_s4",
+            "offset": "0, 7"
+          },
+          {
+            "sprite": "minifig_walk_r_5_s3",
+            "offset": "0, 6"
+          },
+          {
+            "sprite": "minifig_walk_r_5_s2",
+            "offset": "-4, 4"
+          },
+          {
+            "sprite": "minifig_walk_r_5_s1",
+            "offset": "-8, 10"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_r_6",
-        "ticks": 3,
-        "offset": "0, -7"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_6_s4",
+            "offset": "0, 7"
+          },
+          {
+            "sprite": "minifig_walk_r_6_s3",
+            "offset": "0, 6"
+          },
+          {
+            "sprite": "minifig_walk_r_6_s2",
+            "offset": "0, 4"
+          },
+          {
+            "sprite": "minifig_walk_r_6_s1",
+            "offset": "0, 14"
+          }
+        ],
+        "ticks": 3
       },
       {
-        "sprite": "minifig_walk_r_7",
-        "ticks": 1,
-        "offset": "0, -7"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_7_s4",
+            "offset": "0, 7"
+          },
+          {
+            "sprite": "minifig_walk_r_7_s3",
+            "offset": "0, 6"
+          },
+          {
+            "sprite": "minifig_walk_r_7_s2",
+            "offset": "0, 4"
+          },
+          {
+            "sprite": "minifig_walk_r_7_s1",
+            "offset": "0, 14"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_r_8",
-        "ticks": 1,
-        "offset": "0, -8"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_8_s4",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_r_8_s3",
+            "offset": "0, 5"
+          },
+          {
+            "sprite": "minifig_walk_r_8_s2",
+            "offset": "0, 3"
+          },
+          {
+            "sprite": "minifig_walk_r_8_s1",
+            "offset": "0, 7"
+          }
+        ],
+        "ticks": 1
       },
       {
-        "sprite": "minifig_walk_r_9",
-        "ticks": 1,
-        "offset": "-7, -8"
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_9_s4",
+            "offset": "4, 8"
+          },
+          {
+            "sprite": "minifig_walk_r_9_s3",
+            "offset": "4, 6"
+          },
+          {
+            "sprite": "minifig_walk_r_9_s2",
+            "offset": "-3, 2"
+          },
+          {
+            "sprite": "minifig_walk_r_9_s1",
+            "offset": "-7, 9"
+          }
+        ],
+        "ticks": 1
       },
       {
         "emit_event": true,
-        "sprite": "minifig_walk_r_10",
-        "ticks": 1,
-        "offset": "-11, -7"
-      }
+        "sprites": [
+          {
+            "sprite": "minifig_walk_r_10_s4",
+            "offset": "0, 10"
+          },
+          {
+            "sprite": "minifig_walk_r_10_s3",
+            "offset": "0, 9"
+          },
+          {
+            "sprite": "minifig_walk_r_10_s2",
+            "offset": "-7, 7"
+          },
+          {
+            "sprite": "minifig_walk_r_10_s1",
+            "offset": "-11, 10"
+          }
+        ],
+        "ticks": 1
+      },
     ]
   }
 ]

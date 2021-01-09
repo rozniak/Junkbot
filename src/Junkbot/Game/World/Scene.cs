@@ -10,7 +10,7 @@
 using Junkbot.Game.World.Actors;
 using Junkbot.Game.World.Level;
 using Junkbot.Helpers;
-using Oddmatics.Rzxe.Game.Actors.Animation;
+using Oddmatics.Rzxe.Game.Animation;
 using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace Junkbot.Game
         /// <summary>
         /// Gets the actors in the scene.
         /// </summary>
-        public IList<IActor> Actors { get; private set; }
+        public IList<JunkbotActorBase> Actors { get; private set; }
         
         /// <summary>
         /// Gets the size of a single cell in the grid.
@@ -36,7 +36,7 @@ namespace Junkbot.Game
         /// <summary>
         /// Gets the mobile actors in the scene.
         /// </summary>
-        public IList<IActor> MobileActors { get; private set; }
+        public IList<JunkbotActorBase> MobileActors { get; private set; }
         
         /// <summary>
         /// Gets the size of the scene.
@@ -47,12 +47,12 @@ namespace Junkbot.Game
         /// <summary>
         /// The backing animation store.
         /// </summary>
-        private AnimationStore AnimationStore;
+        private SpriteAnimationStore AnimationStore;
         
         /// <summary>
         /// The playfield grid.
         /// </summary>
-        private IActor[,] PlayField;
+        private JunkbotActorBase[,] PlayField;
         
         
         /// <summary>
@@ -65,26 +65,31 @@ namespace Junkbot.Game
         /// The animation store.
         /// </param>
         public Scene(
-            JunkbotLevelData levelData,
-            AnimationStore   store
+            JunkbotLevelData     levelData,
+            SpriteAnimationStore store
         )
         {
             AnimationStore  = store;
-            PlayField       = new IActor[levelData.Size.Width, levelData.Size.Height];
+            PlayField       = new JunkbotActorBase[
+                                  levelData.Size.Width,
+                                  levelData.Size.Height
+                              ];
             CellSize        = levelData.Spacing;
             Size            = levelData.Size;
 
             // Read part/actor data in
             //
-            var actors       = new List<IActor>();
-            var mobileActors = new List<IActor>();
+            var actors       = new List<JunkbotActorBase>();
+            var mobileActors = new List<JunkbotActorBase>();
             
             foreach (JunkbotPartData part in levelData.Parts)
             {
-                IActor actor    = null;
-                Color  color    = Color.FromName(levelData.Colors[part.ColorIndex]);
-                Point  location = part.Location;
-                string partName = levelData.Types[part.TypeIndex];
+                JunkbotActorBase actor    = null;
+                Color            color    = Color.FromName(
+                                                levelData.Colors[part.ColorIndex]
+                                            );
+                Point            location = part.Location;
+                string           partName = levelData.Types[part.TypeIndex];
 
                 switch (partName)
                 {
@@ -118,7 +123,7 @@ namespace Junkbot.Game
                                 store,
                                 this,
                                 location,
-                                part.AnimationName == "WALK_L" ?
+                                part.AnimationName == "walk_l" ?
                                   FacingDirection.Left :
                                   FacingDirection.Right
                             );
@@ -276,11 +281,6 @@ namespace Junkbot.Game
             IGraphicsController graphics
         )
         {
-            //
-            // FIXME: The below code is preliminary and subject to the overlapping
-            //        problem described in issue #15
-            //
-            
             ISpriteBatch sb =
                 graphics.CreateSpriteBatch(
                     graphics.GetSpriteAtlas("actors")
@@ -290,28 +290,27 @@ namespace Junkbot.Game
             {
                 for (int x = 0; x < PlayField.GetLength(0); x++)
                 {
-                    IActor actor = PlayField[x, y];
+                    JunkbotActorBase actor = PlayField[x, y];
                     
                     if (actor == null)
-                    {
-                        continue;
-                    }
-                    
-                    if (
-                        actor.Location.X != x ||
-                        actor.Location.Y != y
-                    )
                     {
                         continue;
                     }
 
                     // Draw now!
                     //
-                    ActorAnimationFrame frame = actor.Animation.GetCurrentFrame();
+                    SpriteAnimationSpriteData spriteData =
+                        actor.GetSpriteAtCell(x, y);
+                    
+                    if (spriteData == null)
+                    {
+                        continue;
+                    }
 
                     sb.Draw(
-                        sb.Atlas.Sprites[frame.SpriteName],
-                        actor.Location.Product(CellSize).Add(frame.Offset)
+                        sb.Atlas.Sprites[spriteData.SpriteName],
+                        (new Point(x, y)).Product(CellSize)
+                                         .Add(spriteData.Offset)
                     );
                 }
             }
@@ -329,7 +328,7 @@ namespace Junkbot.Game
             TimeSpan deltaTime
         )
         {
-            foreach (IActor actor in MobileActors)
+            foreach (JunkbotActorBase actor in MobileActors)
             {
                 actor.Update(deltaTime);
             }
@@ -346,8 +345,8 @@ namespace Junkbot.Game
         /// The cells to verify.
         /// </param>
         private void AssertGridInSync(
-            IActor  actor,
-            Point[] cellsToCheck
+            JunkbotActorBase actor,
+            Point[]          cellsToCheck
         )
         {
             foreach (Point cell in cellsToCheck)
@@ -371,8 +370,8 @@ namespace Junkbot.Game
         /// The cells to assign.
         /// </param>
         private void AssignGridCells(
-            IActor  actor,
-            Point[] cells
+            JunkbotActorBase actor,
+            Point[]          cells
         )
         {
             foreach (Point cell in cells)
@@ -419,9 +418,9 @@ namespace Junkbot.Game
         /// The old position.
         /// </param>
         private void UpdateActorGridPosition(
-            IActor actor,
-            Point  newPos,
-            Point? oldPos = null
+            JunkbotActorBase actor,
+            Point            newPos,
+            Point?           oldPos = null
         )
         {
             // If oldPos has been specified, verify and clear
@@ -479,7 +478,7 @@ namespace Junkbot.Game
         )
         {
             UpdateActorGridPosition(
-                (IActor) sender,
+                (JunkbotActorBase) sender,
                 e.NewLocation,
                 e.OldLocation
             );
@@ -499,8 +498,8 @@ namespace Junkbot.Game
         /// The <see cref="Scene"/> this method creates.
         /// </returns>
         public static Scene FromLevel(
-            string[]       lvlFile,
-            AnimationStore store
+            string[]             lvlFile,
+            SpriteAnimationStore store
         )
         {
             var decals    = new List<JunkbotDecalData>();

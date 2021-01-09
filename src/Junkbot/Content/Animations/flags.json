@@ -4,9 +4,21 @@
     "tick-size": 0,
     "frames": [
       {
-        "sprite": "bin",
-        "ticks": 0,
-        "offset": "4, 3"
+        "sprites": [
+          {
+            "sprite": "flag_s1",
+            "offset": "0, 0"
+          },
+          {
+            "sprite": "flag_s2",
+            "offset": "0, 0"
+          },
+          {
+            "sprite": "flag_s3",
+            "offset": "0, 0"
+          }
+        ],
+        "ticks": 0
       }
     ]
   }

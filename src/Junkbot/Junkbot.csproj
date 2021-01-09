@@ -98,7 +98,7 @@
     <Compile Include="Game\World\Actors\BrickSize.cs" />
     <Compile Include="Game\World\Actors\DecalActor.cs" />
     <Compile Include="Game\World\Actors\FacingDirection.cs" />
-    <Compile Include="Game\World\Actors\IActor.cs" />
+    <Compile Include="Game\World\Actors\JunkbotActorBase.cs" />
     <Compile Include="Game\World\Actors\JunkbotActor.cs" />
     <Compile Include="Game\World\Actors\LocationChangedEvent.cs" />
     <Compile Include="Game\World\Level\JunkbotDecalData.cs" />
@@ -120,9 +120,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Animations\legoparts.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Atlas\actors-atlas.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menu-atlas.json">
@@ -196,11 +193,14 @@
     <None Include="Content\Atlas\shell-atlas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\actors-atlas.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\actors-atlas.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Atlas\actors-atlas.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\Atlas\menu-atlas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
