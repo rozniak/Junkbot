@@ -27,34 +27,34 @@ namespace Junkbot.Game
         /// Gets the actors in the scene.
         /// </summary>
         public IList<JunkbotActorBase> Actors { get; private set; }
-        
+
         /// <summary>
         /// Gets the size of a single cell in the grid.
         /// </summary>
         public Size CellSize { get; private set; }
-        
+
         /// <summary>
         /// Gets the mobile actors in the scene.
         /// </summary>
         public IList<JunkbotActorBase> MobileActors { get; private set; }
-        
+
         /// <summary>
         /// Gets the size of the scene.
         /// </summary>
         public Size Size { get; private set; }
-        
-        
+
+
         /// <summary>
         /// The backing animation store.
         /// </summary>
         private SpriteAnimationStore AnimationStore;
-        
+
         /// <summary>
         /// The playfield grid.
         /// </summary>
         private JunkbotActorBase[,] PlayField;
-        
-        
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene"/> class.
         /// </summary>
@@ -65,31 +65,31 @@ namespace Junkbot.Game
         /// The animation store.
         /// </param>
         public Scene(
-            JunkbotLevelData     levelData,
+            JunkbotLevelData levelData,
             SpriteAnimationStore store
         )
         {
-            AnimationStore  = store;
-            PlayField       = new JunkbotActorBase[
+            AnimationStore = store;
+            PlayField = new JunkbotActorBase[
                                   levelData.Size.Width,
                                   levelData.Size.Height
                               ];
-            CellSize        = levelData.Spacing;
-            Size            = levelData.Size;
+            CellSize = levelData.Spacing;
+            Size = levelData.Size;
 
             // Read part/actor data in
             //
-            var actors       = new List<JunkbotActorBase>();
+            var actors = new List<JunkbotActorBase>();
             var mobileActors = new List<JunkbotActorBase>();
-            
+
             foreach (JunkbotPartData part in levelData.Parts)
             {
-                JunkbotActorBase actor    = null;
-                Color            color    = Color.FromName(
+                JunkbotActorBase actor = null;
+                Color color = Color.FromName(
                                                 levelData.Colors[part.ColorIndex]
                                             );
-                Point            location = part.Location;
-                string           partName = levelData.Types[part.TypeIndex];
+                Point location = part.Location;
+                string partName = levelData.Types[part.TypeIndex];
 
                 switch (partName)
                 {
@@ -134,12 +134,12 @@ namespace Junkbot.Game
                             $"Unknown actor '{partName}' in level data."
                         );
                 }
-                
+
                 // Shift location offset to get true location
                 //
                 actor.Location = location.Subtract(new Point(1, actor.GridSize.Height));
                 UpdateActorGridPosition(actor, actor.Location);
-                
+
                 actor.LocationChanged += Actor_LocationChanged;
 
                 actors.Add(actor);
@@ -150,22 +150,27 @@ namespace Junkbot.Game
                 }
             }
 
-            Actors       = actors.AsReadOnly();
+            Actors = actors.AsReadOnly();
             MobileActors = mobileActors.AsReadOnly();
         }
-        
-        
+
+
         /// <summary>
-        /// Checks that a region of the grid is free.
+        /// Checks that a region of the grid should be considered free by the
+        /// specified actor.
         /// </summary>
+        /// <param name="actor">
+        /// The actor requesting the check.
+        /// </param>
         /// <param name="region">
         /// The region to check.
         /// </param>
         /// <returns>
         /// True if the region is free.
         /// </returns>
-        public bool CheckGridRegionFree(
-            Rectangle region
+        public bool CheckGridRegionFreeForActor(
+            JunkbotActorBase actor,
+            Rectangle        region
         )
         {
             Point[] cellsToCheck = RectToGridCells(region);
@@ -180,13 +185,52 @@ namespace Junkbot.Game
                     return false;
                 }
 
-                if (PlayField[cell.X, cell.Y] != null)
+                if (
+                    PlayField[cell.X, cell.Y] != null &&
+                    PlayField[cell.X, cell.Y] != actor
+                )
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+        
+        /// <summary>
+        /// Gets the actor at the specified cell.
+        /// </summary>
+        /// <param name="cell">
+        /// The cell.
+        /// </param>
+        /// <returns>
+        /// The actor that occupies the cell, null if the cell is free.
+        /// </returns>
+        public JunkbotActorBase GetActorAtCell(
+            Point cell
+        )
+        {
+            return GetActorAtCell(cell.X, cell.Y);
+        }
+
+        /// <summary>
+        /// Gets the actor at the specified cell.
+        /// </summary>
+        /// <param name="x">
+        /// The x-coordinate of the cell.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate of the cell.
+        /// </param>
+        /// <returns>
+        /// The actor that occupies the cell, null if the cell is free.
+        /// </returns>
+        public JunkbotActorBase GetActorAtCell(
+            int x,
+            int y
+        )
+        {
+            return PlayField[x, y];
         }
 
         /// <summary>
@@ -427,45 +471,22 @@ namespace Junkbot.Game
             //
             if (oldPos != null)
             {
-                var oldCells = new List<Point>();
+                var oldBounds = new Rectangle(
+                                    (Point) oldPos,
+                                    actor.GridSize
+                                );
+                var oldCells  = RectToGridCells(oldBounds);
 
-                foreach (Rectangle rect in actor.BoundingBoxes)
-                {
-                    var oldRect =
-                        new Rectangle(
-                            ((Point) oldPos).Add(rect.Location),
-                            rect.Size
-                        );
-                    
-                    oldCells.AddRange(
-                        RectToGridCells(oldRect)
-                    );
-                }
-
-                var oldCellsArr = oldCells.ToArray();
-
-                AssertGridInSync(actor, oldCellsArr);
-                ClearGridCells(oldCellsArr);
+                AssertGridInSync(actor, oldCells);
+                ClearGridCells(oldCells);
             }
 
             // Update new cells
             //
-            var newCells = new List<Point>();
-
-            foreach (Rectangle rect in actor.BoundingBoxes)
-            {
-                var newRect =
-                    new Rectangle(
-                        newPos.Add(rect.Location),
-                        rect.Size
-                    );
-                
-                newCells.AddRange(
-                    RectToGridCells(newRect)
-                );
-            }
-
-            AssignGridCells(actor, newCells.ToArray());
+            AssignGridCells(
+                actor,
+                RectToGridCells(actor.BoundingBox)
+            );
         }
         
         

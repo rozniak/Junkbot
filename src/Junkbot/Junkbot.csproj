@@ -110,6 +110,8 @@
     <Compile Include="Game\Interface\JunkbotUxButton.cs" />
     <Compile Include="Game\World\Level\JunkbotLevelStore.cs" />
     <Compile Include="Game\World\Level\JunkbotLevelListing.cs" />
+    <Compile Include="Game\World\Actors\JunkbotBrainState.cs" />
+    <Compile Include="Helpers\RectangleHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

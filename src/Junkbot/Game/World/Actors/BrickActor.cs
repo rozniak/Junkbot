@@ -32,25 +32,13 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <inheritdoc />
-        public override IList<Rectangle> BoundingBoxes
+        public override Rectangle BoundingBox
         {
             get
             {
-                if (_BoundingBoxes == null)
-                {
-                    var box =
-                        new List<Rectangle>()
-                        {
-                            new Rectangle(Point.Empty, GridSize)
-                        };
-
-                    _BoundingBoxes = box.AsReadOnly();
-                }
-
-                return _BoundingBoxes;
+                return new Rectangle(Location, GridSize);
             }
         }
-        private IList<Rectangle> _BoundingBoxes;
 
         /// <summary>
         /// Gets the color of the brick.

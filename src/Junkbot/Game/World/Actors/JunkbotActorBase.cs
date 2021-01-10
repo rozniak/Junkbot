@@ -9,7 +9,6 @@
 
 using Oddmatics.Rzxe.Game.Animation;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace Junkbot.Game.World.Actors
@@ -25,9 +24,9 @@ namespace Junkbot.Game.World.Actors
         public SpriteAnimationServer Animation { get; protected set; }
         
         /// <summary>
-        /// Gets the bounding boxes of the actor.
+        /// Gets the bounding box of the actor.
         /// </summary>
-        public abstract IList<Rectangle> BoundingBoxes { get; }
+        public abstract Rectangle BoundingBox { get; }
         
         /// <summary>
         /// Gets the size of the actor on the grid.

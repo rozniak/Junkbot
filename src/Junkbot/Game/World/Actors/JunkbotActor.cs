@@ -21,14 +21,10 @@ namespace Junkbot.Game.World.Actors
     internal class JunkbotActor : JunkbotActorBase
     {
         /// <summary>
-        /// The bounding boxes of Junkbot.
+        /// The bounding box of Junkbot.
         /// </summary>
-        private static readonly IList<Rectangle> JunkbotBoundingBoxes =
-            new List<Rectangle>(new Rectangle[]
-            {
-                new Rectangle(0, 0, 2, 3),
-                new Rectangle(0, 3, 1, 1)
-            }).AsReadOnly();
+        private static readonly Rectangle JunkbotBoundingBox =
+            new Rectangle(0, 0, 2, 4);
     
         /// <summary>
         /// The size of the Junkbot on the grid.
@@ -37,9 +33,12 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <inheritdoc />
-        public override IList<Rectangle> BoundingBoxes
+        public override Rectangle BoundingBox
         {
-            get { return JunkbotBoundingBoxes; }
+            get
+            {
+                return JunkbotBoundingBox.Add(Location);
+            }
         }
         
         /// <inheritdoc />
@@ -47,19 +46,30 @@ namespace Junkbot.Game.World.Actors
         {
             get { return JunkbotGridSize; }
         }
-
+        
+        
+        /// <summary>
+        /// The current brain state.
+        /// </summary>
+        private JunkbotBrainState BrainState { get; set; }
+        
+        /// <summary>
+        /// The delegate method that executes the next step for the current brain
+        /// state.
+        /// </summary>
+        private Action BrainStateCallback { get; set; }
 
         /// <summary>
         /// The direction that Junkbot is currently facing.
         /// </summary>
-        private FacingDirection FacingDirection;
-        
+        private FacingDirection FacingDirection { get; set; }
+
         /// <summary>
         /// The scene.
         /// </summary>
-        private Scene Scene;
-        
-        
+        private Scene Scene { get; set; }
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JunkbotActor"/> class.
         /// </summary>
@@ -85,8 +95,11 @@ namespace Junkbot.Game.World.Actors
             Animation = new SpriteAnimationServer(store);
             Location  = location;
             Scene     = scene;
-            
-            SetWalkingDirection(initialDirection);
+
+            SetBrainState(
+                JunkbotBrainState.Walking,
+                initialDirection
+            );
         }
         
         
@@ -100,17 +113,19 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <summary>
-        /// Sets Junkbot's walking direction.
+        /// Sets Junkbot's brain state.
         /// </summary>
-        /// <param name="direction">
-        /// The new direction.
+        /// <param name="state">
+        /// The new state.
         /// </param>
-        private void SetWalkingDirection(
-            FacingDirection direction
+        /// <param name="direction">
+        /// The direction Junkbot should face.
+        /// </param>
+        private void SetBrainState(
+            JunkbotBrainState state,
+            FacingDirection   direction = FacingDirection.Right
         )
         {
-            FacingDirection = direction;
-
             // Detach event if necessary
             //
             try
@@ -119,97 +134,134 @@ namespace Junkbot.Game.World.Actors
             }
             catch (Exception ex) { }
 
-            switch (direction)
+            FacingDirection = direction;
+            
+            switch (state)
             {
-                case FacingDirection.Left:
-                    Animation.GoToAndPlay("junkbot-walk-left");
+                case JunkbotBrainState.Walking:
+                    BrainStateCallback = StepWalkingState;
+                    
+                    switch (direction)
+                    {
+                        case FacingDirection.Left:
+                            Animation.GoToAndPlay("junkbot-walk-left");
+                            break;
+                        
+                        case FacingDirection.Right:
+                            Animation.GoToAndPlay("junkbot-walk-right");
+                            break;
+
+                        default:
+                            throw new ArgumentException(
+                                "Invalid direction for Junkbot."
+                            );
+                    }
+
                     break;
-                
-                case FacingDirection.Right:
-                    Animation.GoToAndPlay("junkbot-walk-right");
-                    break;
-                
+
                 default:
-                    throw new Exception("Invalid direction provided.");
+                    throw new NotImplementedException(
+                        "State not implemented."
+                    );
             }
 
             Animation.SpecialFrameEntered += Animation_SpecialFrameEntered;
         }
         
-        
         /// <summary>
-        /// (Event) 
+        /// Turns Junkbot around to begin walking the opposite direction.
+        /// </summary>
+        private void TurnAround()
+        {
+            SetBrainState(
+                JunkbotBrainState.Walking,
+                FacingDirection == FacingDirection.Left ?
+                    FacingDirection.Right :
+                    FacingDirection.Left
+            );
+        }
+
+
+        /// <summary>
+        /// Executes the next step in the walking state.
+        /// </summary>
+        private void StepWalkingState()
+        {
+            Rectangle rect = BoundingBox;
+            int       x    = FacingDirection == FacingDirection.Left ?
+                               Location.X + 1 :
+                               Location.X;
+            int       y    = Location.Y + GridSize.Height;
+            int       dx   = FacingDirection == FacingDirection.Left ? -1 : 1;
+            int       newX = x + dx;
+            
+            // Check floor elevation in front of Junkbot
+            //
+            // We need to check in this order:
+            //     - 1 space forwards and up (stair upwards), free space above
+            //     - 2 spaces fowards (no elevation - Junkbot can skip 1 cell gaps)
+            //     - 1 space forwards (no elevation)
+            //     - 1 space forwards and down (stair downwards)
+            //
+            JunkbotActorBase floor = null;
+            int              dy    = 0;
+            
+            if ((floor = Scene.GetActorAtCell(x + (dx * 2), y - 1)) != null)
+            {
+                dy = -1;
+            }
+            else
+            {
+                if (
+                    (floor = Scene.GetActorAtCell(newX, y))         != null ||
+                    (floor = Scene.GetActorAtCell(x + (dx * 2), y)) != null
+                )
+                {
+                    dy = 0;
+                }
+                else
+                {
+                    if ((floor = Scene.GetActorAtCell(newX, y + 1)) != null)
+                    {
+                        dy = 1;
+                    }
+                    else
+                    {
+                        // No floor ahead... turn around!
+                        //
+                        TurnAround();
+                    }
+                }
+            }
+            
+            if (!(floor is BrickActor))
+            {
+                TurnAround();
+            }
+
+            // Check target is free
+            //
+            Rectangle targetBounds = rect.Add(new Point(dx, dy));
+            
+            if (!Scene.CheckGridRegionFreeForActor(this, targetBounds))
+            {
+                TurnAround();
+                return;
+            }
+            
+            Location = targetBounds.Location;
+        }
+
+
+        /// <summary>
+        /// (Event) Handles when an event is emitted as part of an animation.
         /// </summary>
         private void Animation_SpecialFrameEntered(
             object    sender,
             EventArgs e
         )
         {
-            int dx = FacingDirection == FacingDirection.Left ? -1 : 1;
-            
-            // Check if we should turn around now
-            //
-            var checkBounds =
-                new Rectangle(
-                    Location.Add(new Point(dx * GridSize.Width, 0)),
-                    new Size(1, 3)
-                );
-            
-            if (!Scene.CheckGridRegionFree(checkBounds))
-            {
-                Location = Location.Add(new Point(dx, 0));
-
-                SetWalkingDirection(
-                    FacingDirection == FacingDirection.Left ?
-                                         FacingDirection.Right :
-                                         FacingDirection.Left
-                );
-                
-                return;
-            }
-            
-            // Space is free, now check whether we need an elevation change, prioritize
-            // upwards changes
-            //
-            var floorUpCheckBounds =
-                new Rectangle(
-                    Location.Add(new Point(dx, GridSize.Height - 1)),
-                    new Size(1, 1)
-                );
-            
-            if (!Scene.CheckGridRegionFree(floorUpCheckBounds))
-            {
-                // Elevate up
-                //
-                Location = Location.Add(new Point(dx, -1));
-                return;
-            }
-            
-            // Now check downwards
-            //
-            var floorMissingCheckBounds =
-                new Rectangle(
-                    Location.Add(new Point(dx, GridSize.Height)),
-                    new Size(1, 1)
-                );
-            
-            var floorDownCheckBounds =
-                new Rectangle(
-                    Location.Add(new Point(dx, GridSize.Height + 1)),
-                    new Size(1, 1)
-                );
-            
-            if (
-                Scene.CheckGridRegionFree(floorMissingCheckBounds) &&
-                !Scene.CheckGridRegionFree(floorDownCheckBounds))
-            {
-                // Lower junkbot
-                //
-                Location = Location.Add(new Point(dx, 1));
-                return;
-            }
-            
-            Location = Location.Add(new Point(dx, 0));
+            BrainStateCallback();
         }
     }
 }
