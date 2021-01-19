@@ -37,5 +37,11 @@ namespace Junkbot.Game
                 );
             }
         }
+        
+        /// <inheritdoc />
+        public string GameTitle
+        {
+            get { return "Junkbot"; }
+        }
     }
 }

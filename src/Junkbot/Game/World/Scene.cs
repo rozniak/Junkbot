@@ -15,6 +15,7 @@ using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 
 namespace Junkbot.Game
 {
@@ -65,67 +66,67 @@ namespace Junkbot.Game
         /// The animation store.
         /// </param>
         public Scene(
-            JunkbotLevelData levelData,
-            SpriteAnimationStore store
+            JunkbotLevelData     levelData,
+            SpriteAnimationStore store = null
         )
         {
             AnimationStore = store;
-            PlayField = new JunkbotActorBase[
+            PlayField      = new JunkbotActorBase[
                                   levelData.Size.Width,
                                   levelData.Size.Height
                               ];
-            CellSize = levelData.Spacing;
-            Size = levelData.Size;
+            CellSize       = levelData.Spacing;
+            Size           = levelData.Size;
 
             // Read part/actor data in
             //
-            var actors = new List<JunkbotActorBase>();
+            var actors       = new List<JunkbotActorBase>();
             var mobileActors = new List<JunkbotActorBase>();
 
             foreach (JunkbotPartData part in levelData.Parts)
             {
-                JunkbotActorBase actor = null;
-                Color color = Color.FromName(
+                JunkbotActorBase actor    = null;
+                Color            color    = Color.FromName(
                                                 levelData.Colors[part.ColorIndex]
                                             );
-                Point location = part.Location;
-                string partName = levelData.Types[part.TypeIndex];
+                Point            location = part.Location;
+                string           partName = levelData.Types[part.TypeIndex];
 
                 switch (partName)
                 {
                     case "brick_01":
-                        actor = new BrickActor(store, location, color, BrickSize.One);
+                        actor = new BrickActor(location, color, BrickSize.One, store);
                         break;
 
                     case "brick_02":
-                        actor = new BrickActor(store, location, color, BrickSize.Two);
+                        actor = new BrickActor(location, color, BrickSize.Two, store);
                         break;
 
                     case "brick_03":
-                        actor = new BrickActor(store, location, color, BrickSize.Three);
+                        actor = new BrickActor(location, color, BrickSize.Three, store);
                         break;
 
                     case "brick_04":
-                        actor = new BrickActor(store, location, color, BrickSize.Four);
+                        actor = new BrickActor(location, color, BrickSize.Four, store);
                         break;
 
                     case "brick_06":
-                        actor = new BrickActor(store, location, color, BrickSize.Six);
+                        actor = new BrickActor(location, color, BrickSize.Six, store);
                         break;
 
                     case "brick_08":
-                        actor = new BrickActor(store, location, color, BrickSize.Eight);
+                        actor = new BrickActor(location, color, BrickSize.Eight, store);
                         break;
 
                     case "minifig":
                         actor =
                             new JunkbotActor(
-                                store,
                                 this,
                                 location,
                                 part.AnimationName == "walk_l" ?
                                   FacingDirection.Left :
-                                  FacingDirection.Right
+                                  FacingDirection.Right,
+                                store
                             );
                         break;
 
@@ -150,7 +151,7 @@ namespace Junkbot.Game
                 }
             }
 
-            Actors = actors.AsReadOnly();
+            Actors       = actors.AsReadOnly();
             MobileActors = mobileActors.AsReadOnly();
         }
 
@@ -354,7 +355,8 @@ namespace Junkbot.Game
                     sb.Draw(
                         sb.Atlas.Sprites[spriteData.SpriteName],
                         (new Point(x, y)).Product(CellSize)
-                                         .Add(spriteData.Offset)
+                                         .Add(spriteData.Offset),
+                        Color.Transparent
                     );
                 }
             }
@@ -507,6 +509,26 @@ namespace Junkbot.Game
         
         
         /// <summary>
+        /// Creates a <see cref="Scene"/> from the level at the specified path.
+        /// </summary>
+        /// <param name="lvlFilePath">
+        /// The filepath of the level.
+        /// </param>
+        /// <param name="store">
+        /// The <see cref="Scene"/> this method creates.
+        /// </param>
+        public static Scene FromLevel(
+            string               lvlFilePath,
+            SpriteAnimationStore store = null
+        )
+        {
+            return FromLevel(
+                File.ReadAllLines(lvlFilePath),
+                store
+            );
+        }
+
+        /// <summary>
         /// Creates a <see cref="Scene"/> from the specified file source.
         /// </summary>
         /// <param name="lvlFile">
@@ -520,7 +542,7 @@ namespace Junkbot.Game
         /// </returns>
         public static Scene FromLevel(
             string[]             lvlFile,
-            SpriteAnimationStore store
+            SpriteAnimationStore store = null
         )
         {
             var decals    = new List<JunkbotDecalData>();

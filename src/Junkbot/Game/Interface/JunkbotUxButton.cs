@@ -143,13 +143,15 @@ namespace Junkbot.Game.Interface
                     new Rectangle(
                         Location,
                         Size
-                    )
+                    ),
+                    Color.Transparent
                 );
 
                 subSb.DrawString(
                     Text,
                     Font,
-                    new Point(finalX, finalY)
+                    new Point(finalX, finalY),
+                    Color.Black
                 );
 
                 StateNormalSpriteBatch = subSb;

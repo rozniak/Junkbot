@@ -93,9 +93,6 @@ namespace Junkbot.Game.World.Actors
         /// <summary>
         /// Initializes a new instance of the <see cref="BrickActor"/> class.
         /// </summary>
-        /// <param name="store">
-        /// The animation store.
-        /// </param>
         /// <param name="location">
         /// The location.
         /// </param>
@@ -105,19 +102,26 @@ namespace Junkbot.Game.World.Actors
         /// <param name="size">
         /// The size of the brick.
         /// </param>
+        /// <param name="store">
+        /// The animation store.
+        /// </param>
         public BrickActor(
-            SpriteAnimationStore store,
             Point                location,
             Color                color,
-            BrickSize            size
+            BrickSize            size,
+            SpriteAnimationStore store = null
         )
         {
-            Animation = new SpriteAnimationServer(store);
             Location  = location;
             _Color    = color;
             _Size     = size;
-
-            UpdateBrickAnim();
+            
+            if (store != null)
+            {
+                Animation = new SpriteAnimationServer(store);
+                
+                UpdateBrickAnim();
+            }
         }
         
         

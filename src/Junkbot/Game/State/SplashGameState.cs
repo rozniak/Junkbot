@@ -95,7 +95,8 @@ namespace Junkbot.Game.State
                     Point.Empty,
                     graphics.TargetResolution
                 ),
-                DrawMode.Stretch
+                DrawMode.Stretch,
+                Color.Transparent
             );
             
             sb.Finish();

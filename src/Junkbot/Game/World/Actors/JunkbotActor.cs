@@ -73,9 +73,6 @@ namespace Junkbot.Game.World.Actors
         /// <summary>
         /// Initializes a new instance of the <see cref="JunkbotActor"/> class.
         /// </summary>
-        /// <param name="store">
-        /// The animation store.
-        /// </param>
         /// <param name="scene">
         /// The scene.
         /// </param>
@@ -85,21 +82,32 @@ namespace Junkbot.Game.World.Actors
         /// <param name="initialDirection">
         /// The initial direction for Junkbot to face.
         /// </param>
+        /// <param name="store">
+        /// The animation store.
+        /// </param>
         public JunkbotActor(
-            SpriteAnimationStore store,
             Scene                scene,
             Point                location,
-            FacingDirection      initialDirection
+            FacingDirection      initialDirection,
+            SpriteAnimationStore store = null
         )
         {
-            Animation = new SpriteAnimationServer(store);
             Location  = location;
             Scene     = scene;
-
-            SetBrainState(
-                JunkbotBrainState.Walking,
-                initialDirection
-            );
+            
+            if (store != null)
+            {
+                Animation = new SpriteAnimationServer(store);
+                
+                SetBrainState(
+                    JunkbotBrainState.Walking,
+                    initialDirection
+                );
+            }
+            else
+            {
+                FacingDirection = initialDirection;
+            }
         }
         
         
