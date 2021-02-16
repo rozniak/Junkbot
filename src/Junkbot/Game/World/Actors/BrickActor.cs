@@ -17,7 +17,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Represents a Lego brick in Junkbot.
     /// </summary>
-    internal class BrickActor : JunkbotActorBase
+    public sealed class BrickActor : JunkbotActorBase
     {
         /// <summary>
         /// The valid colors for Lego bricks in Junkbot.
@@ -53,7 +53,7 @@ namespace Junkbot.Game.World.Actors
             }
         }
         private Color _Color;
-        
+
         /// <inheritdoc />
         public override Size GridSize
         {
@@ -91,8 +91,17 @@ namespace Junkbot.Game.World.Actors
         
         
         /// <summary>
+        /// The scene.
+        /// </summary>
+        private Scene Scene { get; set; }
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BrickActor"/> class.
         /// </summary>
+        /// <param name="scene">
+        /// The scene.
+        /// </param>
         /// <param name="location">
         /// The location.
         /// </param>
@@ -106,15 +115,16 @@ namespace Junkbot.Game.World.Actors
         /// The animation store.
         /// </param>
         public BrickActor(
+            Scene                scene,
             Point                location,
             Color                color,
             BrickSize            size,
             SpriteAnimationStore store = null
         )
         {
-            Location  = location;
-            _Color    = color;
-            _Size     = size;
+            Location                 = location;
+            _Color                   = color;
+            _Size                    = size;
             
             if (store != null)
             {
@@ -150,7 +160,7 @@ namespace Junkbot.Game.World.Actors
             Animation.Progress(deltaTime);
         }
         
-        
+
         /// <summary>
         /// Updates the brick animation.
         /// </summary>

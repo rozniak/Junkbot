@@ -7,10 +7,9 @@
  * Author(s): Rory Fewell <roryf@oddmatics.uk>
  */
 
-using Junkbot.Helpers;
+using Oddmatics.Rzxe.Extensions;
 using Oddmatics.Rzxe.Game.Animation;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace Junkbot.Game.World.Actors
@@ -18,7 +17,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Represents Junkbot himself.
     /// </summary>
-    internal class JunkbotActor : JunkbotActorBase
+    public sealed class JunkbotActor : JunkbotActorBase
     {
         /// <summary>
         /// The bounding box of Junkbot.
@@ -37,7 +36,7 @@ namespace Junkbot.Game.World.Actors
         {
             get
             {
-                return JunkbotBoundingBox.Add(Location);
+                return JunkbotBoundingBox.AddOffset(Location);
             }
         }
         
@@ -249,7 +248,7 @@ namespace Junkbot.Game.World.Actors
 
             // Check target is free
             //
-            Rectangle targetBounds = rect.Add(new Point(dx, dy));
+            Rectangle targetBounds = rect.AddOffset(new Point(dx, dy));
             
             if (!Scene.CheckGridRegionFreeForActor(this, targetBounds))
             {

@@ -12,7 +12,7 @@ namespace Junkbot.Game.World.Level
     /// <summary>
     /// Represents the level listing for a Junkbot game.
     /// </summary>
-    internal struct JunkbotLevelListing
+    public struct JunkbotLevelListing
     {
         /// <summary>
         /// Gets or sets the level names.

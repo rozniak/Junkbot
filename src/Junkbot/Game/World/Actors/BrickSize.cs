@@ -12,7 +12,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Specifies constants defining possible sizes for Lego bricks.
     /// </summary>
-    internal enum BrickSize
+    public enum BrickSize
     {
         /// <summary>
         /// The brick is one cell wide.

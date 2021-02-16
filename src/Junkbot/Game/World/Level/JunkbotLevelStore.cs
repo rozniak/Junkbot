@@ -18,7 +18,7 @@ namespace Junkbot.Game.World.Level
     /// <summary>
     /// Represents a store for Junkbot levels.
     /// </summary>
-    internal sealed class JunkbotLevelStore
+    public sealed class JunkbotLevelStore
     {
         /// <summary>
         /// The running Junkbot game instance.

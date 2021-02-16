@@ -1,0 +1,22 @@
+﻿[info]
+title=Map Test Stairs
+par=0
+hint=Test level for testing brick map code, the stairs case.
+
+[background]
+backdrop=bkg1
+decals=
+
+[playfield]
+size=35,22
+spacing=15,18
+scale=1
+
+[partslist]
+types=BRICK_08,BRICK_02,BRICK_03,BRICK_04,BRICK_01
+types=BRICK_06,MINIFIG
+colors=GRAY,blue,green,red,yellow
+parts=22;19;1;1;0;0;0
+parts=21;20;4;3;0;0;0,18;19;4;5;0;0;0,17;18;3;2;0;0;0
+parts=15;17;3;2;0;0;0,13;16;3;2;0;0;0,10;15;4;5;0;0;0
+parts=8;14;4;3;0;0;0,6;13;3;2;0;0;0

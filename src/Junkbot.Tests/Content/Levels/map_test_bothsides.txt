@@ -1,0 +1,22 @@
+﻿[info]
+title=Map Test Connections
+par=0
+hint=Test level for testing brick map code, the connected bricks on both top and bottom case.
+
+[background]
+backdrop=bkg2
+decals=
+
+[playfield]
+size=35,22
+spacing=15,18
+scale=1
+
+[partslist]
+types=BRICK_08,BRICK_02,BRICK_03,BRICK_04,BRICK_01
+types=BRICK_06,MINIFIG
+colors=GRAY,blue,green,red,yellow
+parts=22;17;1;1;0;0;0,4;17;1;1;0;0;0
+parts=11;16;2;5;0;0;0,12;17;4;5;0;0;0,15;18;2;5;0;0;0
+parts=20;16;4;5;0;0;0,18;17;3;5;0;0;0,20;18;3;5;0;0;0
+parts=16;19;1;5;0;0;0,8;19;1;5;0;0;0,7;18;4;5;0;0;0

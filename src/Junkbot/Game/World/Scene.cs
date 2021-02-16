@@ -9,25 +9,37 @@
 
 using Junkbot.Game.World.Actors;
 using Junkbot.Game.World.Level;
-using Junkbot.Helpers;
+using Junkbot.Game.World.Logic;
+using Oddmatics.Rzxe.Extensions;
 using Oddmatics.Rzxe.Game.Animation;
+using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace Junkbot.Game
 {
     /// <summary>
     /// Represents the main Junkbot game scene.
     /// </summary>
-    internal sealed class Scene
+    public sealed class Scene
     {
         /// <summary>
         /// Gets the actors in the scene.
         /// </summary>
-        public IList<JunkbotActorBase> Actors { get; private set; }
+        public IList<JunkbotActorBase> Actors
+        {
+            get { return _Actors.AsReadOnly(); }
+        }
+        private List<JunkbotActorBase> _Actors;
+        
+        /// <summary>
+        /// Gets the brick picker controller.
+        /// </summary>
+        public BrickPicker BrickPicker { get; private set; }
 
         /// <summary>
         /// Gets the size of a single cell in the grid.
@@ -37,7 +49,11 @@ namespace Junkbot.Game
         /// <summary>
         /// Gets the mobile actors in the scene.
         /// </summary>
-        public IList<JunkbotActorBase> MobileActors { get; private set; }
+        public IList<JunkbotActorBase> MobileActors
+        {
+            get { return _MobileActors.AsReadOnly(); }
+        }
+        private List<JunkbotActorBase> _MobileActors;
 
         /// <summary>
         /// Gets the size of the scene.
@@ -70,19 +86,18 @@ namespace Junkbot.Game
             SpriteAnimationStore store = null
         )
         {
+            _Actors        = new List<JunkbotActorBase>();
+            _MobileActors  = new List<JunkbotActorBase>();
             AnimationStore = store;
             PlayField      = new JunkbotActorBase[
-                                  levelData.Size.Width,
-                                  levelData.Size.Height
-                              ];
+                                 levelData.Size.Width,
+                                 levelData.Size.Height
+                             ];
             CellSize       = levelData.Spacing;
             Size           = levelData.Size;
 
             // Read part/actor data in
             //
-            var actors       = new List<JunkbotActorBase>();
-            var mobileActors = new List<JunkbotActorBase>();
-
             foreach (JunkbotPartData part in levelData.Parts)
             {
                 JunkbotActorBase actor    = null;
@@ -95,27 +110,22 @@ namespace Junkbot.Game
                 switch (partName)
                 {
                     case "brick_01":
-                        actor = new BrickActor(location, color, BrickSize.One, store);
-                        break;
-
                     case "brick_02":
-                        actor = new BrickActor(location, color, BrickSize.Two, store);
-                        break;
-
                     case "brick_03":
-                        actor = new BrickActor(location, color, BrickSize.Three, store);
-                        break;
-
                     case "brick_04":
-                        actor = new BrickActor(location, color, BrickSize.Four, store);
-                        break;
-
                     case "brick_06":
-                        actor = new BrickActor(location, color, BrickSize.Six, store);
-                        break;
-
                     case "brick_08":
-                        actor = new BrickActor(location, color, BrickSize.Eight, store);
+                        int brickSize = Convert.ToInt32(partName.Substring(6));
+                        
+                        actor = 
+                            new BrickActor(
+                                this,
+                                location,
+                                color,
+                                (BrickSize) brickSize,
+                                store
+                            );
+                        
                         break;
 
                     case "minifig":
@@ -138,23 +148,47 @@ namespace Junkbot.Game
 
                 // Shift location offset to get true location
                 //
-                actor.Location = location.Subtract(new Point(1, actor.GridSize.Height));
-                UpdateActorGridPosition(actor, actor.Location);
+                AddActor(
+                    actor,
+                    location.Subtract(new Point(1, actor.GridSize.Height))
+                );
+            }
+            
+            BrickPicker = new BrickPicker(this);
+        }
+        
+        
+        /// <summary>
+        /// Adds an actor to the scene.
+        /// </summary>
+        /// <param name="actor">
+        /// The actor.
+        /// </param>
+        /// <param name="location">
+        /// The location at which to insert the actor.
+        /// </param>
+        /// <returns>
+        /// True if the actor was inserted.
+        /// </returns>
+        public bool AddActor(
+            JunkbotActorBase actor,
+            Point            location
+        )
+        {
+            actor.Location = location;
+            UpdateActorGridPosition(actor, location);
 
-                actor.LocationChanged += Actor_LocationChanged;
+            actor.LocationChanged += Actor_LocationChanged;
 
-                actors.Add(actor);
-
-                if (!(actor is BrickActor))
-                {
-                    mobileActors.Add(actor);
-                }
+            _Actors.Add(actor);
+            
+            if (!(actor is BrickActor))
+            {
+                _MobileActors.Add(actor);
             }
 
-            Actors       = actors.AsReadOnly();
-            MobileActors = mobileActors.AsReadOnly();
+            return true;
         }
-
 
         /// <summary>
         /// Checks that a region of the grid should be considered free by the
@@ -199,19 +233,73 @@ namespace Junkbot.Game
         }
         
         /// <summary>
+        /// Clips a rectangle into the play field.
+        /// </summary>
+        /// <param name="rect">
+        /// The rectangle.
+        /// </param>
+        /// <returns>
+        /// The clipped rectangle.
+        /// </returns>
+        public Rectangle ClipRect(
+            Rectangle rect
+        )
+        {
+            return rect.ClipInside(
+                new Rectangle(
+                    Point.Empty,
+                    Size
+                )
+            );
+        }
+
+        /// <summary>
         /// Gets the actor at the specified cell.
         /// </summary>
         /// <param name="cell">
         /// The cell.
         /// </param>
         /// <returns>
-        /// The actor that occupies the cell, null if the cell is free.
+        /// The actor that occupies the cell, null if the cell is free or out of
+        /// bounds.
         /// </returns>
         public JunkbotActorBase GetActorAtCell(
             Point cell
         )
         {
             return GetActorAtCell(cell.X, cell.Y);
+        }
+        
+        /// <summary>
+        /// Gets the actor at the specified cell, that is of the specified type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type to look for.
+        /// </typeparam>
+        /// <param name="x">
+        /// The x-coordinate of the cell.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate of the cell.
+        /// </param>
+        /// <returns>
+        /// The actor that occupies the cell, null if the cell is free, out of bounds,
+        /// or the actor is not of the specified type.
+        /// </returns>
+        public T GetActorAtCell<T>(
+            int  x,
+            int  y
+        )
+        where T : JunkbotActorBase
+        {
+            JunkbotActorBase actor = GetActorAtCell(x, y);
+            
+            if (actor == null || actor.GetType() != typeof(T))
+            {
+                return null;
+            }
+
+            return (T) actor;
         }
 
         /// <summary>
@@ -224,14 +312,105 @@ namespace Junkbot.Game
         /// The y-coordinate of the cell.
         /// </param>
         /// <returns>
-        /// The actor that occupies the cell, null if the cell is free.
+        /// The actor that occupies the cell, null if the cell is free or out of
+        /// bounds.
         /// </returns>
         public JunkbotActorBase GetActorAtCell(
             int x,
             int y
         )
         {
+            if (
+                x < 0 || x >= PlayField.GetLength(0) ||
+                y < 0 || y >= PlayField.GetLength(1)
+            )
+            {
+                return null;
+            }
+            
             return PlayField[x, y];
+        }
+        
+        /// <summary>
+        /// Gets all actors that are within the region.
+        /// </summary>
+        /// <param name="rect">
+        /// The region of cells.
+        /// </param>
+        /// <returns>
+        /// The actors in the region as an <see cref="IList{T}"/> collection.
+        /// </returns>
+        public IList<JunkbotActorBase> GetActorsInRegion(
+            Rectangle rect
+        )
+        {
+            Point[] cells = RectToGridCells(ClipRect(rect));
+            var     list  = new List<JunkbotActorBase>();
+            
+            foreach (Point cell in cells)
+            {
+                JunkbotActorBase actor = GetActorAtCell(cell);
+
+                if (
+                    actor != null &&
+                    !list.Contains(actor)
+                )
+                {
+                    list.Add(actor);
+                }
+            }
+
+            return list.AsReadOnly();
+        }
+        
+        /// <summary>
+        /// Gets actors of the specified type that are within the region.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type to look for.
+        /// </typeparam>
+        /// <param name="rect">
+        /// The region of cells.
+        /// </param>
+        /// <returns>
+        /// The actors in region as an <see cref="IList{T}"/> collection.
+        /// </returns>
+        public IList<T> GetActorsInRegion<T>(
+            Rectangle rect
+        )
+        where T : JunkbotActorBase
+        {
+            IList<JunkbotActorBase> actors = GetActorsInRegion(rect);
+            
+            Type           tType    = typeof(T);
+            IEnumerable<T> filtered =
+                actors.Where(
+                    (actor) => actor.GetType() == tType
+                ).Cast<T>();
+
+            return new List<T>(filtered).AsReadOnly();
+        }
+
+        /// <summary>
+        /// Gets all mobile actors of the specified type that are in the playfield.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type to look for.
+        /// </typeparam>
+        /// <returns>
+        /// All mobile actors of the specified type as an <see cref="IList{T}"/>
+        /// collection.
+        /// </returns>
+        public IList<T> GetActorsOfType<T>()
+        where T : JunkbotActorBase
+        {
+            Type           tType  = typeof(T);
+            IEnumerable<T> actors =
+                Actors.Where(
+                    (actor) => actor.GetType() == tType
+                ).Cast<T>();
+
+            return new List<T>(actors).AsReadOnly();
         }
 
         /// <summary>
@@ -287,6 +466,38 @@ namespace Junkbot.Game
         {
             return subject.Reduce(CellSize);
         }
+        
+        /// <summary>
+        /// Determines whether the region of cells contains only bricks or empty
+        /// spaces.
+        /// </summary>
+        /// <param name="rect">
+        /// The region of cells.
+        /// </param>
+        /// <returns>
+        /// True if the region only contains bricks or empty spaces.
+        /// </returns>
+        public bool RegionContainsBricksOrNull(
+            Rectangle rect
+        )
+        {
+            IList<JunkbotActorBase> actors = GetActorsInRegion(rect);
+            
+            if (!actors.Any())
+            {
+                return true;
+            }
+
+            foreach (JunkbotActorBase actor in actors)
+            {
+                if (actor.GetType() != typeof(BrickActor))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Converts a <see cref="Rectangle"/> region into individual points on the
@@ -314,6 +525,44 @@ namespace Junkbot.Game
             }
 
             return coords.ToArray();
+        }
+        
+        /// <summary>
+        /// Removes an actor from the scene.
+        /// </summary>
+        /// <param name="actor">
+        /// The actors.
+        /// </param>
+        /// <returns>
+        /// True if the actor was removed.
+        /// </returns>
+        public bool RemoveActor(
+            JunkbotActorBase actor
+        )
+        {
+            JunkbotActorBase toRemove = GetActorAtCell(actor.Location);
+            
+            if (actor != toRemove)
+            {
+                throw new InvalidOperationException(
+                    "Actor or grid out of sync."
+                );
+            }
+
+            actor.LocationChanged -= Actor_LocationChanged;
+
+            ClearGridCells(
+                RectToGridCells(actor.BoundingBox)
+            );
+
+            _Actors.Remove(actor);
+            
+            if (!(actor is BrickActor))
+            {
+                _MobileActors.Remove(actor);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -361,22 +610,41 @@ namespace Junkbot.Game
                 }
             }
 
+            BrickPicker.RenderFrame(sb);
+
             sb.Finish();
         }
-        
+
         /// <summary>
-        /// Updates the actors.
+        /// Updates the scene.
         /// </summary>
+        /// <param name="game">
+        /// The running Junkbot game instance.
+        /// </param>
         /// <param name="deltaTime">
         /// The time difference since the last update.
         /// </param>
-        public void UpdateActors(
-            TimeSpan deltaTime
+        /// <param name="inputs">
+        /// The latest state of inputs, null if no inputs are to be processed.
+        /// </param>
+        public void Update(
+            JunkbotGame game,
+            TimeSpan    deltaTime,
+            InputEvents inputs = null
         )
         {
             foreach (JunkbotActorBase actor in MobileActors)
             {
                 actor.Update(deltaTime);
+            }
+            
+            if (inputs != null)
+            {
+                BrickPicker.Update(
+                    game,
+                    deltaTime,
+                    inputs
+                );
             }
         }
         

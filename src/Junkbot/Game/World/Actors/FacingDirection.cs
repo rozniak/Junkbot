@@ -12,7 +12,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Specifies constants defining possible directions for actors to face.
     /// </summary>
-    internal enum FacingDirection
+    public enum FacingDirection
     {
         /// <summary>
         /// The actor is facing down.

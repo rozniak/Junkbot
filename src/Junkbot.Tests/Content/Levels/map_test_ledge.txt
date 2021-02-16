@@ -1,0 +1,23 @@
+﻿[info]
+title=Map Test Ledge
+par=0
+hint=Test level for testing brick map code, the ledge case.
+
+[background]
+backdrop=bkg1
+decals=
+
+[playfield]
+size=35,22
+spacing=15,18
+scale=1
+
+[partslist]
+types=BRICK_08,BRICK_02,BRICK_03,BRICK_04,BRICK_01
+types=BRICK_06,MINIFIG
+colors=GRAY,blue,green,red,yellow
+parts=19;16;1;1;0;0;0
+parts=20;17;3;5;0;0;0,19;18;3;5;0;0;0,20;19;4;5;0;0;0
+parts=12;19;1;5;0;0;0,15;18;2;5;0;0;0,14;17;4;5;0;0;0
+parts=16;16;7;2;WALK_R;1;0
+parts=10;16;4;1;0;0;0

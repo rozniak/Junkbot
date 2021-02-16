@@ -8,7 +8,7 @@
  */
 
 using Junkbot.Game;
-using Oddmatics.Rzxe;
+using Oddmatics.Rzxe.Game.Hosting;
 
 namespace Junkbot
 {
@@ -24,13 +24,10 @@ namespace Junkbot
             string[] args
         )
         {
-            var entryPoint = new GameEntryPoint()
-            {
-                GameEngine = new JunkbotGame()
-            };
+            var host = new EngineHost(new JunkbotGame());
 
-            entryPoint.Initialize();
-            entryPoint.Run();
+            host.Initialize();
+            host.Run();
         }
     }
 }

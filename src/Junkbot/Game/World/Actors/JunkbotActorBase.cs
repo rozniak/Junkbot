@@ -16,7 +16,7 @@ namespace Junkbot.Game.World.Actors
     /// <summary>
     /// Represents the base class for Junkbot actors.
     /// </summary>
-    internal abstract class JunkbotActorBase
+    public abstract class JunkbotActorBase
     {
         /// <summary>
         /// Gets the animation server used by the actor.

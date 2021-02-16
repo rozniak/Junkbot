@@ -20,12 +20,6 @@ namespace Junkbot.Game
     internal sealed class JunkbotEngineParameters : IGameEngineParameters
     {
         /// <inheritdoc />
-        public Size DefaultClientWindowSize
-        {
-            get { return new Size(650, 420); }
-        }
-        
-        /// <inheritdoc />
         public string GameContentRoot
         {
             get
@@ -42,6 +36,18 @@ namespace Junkbot.Game
         public string GameTitle
         {
             get { return "Junkbot"; }
+        }
+        
+        /// <inheritdoc />
+        public bool InitialViewportScalingOption
+        {
+            get { return true; }
+        }
+        
+        /// <inheritdoc />
+        public Size InitialViewportSize
+        {
+            get { return new Size(650, 420); }
         }
     }
 }

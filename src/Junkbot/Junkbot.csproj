@@ -90,8 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\JunkbotEngineParameters.cs" />
-    <Compile Include="Helpers\PointHelper.cs" />
-    <Compile Include="Helpers\SizeHelper.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\SplashGameState.cs" />
     <Compile Include="Game\World\Actors\BrickActor.cs" />
@@ -111,7 +109,11 @@
     <Compile Include="Game\World\Level\JunkbotLevelStore.cs" />
     <Compile Include="Game\World\Level\JunkbotLevelListing.cs" />
     <Compile Include="Game\World\Actors\JunkbotBrainState.cs" />
-    <Compile Include="Helpers\RectangleHelper.cs" />
+    <Compile Include="Game\World\Actors\GreyBrickPathState.cs" />
+    <Compile Include="Game\World\Logic\BrickPicker.cs" />
+    <Compile Include="Game\World\Logic\BrickConnectionNode.cs" />
+    <Compile Include="Game\World\Logic\BrickDetachDirection.cs" />
+    <Compile Include="Game\World\Actors\ActorZOrderComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -820,6 +822,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Game\World\Logic\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

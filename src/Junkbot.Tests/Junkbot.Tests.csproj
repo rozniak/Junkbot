@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2237842C-1AF8-4717-AEEB-70398A72408B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Junkbot.Tests</RootNamespace>
+    <AssemblyName>Junkbot.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Util\TestLevels.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestBridge.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestBase.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestBase.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestBothSides.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestBridge.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestLedge.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestLongBridge.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestLooped.cs" />
+    <Compile Include="BrickMapping\BrickMapNodeTestStairs.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestCase.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestStairs.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestBothSides.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestLooped.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestLedge.cs" />
+    <Compile Include="BrickPicking\BrickPickerTestLongBridge.cs" />
+    <Compile Include="BrickPlacing\BrickPlacementTestBase.cs" />
+    <Compile Include="BrickPlacing\BrickPlacementTestCase.cs" />
+    <Compile Include="BrickPlacing\BrickPlacementTestBridge.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Content\Levels\map_test_bridge.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Levels\map_test_stairs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Levels\map_test_bothsides.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Levels\map_test_looped.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Levels\map_test_ledge.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Levels\map_test_longbridge.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BrickPicking\" />
+    <Folder Include="Content\" />
+    <Folder Include="Content\Levels\" />
+    <Folder Include="Util\" />
+    <Folder Include="BrickMapping\" />
+    <Folder Include="BrickPlacing\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Junkbot\Junkbot.csproj">
+      <Project>{95B88154-68A8-4519-A43C-0FFD5184687F}</Project>
+      <Name>Junkbot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\Rzxe\src\lib\Rzxe\Rzxe.csproj">
+      <Project>{827DBEC3-A270-4273-B69D-194A466BD35B}</Project>
+      <Name>Rzxe</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

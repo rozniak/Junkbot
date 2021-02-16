@@ -1,0 +1,20 @@
+﻿[info]
+title=Map Test Bridge
+par=0
+hint=Test level for testing brick map code, the bridge case.
+
+[background]
+backdrop=bkg1
+decals=
+
+[playfield]
+size=35,22
+spacing=15,18
+scale=1
+
+[partslist]
+types=BRICK_08,BRICK_02,BRICK_03,BRICK_04,BRICK_01
+types=BRICK_06,MINIFIG
+colors=GRAY,blue,green,red,yellow
+parts=4;15;1;1;0;0;0,11;16;1;5;0;0;0,18;15;3;5;0;0;0
+parts=19;16;4;5;0;0;0,22;15;1;1;0;0;0

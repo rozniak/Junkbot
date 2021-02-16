@@ -13,8 +13,8 @@ using System.Drawing;
 namespace Junkbot.Game.World.Actors
 {
     /// <summary>
-    /// Represents the method that will handle the <see cref="IActor.LocationChanged"/>
-    /// event.
+    /// Represents the method that will handle the
+    /// <see cref="JunkbotActorBase.LocationChanged"/> event.
     /// </summary>
     /// <param name="sender">
     /// The source of the event.
@@ -22,16 +22,16 @@ namespace Junkbot.Game.World.Actors
     /// <param name="e">
     /// An <see cref="LocationChangedEventArgs"/> object that contains event data.
     /// </param>
-    internal delegate void LocationChangedEventHandler(
+    public delegate void LocationChangedEventHandler(
         object                   sender,
         LocationChangedEventArgs e
     );
     
     
     /// <summary>
-    /// Provides data for the <see cref="IActor.LocationChanged"/> event.
+    /// Provides data for the <see cref="JunkbotActorBase.LocationChanged"/> event.
     /// </summary>
-    internal class LocationChangedEventArgs : EventArgs
+    public class LocationChangedEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the new location.

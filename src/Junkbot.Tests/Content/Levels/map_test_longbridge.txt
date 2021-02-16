@@ -1,0 +1,23 @@
+﻿[info]
+title=Map Test Long Bridge
+par=0
+hint=Test level for testing brick map code, the long bridge case.
+
+[background]
+backdrop=bkg2
+decals=
+
+[playfield]
+size=35,22
+spacing=15,18
+scale=1
+
+[partslist]
+types=BRICK_08,BRICK_02,BRICK_03,BRICK_04,BRICK_01
+types=BRICK_06,MINIFIG
+colors=GRAY,blue,green,red,yellow
+parts=6;16;1;1;0;0;0
+parts=13;17;3;5;0;0;0,15;18;2;5;0;0;0,16;17;2;5;0;0;0
+parts=17;18;3;5;0;0;0,18;17;4;5;0;0;0,20;18;4;5;0;0;0
+parts=22;17;4;5;0;0;0
+parts=24;16;1;1;0;0;0
