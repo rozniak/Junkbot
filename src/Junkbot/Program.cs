@@ -24,7 +24,18 @@ namespace Junkbot
             string[] args
         )
         {
-            var host = new EngineHost(new JunkbotGame());
+            // Set up game
+            //
+            // TODO: Support booting different games via CMD arg - for now just load
+            //       up Junkbot
+            //
+            var game = new JunkbotGame();
+
+            game.SelectGame("Junkbot");
+            
+            // Boot into engine now
+            //
+            var host = new EngineHost(game);
 
             host.Initialize();
             host.Run();

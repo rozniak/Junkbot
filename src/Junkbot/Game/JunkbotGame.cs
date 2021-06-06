@@ -7,6 +7,7 @@
  * Author(s): Rory Fewell <roryf@oddmatics.uk>
  */
 
+using Junkbot.Game.Profile;
 using Junkbot.Game.State;
 using Junkbot.Game.World.Level;
 using Oddmatics.Rzxe.Game;
@@ -36,6 +37,19 @@ namespace Junkbot.Game
         /// Gets the engine host.
         /// </summary>
         public IEngineHost EngineHost { get; private set; }
+        
+        /// <summary>
+        /// Gets the value that indicates whether a game is currently loaded.
+        /// </summary>
+        public bool GameLoaded
+        {
+            get { return GameName != null; }
+        }
+
+        /// <summary>
+        /// Gets the name of the Junkbot game being played.
+        /// </summary>
+        public string GameName { get; private set; }
 
         /// <summary>
         /// Gets the level store.
@@ -45,7 +59,17 @@ namespace Junkbot.Game
         /// <inheritdoc />
         public IGameEngineParameters Parameters { get; private set; }
         
-        
+        /// <summary>
+        /// Gets the value that indicates whether the game is running.
+        /// </summary>
+        public bool Running { get; private set; }
+
+        /// <summary>
+        /// Gets the user's profile data.
+        /// </summary>
+        public JunkbotProfile UserProfile { get; private set; }
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JunkbotGame"/>.
         /// </summary>
@@ -62,9 +86,18 @@ namespace Junkbot.Game
         {
             Animations = new SpriteAnimationStore(Parameters);
             EngineHost = host;
-            Levels     = new JunkbotLevelStore(this);
+            Running    = true;
             
-            CurrentGameState = new SplashGameState(this);
+            if (GameLoaded)
+            {
+                CurrentGameState = new SplashGameState(this);
+            }
+            else
+            {
+                // FIXME: Implement 'Select game' state
+                //
+                throw new NotImplementedException();
+            }
         }
         
         /// <inheritdoc />
@@ -77,6 +110,37 @@ namespace Junkbot.Game
             CurrentGameState.RenderFrame(graphics);
         }
         
+        /// <summary>
+        /// Selects a Junkbot game to load, and if the engine is running, begin
+        /// playing it.
+        /// </summary>
+        /// <param name="gameName">
+        /// The name of the game to load.
+        /// </param>
+        public void SelectGame(
+            string gameName
+        )
+        {
+            // FIXME: Should validate whether the game data exists first
+            //
+            GameName = gameName;
+            
+            Levels      = new JunkbotLevelStore(this, gameName);
+            UserProfile = JunkbotProfile.FromLevelSet(Levels);
+            
+            // If the game is running, then we need to back out from whatever the
+            // current state is to the splash screen
+            //
+            if (Running)
+            {
+                var oldState = CurrentGameState;
+
+                CurrentGameState = new SplashGameState(this);
+
+                // oldState.Dispose();
+            }
+        }
+
         /// <inheritdoc />
         public void Update(
             TimeSpan    deltaTime,

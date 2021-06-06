@@ -114,6 +114,8 @@
     <Compile Include="Game\World\Logic\BrickConnectionNode.cs" />
     <Compile Include="Game\World\Logic\BrickDetachDirection.cs" />
     <Compile Include="Game\World\Actors\ActorZOrderComparer.cs" />
+    <Compile Include="Game\Profile\JunkbotProfile.cs" />
+    <Compile Include="Game\Profile\LevelCompletionRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -824,6 +826,7 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Game\World\Logic\" />
+    <Folder Include="Game\Profile\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

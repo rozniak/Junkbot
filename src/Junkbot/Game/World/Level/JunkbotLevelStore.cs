@@ -21,6 +21,22 @@ namespace Junkbot.Game.World.Level
     public sealed class JunkbotLevelStore
     {
         /// <summary>
+        /// Gets the number of buildings in the level set.
+        /// </summary>
+        public int Buildings { get; private set; }
+        
+        /// <summary>
+        /// Gets the name of the set of levels that are currently loaded.
+        /// </summary>
+        public string LevelSetName { get; private set; }
+        
+        /// <summary>
+        /// Gets the number of levels per building.
+        /// </summary>
+        public int LevelsPerBuilding { get; private set; }
+
+
+        /// <summary>
         /// The running Junkbot game instance.
         /// </summary>
         private JunkbotGame Junkbot { get; set; }
@@ -42,16 +58,17 @@ namespace Junkbot.Game.World.Level
         /// <param name="junkbot">
         /// The running Junkbot game instance.
         /// </param>
+        /// <param name="levelSetName">
+        /// The name of the level set.
+        /// </param>
         public JunkbotLevelStore(
-            JunkbotGame junkbot
+            JunkbotGame junkbot,
+            string      levelSetName
         )
         {
             Junkbot = junkbot;
-
-            // TODO: One day we need to support picking a game, right now just load
-            //       Junkbot
-            //
-            LoadLevelList("Junkbot");
+            
+            LoadLevelList(levelSetName);
         }
         
         
@@ -119,7 +136,9 @@ namespace Junkbot.Game.World.Level
             var listing        = JsonConvert.DeserializeObject<JunkbotLevelListing>(
                                      File.ReadAllText(listingSrcPath)
                                  );
-            int numBuildings   = (int) Math.Ceiling(listing.Levels.Length / 15f);
+            int perBuilding    = (int) Math.Ceiling(
+                                     (float) listing.Levels.Length / listing.Buildings
+                                 );
 
             // Add demo/splash level as 'building 0'
             //
@@ -130,18 +149,15 @@ namespace Junkbot.Game.World.Level
                 }.AsReadOnly()
             );
             
-            // Add buildings now - start from building 1
+            // Add buildings now
             //
-            for (int i = 1; i <= numBuildings; i++)
+            for (int i = 0; i < listing.Buildings; i++)
             {
                 var nextLevels = new List<string>();
                 
-                // 15 levels per building - there could be some left over in the last
-                // building though (as we use Math.Ceiling earlier)
-                //
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < perBuilding; j++)
                 {
-                    int nextLevel = (i * 15) + j; // Offset in array
+                    int nextLevel = (i * perBuilding) + j + 1; // Offset in array
                     
                     if (nextLevel >= listing.Levels.Length)
                     {
@@ -154,7 +170,10 @@ namespace Junkbot.Game.World.Level
                 levels.Add(nextLevels.AsReadOnly());
             }
 
-            Levels = levels.AsReadOnly();
+            Buildings         = listing.Buildings;
+            Levels            = levels.AsReadOnly();
+            LevelSetName      = game;
+            LevelsPerBuilding = perBuilding;
         }
     }
 }

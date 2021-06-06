@@ -1,6 +1,7 @@
 {
-    "SplashLevel": "loading_level",
-    "Levels": [
+    "buildings": 4,
+    "splash-level": "loading_level",
+    "levels": [
         "New Employee Training",
         "Art in the Lobby",
         "Bridge Builder",
