@@ -1,0 +1,22 @@
+[
+    {
+      "Name": "button_s_active",
+      "Slices": [
+        10,
+        16,
+        11,
+        10
+      ],
+      "SpriteName": "button_s_active"
+    },
+    {
+      "Name": "button_s_inactive",
+      "Slices": [
+        10,
+        16,
+        11,
+        10
+      ],
+      "SpriteName": "button_s_inactive"
+    }
+]

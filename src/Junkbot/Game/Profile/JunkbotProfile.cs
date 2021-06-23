@@ -115,7 +115,10 @@ namespace Junkbot.Game.Profile
             int level
         )
         {
-            return LevelProgress[building][level];
+            // Buildings are offset by 1, since we don't record progress for the
+            // splash screen level
+            //
+            return LevelProgress[building - 1][level];
         }
 
         /// <summary>

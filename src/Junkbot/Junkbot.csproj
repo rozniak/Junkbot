@@ -116,6 +116,9 @@
     <Compile Include="Game\World\Actors\ActorZOrderComparer.cs" />
     <Compile Include="Game\Profile\JunkbotProfile.cs" />
     <Compile Include="Game\Profile\LevelCompletionRecord.cs" />
+    <Compile Include="Game\State\SelectLevelGameState.cs" />
+    <Compile Include="Game\Interface\JunkbotUxLevelList.cs" />
+    <Compile Include="Game\World\Level\LevelSelectedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

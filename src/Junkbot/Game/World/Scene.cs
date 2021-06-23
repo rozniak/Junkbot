@@ -575,44 +575,48 @@ namespace Junkbot.Game
             IGraphicsController graphics
         )
         {
-            ISpriteBatch sb =
-                graphics.CreateSpriteBatch(
-                    graphics.GetSpriteAtlas("actors")
-                );
-            
-            for (int y = PlayField.GetLength(1) - 1; y >= 0; y--)
+            using (
+                ISpriteBatch sb =
+                    graphics.CreateSpriteBatch(
+                        graphics.GetSpriteAtlas("actors"),
+                        SpriteBatchUsageHint.Stream
+                    )
+            )
             {
-                for (int x = 0; x < PlayField.GetLength(0); x++)
+                for (int y = PlayField.GetLength(1) - 1; y >= 0; y--)
                 {
-                    JunkbotActorBase actor = PlayField[x, y];
-                    
-                    if (actor == null)
+                    for (int x = 0; x < PlayField.GetLength(0); x++)
                     {
-                        continue;
-                    }
+                        JunkbotActorBase actor = PlayField[x, y];
 
-                    // Draw now!
-                    //
-                    SpriteAnimationSpriteData spriteData =
-                        actor.GetSpriteAtCell(x, y);
-                    
-                    if (spriteData == null)
-                    {
-                        continue;
-                    }
+                        if (actor == null)
+                        {
+                            continue;
+                        }
 
-                    sb.Draw(
-                        sb.Atlas.Sprites[spriteData.SpriteName],
-                        (new Point(x, y)).Product(CellSize)
-                                         .Add(spriteData.Offset),
-                        Color.Transparent
-                    );
+                        // Draw now!
+                        //
+                        SpriteAnimationSpriteData spriteData =
+                            actor.GetSpriteAtCell(x, y);
+
+                        if (spriteData == null)
+                        {
+                            continue;
+                        }
+
+                        sb.Draw(
+                            sb.Atlas.Sprites[spriteData.SpriteName],
+                            (new Point(x, y)).Product(CellSize)
+                                             .Add(spriteData.Offset),
+                            Color.Transparent
+                        );
+                    }
                 }
+                
+                BrickPicker.RenderFrame(sb);
+
+                sb.Finish();
             }
-
-            BrickPicker.RenderFrame(sb);
-
-            sb.Finish();
         }
 
         /// <summary>

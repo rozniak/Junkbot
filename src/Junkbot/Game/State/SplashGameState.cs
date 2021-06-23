@@ -58,8 +58,28 @@ namespace Junkbot.Game.State
         /// The user interface shell.
         /// </summary>
         private UxShell Shell { get; set; }
+
+
+        #region Drawing Related
         
+        /// <summary>
+        /// The target sprite batch for rendering the title.
+        /// </summary>
+        private ISpriteBatch TitleSpriteBatch { get; set; }
+
+        #endregion
+
+
+        #region Shell Components
         
+        /// <summary>
+        /// The 'PLAY' button.
+        /// </summary>
+        private JunkbotUxButton PlayButton { get; set; }
+
+        #endregion
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SplashGameState"/> class.
         /// </summary>
@@ -75,19 +95,22 @@ namespace Junkbot.Game.State
                             game.Animations
                         );
             Game      = game;
-            Shell     = new UxShell();
-            
-            Shell.Components.Add(
-                new JunkbotUxButton()
-                {
-                    Location = new Point(139, 148),
-                    Size     = new Size(116, 45),
-                    Text     = "play"
-                }
-            );
+
+            InitializeShell();
         }
         
         
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            Shell.Dispose();
+            
+            if (TitleSpriteBatch != null)
+            {
+                TitleSpriteBatch.Dispose();
+            }
+        }
+
         /// <inheritdoc />
         public override void RenderFrame(
             IGraphicsController graphics
@@ -98,23 +121,10 @@ namespace Junkbot.Game.State
             // Render scene first, it's below everything
             //
             DemoScene.RenderFrame(graphics);
-            
-            // Render the splash next (FIXME: Separate into another method)
-            //
-            ISpriteAtlas atlas = graphics.GetSpriteAtlas("menu");
-            ISpriteBatch sb    = graphics.CreateSpriteBatch(atlas);
 
-            sb.Draw(
-                atlas.Sprites["neo_title"],
-                new Rectangle(
-                    Point.Empty,
-                    graphics.TargetResolution
-                ),
-                DrawMode.Stretch,
-                Color.Transparent
-            );
-            
-            sb.Finish();
+            // Render the splash next
+            //
+            RenderTitle(graphics);
             
             // Render the UI on top of everything
             //
@@ -154,6 +164,77 @@ namespace Junkbot.Game.State
                     deltaTime
                 );
             }
+        }
+        
+        
+        /// <summary>
+        /// Initializes the shell for the splash screen.
+        /// </summary>
+        private void InitializeShell()
+        {
+            Shell = new UxShell();
+
+            // PlayButton
+            //
+            PlayButton =
+                new JunkbotUxButton()
+                {
+                    Location = new Point(139, 148),
+                    Size     = new Size(116, 45),
+                    Text     = "play"
+                };
+                
+            PlayButton.Click += PlayButton_Click;
+                
+            Shell.Components.Add(PlayButton);
+        }
+
+        /// <summary>
+        /// Renders the title screen graphics.
+        /// </summary>
+        /// <param name="graphics">
+        /// The graphics interface for the renderer.
+        /// </param>
+        private void RenderTitle(
+            IGraphicsController graphics
+        )
+        {
+            if (TitleSpriteBatch == null)
+            {
+                ISpriteAtlas atlas = graphics.GetSpriteAtlas("menu");
+                
+                TitleSpriteBatch =
+                    graphics.CreateSpriteBatch(
+                        atlas,
+                        SpriteBatchUsageHint.Static
+                    );
+
+                TitleSpriteBatch.Draw(
+                    atlas.Sprites["neo_title"],
+                    new Rectangle(
+                        Point.Empty,
+                        graphics.TargetResolution
+                    ),
+                    DrawMode.Stretch,
+                    Color.Transparent
+                );
+            }
+
+            TitleSpriteBatch.Finish();
+        }
+        
+        
+        /// <summary>
+        /// (Event) Handles the 'Play' button being clicked.
+        /// </summary>
+        private void PlayButton_Click(
+            object    sender,
+            EventArgs e
+        )
+        {
+            Game.CurrentGameState = new SelectLevelGameState(Game);
+
+            Dispose();
         }
     }
 }

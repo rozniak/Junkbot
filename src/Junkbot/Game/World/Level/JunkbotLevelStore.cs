@@ -53,7 +53,7 @@ namespace Junkbot.Game.World.Level
         
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="JunkbotLevelStore class."/>
+        /// Initializes a new instance of the <see cref="JunkbotLevelStore"/> class.
         /// </summary>
         /// <param name="junkbot">
         /// The running Junkbot game instance.

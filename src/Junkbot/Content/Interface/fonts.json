@@ -1,0 +1,10 @@
+[
+    {
+      "CharacterSpacing": 1,
+      "Kerning": { },
+      "LineSpacing": 1,
+      "Name": "default",
+      "SpaceWidth": 6,
+      "SpriteNameBase": "font_default_"
+    }
+]

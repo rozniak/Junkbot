@@ -8,6 +8,7 @@
  */
 
 using Oddmatics.Rzxe.Game.Interface;
+using Oddmatics.Rzxe.Input;
 using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Drawing;
@@ -85,18 +86,34 @@ namespace Junkbot.Game.Interface
         /// The font resource used for the button text.
         /// </summary>
         private IFont Font { get; set; }
+
+
+        #region Drawing Related
+
+        /// <summary>
+        /// The drawing instruction for the button body.
+        /// </summary>
+        private IBorderBoxDrawInstruction ButtonDrawInstruction { get; set; }
+
+        /// <summary>
+        /// The drawing instruction for the button text.
+        /// </summary>
+        private IStringDrawInstruction ButtonTextDrawInstruction { get; set; }
         
         /// <summary>
-        /// The sub-batch used to draw the button in its hover state.
+        /// The target sprite batch for drawing.
         /// </summary>
-        private ISubSpriteBatch StateHoverSpriteBatch { get; set; }
+        private ISpriteBatch TargetSpriteBatch { get; set; }
+
+        #endregion
+        
         
         /// <summary>
-        /// The sub-batch used to draw the button in its normal state.
+        /// Occurs when the button has been clicked.
         /// </summary>
-        private ISubSpriteBatch StateNormalSpriteBatch { get; set; }
-        
-        
+        public event MouseInputEventHandler Click;
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JunkbotUxButton"/> class.
         /// </summary>
@@ -111,53 +128,106 @@ namespace Junkbot.Game.Interface
         
         
         /// <inheritdoc />
+        public override void Dispose()
+        {
+            AssertNotDisposed();
+            
+            Disposing = true;
+            
+            if (TargetSpriteBatch != null)
+            {
+                TargetSpriteBatch.Instructions.Remove(ButtonDrawInstruction);
+                TargetSpriteBatch.Instructions.Remove(ButtonTextDrawInstruction);
+            }
+        }
+        
+        /// <inheritdoc />
+        public override void OnClick(
+            ControlInput mouseButton,
+            Point        mouseLocation
+        )
+        {
+            Click?.Invoke(
+                this,
+                new MouseInputEventArgs(
+                    mouseButton,
+                    mouseLocation
+                )
+            );
+        }
+
+        /// <inheritdoc />
+        public override void OnMouseEnter()
+        {
+            if (TargetSpriteBatch == null)
+            {
+                return;
+            }
+
+            ButtonDrawInstruction.BorderBox =
+                TargetSpriteBatch.Atlas.BorderBoxes["button_s_active"];
+        }
+        
+        /// <inheritdoc />
+        public override void OnMouseLeave()
+        {
+            if (TargetSpriteBatch == null)
+            {
+                return;
+            }
+            
+            ButtonDrawInstruction.BorderBox =
+                TargetSpriteBatch.Atlas.BorderBoxes["button_s_inactive"];
+        }
+
+        /// <inheritdoc />
         public override void Render(
             ISpriteBatch sb
         )
         {
-            if (Dirty)
+            AssertNotDisposed();
+
+            if (TargetSpriteBatch == null)
             {
                 if (Font == null)
                 {
                     Font = sb.Atlas.GetSpriteFont("default", 4);
                 }
-                
+
                 var           inactiveBox = sb.Atlas.BorderBoxes["button_s_inactive"];
                 StringMetrics stringSize  = Font.MeasureString(Text);
 
                 int contentHeight =
                     Size.Height - ContentAreaBorder.Bottom - ContentAreaBorder.Top;
-                int contentWidth  =
-                    Size.Width  - ContentAreaBorder.Left   - ContentAreaBorder.Right;
+                int contentWidth =
+                    Size.Width - ContentAreaBorder.Left - ContentAreaBorder.Right;
 
-                int contentX = ((contentWidth  / 2) - (stringSize.Size.Width  / 2));
+                int contentX = ((contentWidth / 2) - (stringSize.Size.Width / 2));
                 int contentY = ((contentHeight / 2) - (stringSize.Size.Height / 2));
 
                 int finalX = Location.X + ContentAreaBorder.Left + contentX;
-                int finalY = Location.Y + ContentAreaBorder.Top  + contentY;
+                int finalY = Location.Y + ContentAreaBorder.Top + contentY;
 
-                ISubSpriteBatch subSb = sb.CreateSubBatch();
+                TargetSpriteBatch = sb;
 
-                subSb.DrawBorderBox(
-                    inactiveBox,
-                    new Rectangle(
-                        Location,
-                        Size
-                    ),
-                    Color.Transparent
-                );
+                ButtonDrawInstruction =
+                    TargetSpriteBatch.DrawBorderBox(
+                        inactiveBox,
+                        new Rectangle(
+                            Location,
+                            Size
+                        ),
+                        Color.Transparent
+                    );
 
-                subSb.DrawString(
-                    Text,
-                    Font,
-                    new Point(finalX, finalY),
-                    Color.Black
-                );
-
-                StateNormalSpriteBatch = subSb;
+                ButtonTextDrawInstruction =
+                    TargetSpriteBatch.DrawString(
+                        Text,
+                        Font,
+                        new Point(finalX, finalY),
+                        Color.Black
+                    );
             }
-
-            sb.DrawSubBatch(StateNormalSpriteBatch);
         }
     }
 }

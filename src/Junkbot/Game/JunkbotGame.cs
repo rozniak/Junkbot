@@ -137,7 +137,7 @@ namespace Junkbot.Game
 
                 CurrentGameState = new SplashGameState(this);
 
-                // oldState.Dispose();
+                oldState.Dispose();
             }
         }
 
