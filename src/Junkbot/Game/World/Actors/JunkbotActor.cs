@@ -237,6 +237,7 @@ namespace Junkbot.Game.World.Actors
                         // No floor ahead... turn around!
                         //
                         TurnAround();
+                        return;
                     }
                 }
             }
@@ -244,6 +245,7 @@ namespace Junkbot.Game.World.Actors
             if (!(floor is BrickActor))
             {
                 TurnAround();
+                return;
             }
 
             // Check target is free
