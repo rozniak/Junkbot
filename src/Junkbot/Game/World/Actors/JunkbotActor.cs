@@ -67,6 +67,12 @@ namespace Junkbot.Game.World.Actors
         /// The scene.
         /// </summary>
         private Scene Scene { get; set; }
+        
+        
+        /// <summary>
+        /// Occurs when Junkbot has collected a flag.
+        /// </summary>
+        public event EventHandler FlagCollected;
 
 
         /// <summary>
@@ -135,25 +141,41 @@ namespace Junkbot.Game.World.Actors
         {
             // Detach event if necessary
             //
+            // FIXME: Review this - it's nasty
+            //
             try
             {
                 Animation.SpecialFrameEntered -= Animation_SpecialFrameEntered;
             }
             catch (Exception ex) { }
+            try
+            {
+                Animation.FinishedPlayback -= Animation_FinishedPlayback;
+            }
+            catch (Exception ex) { }
 
             FacingDirection = direction;
-            
+
             switch (state)
             {
+                case JunkbotBrainState.EatingBin:
+                    BrainStateCallback = StepEatingBinState;
+
+                    Animation.GoToAndPlay("junkbot-eat-bin");
+                    
+                    Animation.FinishedPlayback += Animation_FinishedPlayback;
+
+                    break;
+
                 case JunkbotBrainState.Walking:
                     BrainStateCallback = StepWalkingState;
-                    
+
                     switch (direction)
                     {
                         case FacingDirection.Left:
                             Animation.GoToAndPlay("junkbot-walk-left");
                             break;
-                        
+
                         case FacingDirection.Right:
                             Animation.GoToAndPlay("junkbot-walk-right");
                             break;
@@ -163,6 +185,8 @@ namespace Junkbot.Game.World.Actors
                                 "Invalid direction for Junkbot."
                             );
                     }
+                    
+                    Animation.SpecialFrameEntered += Animation_SpecialFrameEntered;
 
                     break;
 
@@ -171,10 +195,9 @@ namespace Junkbot.Game.World.Actors
                         "State not implemented."
                     );
             }
-
-            Animation.SpecialFrameEntered += Animation_SpecialFrameEntered;
         }
-        
+
+
         /// <summary>
         /// Turns Junkbot around to begin walking the opposite direction.
         /// </summary>
@@ -187,7 +210,17 @@ namespace Junkbot.Game.World.Actors
                     FacingDirection.Left
             );
         }
+        
+        
+        /// <summary>
+        /// Executes the next step in the eating bin state.
+        /// </summary>
+        private void StepEatingBinState()
+        {
+            FlagCollected?.Invoke(this, EventArgs.Empty);
 
+            SetBrainState(JunkbotBrainState.Walking);
+        }
 
         /// <summary>
         /// Executes the next step in the walking state.
@@ -213,22 +246,22 @@ namespace Junkbot.Game.World.Actors
             JunkbotActorBase floor = null;
             int              dy    = 0;
             
-            if ((floor = Scene.GetActorAtCell(x + (dx * 2), y - 1)) != null)
+            if ((floor = Scene.GetActorAtCell(x + (dx * 2), y - 1)) is BrickActor)
             {
                 dy = -1;
             }
             else
             {
                 if (
-                    (floor = Scene.GetActorAtCell(newX, y))         != null ||
-                    (floor = Scene.GetActorAtCell(x + (dx * 2), y)) != null
+                    (floor = Scene.GetActorAtCell(newX, y))         is BrickActor ||
+                    (floor = Scene.GetActorAtCell(x + (dx * 2), y)) is BrickActor
                 )
                 {
                     dy = 0;
                 }
                 else
                 {
-                    if ((floor = Scene.GetActorAtCell(newX, y + 1)) != null)
+                    if ((floor = Scene.GetActorAtCell(newX, y + 1)) is BrickActor)
                     {
                         dy = 1;
                     }
@@ -241,19 +274,30 @@ namespace Junkbot.Game.World.Actors
                     }
                 }
             }
-            
-            if (!(floor is BrickActor))
-            {
-                TurnAround();
-                return;
-            }
 
             // Check target is free
             //
-            Rectangle targetBounds = rect.AddOffset(new Point(dx, dy));
+            JunkbotActorBase blockingActor;
+            Rectangle        targetBounds = rect.AddOffset(new Point(dx, dy));
             
-            if (!Scene.CheckGridRegionFreeForActor(this, targetBounds))
+            if (!Scene.CheckGridRegionFreeForActor(this, targetBounds, out blockingActor))
             {
+                if (blockingActor != null)
+                {
+                    switch (blockingActor)
+                    {
+                        case FlagActor flag:
+                            SetBrainState(JunkbotBrainState.EatingBin);
+                            return;
+                            
+                        //
+                        // TODO: Handle other actors here in future (once they exist)
+                        //
+                    }
+                }
+                
+                // Junkbot blocked, but didn't die or anything... let's just turn around
+                //
                 TurnAround();
                 return;
             }
@@ -261,6 +305,17 @@ namespace Junkbot.Game.World.Actors
             Location = targetBounds.Location;
         }
 
+
+        /// <summary>
+        /// (Event) Handles when an animation has completed playback.
+        /// </summary>
+        private void Animation_FinishedPlayback(
+            object    sender,
+            EventArgs e
+        )
+        {
+            BrainStateCallback();
+        }
 
         /// <summary>
         /// (Event) Handles when an event is emitted as part of an animation.

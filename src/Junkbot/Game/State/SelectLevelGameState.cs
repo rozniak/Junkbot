@@ -8,6 +8,7 @@
  */
 
 using Junkbot.Game.Interface;
+using Junkbot.Game.World.Level;
 using Oddmatics.Rzxe.Game;
 using Oddmatics.Rzxe.Game.Interface;
 using Oddmatics.Rzxe.Input;
@@ -116,8 +117,25 @@ namespace Junkbot.Game.State
                 {
                     Location = new Point(0, 0)
                 };
+                
+            LevelList.LevelSelected += LevelList_LevelSelected;
 
             Shell.Components.Add(LevelList);
+        }
+        
+        
+        /// <summary>
+        /// (Event) Handles a level being selected.
+        /// </summary>
+        private void LevelList_LevelSelected(
+            object                 sender,
+            LevelSelectedEventArgs e
+        )
+        {
+            Game.CurrentGameState =
+                new PlayingLevelGameState(Game, e.BuildingIndex, e.LevelIndex);
+
+            Dispose();
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Junkbot.Game.Interface
         /// <summary>
         /// Gets or sets the building that has been selected.
         /// </summary>
-        public int SelectedBuilding
+        public byte SelectedBuilding
         {
             get { return _SelectedBuilding; }
             set
@@ -84,7 +84,7 @@ namespace Junkbot.Game.Interface
                 InvalidateLevelListData();
             }
         }
-        private int _SelectedBuilding;
+        private byte _SelectedBuilding;
         
         /// <inheritdoc />
         public override Size Size
@@ -211,12 +211,12 @@ namespace Junkbot.Game.Interface
             
             if (
                 mouseButton == ControlInput.MouseButtonLeft &&
-                levelIndex  != -1
+                levelIndex  >= 0
             )
             {
                 LevelSelected?.Invoke(
                     this,
-                    new LevelSelectedEventArgs(SelectedBuilding, levelIndex)
+                    new LevelSelectedEventArgs(SelectedBuilding, (byte) levelIndex)
                 );
             }
         }

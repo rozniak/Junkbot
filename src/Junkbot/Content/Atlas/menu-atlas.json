@@ -1,18 +1,1 @@
-{
-  "BorderBoxes": [],
-  "Fonts": [],
-  "SpriteMappings": [
-    {
-      "Name": "neo_title",
-      "Bounds": "0, 0, 650, 420"
-    },
-    {
-      "Name": "play_default",
-      "Bounds": "650, 0, 116, 45"
-    },
-    {
-      "Name": "play_hover",
-      "Bounds": "766, 0, 116, 45"
-    }
-  ]
-}
+{"BorderBoxes":[],"Fonts":[],"SpriteMappings":[{"Bounds":"0, 0, 56, 42","Name":"building_icon_4"},{"Bounds":"56, 0, 61, 38","Name":"building_icon_1"},{"Bounds":"117, 0, 20, 25","Name":"key_confirm"},{"Bounds":"117, 25, 10, 10","Name":"gmlb_box_2"},{"Bounds":"127, 25, 10, 10","Name":"gmlb_box"},{"Bounds":"137, 0, 41, 34","Name":"borderLeftTop"},{"Bounds":"178, 0, 32, 12","Name":"borderRight"},{"Bounds":"178, 12, 15, 20","Name":"key"},{"Bounds":"210, 0, 35, 38","Name":"haz_climber_float_up_1"},{"Bounds":"245, 0, 58, 28","Name":"building_icon_2"},{"Bounds":"245, 28, 41, 12","Name":"borderLeft"},{"Bounds":"303, 0, 45, 37","Name":"arrow"},{"Bounds":"348, 0, 35, 42","Name":"haz_walker_walk_R_2"},{"Bounds":"383, 0, 89, 13","Name":"buidling_tab_3"},{"Bounds":"383, 13, 88, 13","Name":"buidling_tab_2"},{"Bounds":"383, 26, 83, 13","Name":"buidling_tab_1"},{"Bounds":"472, 0, 32, 34","Name":"borderRightBot"},{"Bounds":"504, 0, 448, 22","Name":"level.selected"},{"Bounds":"504, 22, 48, 17","Name":"locked"},{"Bounds":"552, 22, 88, 13","Name":"buidling_tab_4"},{"Bounds":"952, 0, 32, 34","Name":"borderRightTop"},{"Bounds":"984, 0, 7, 34","Name":"borderTop"},{"Bounds":"991, 0, 7, 34","Name":"borderBot"},{"Bounds":"0, 42, 84, 88","Name":"helpGrey"},{"Bounds":"0, 130, 35, 50","Name":"eyebotHelp"},{"Bounds":"35, 130, 44, 45","Name":"fanHelp"},{"Bounds":"0, 180, 84, 88","Name":"helpKey"},{"Bounds":"0, 268, 84, 89","Name":"helpJunkbot"},{"Bounds":"0, 357, 54, 55","Name":"helpTemplate"},{"Bounds":"0, 412, 62, 34","Name":"building_icon_3"},{"Bounds":"0, 446, 41, 34","Name":"borderLeftBot"},{"Bounds":"0, 480, 63, 36","Name":"building_icon_3_locked"},{"Bounds":"0, 516, 84, 88","Name":"helpTrash"},{"Bounds":"0, 604, 57, 44","Name":"building_icon_4_locked"},{"Bounds":"0, 648, 59, 44","Name":"building_icon_2_locked"},{"Bounds":"0, 692, 35, 42","Name":"haz_dumbfloat_R_2"},{"Bounds":"35, 692, 44, 26","Name":"fireHelp"},{"Bounds":"0, 734, 84, 88","Name":"helpMoves"},{"Bounds":"84, 42, 412, 114","Name":"complete_all_levels_msg"},{"Bounds":"496, 42, 179, 81","Name":"level_lose"},{"Bounds":"675, 42, 142, 93","Name":"level_moves_ui"},{"Bounds":"84, 156, 650, 420","Name":"neo_title"},{"Bounds":"734, 156, 123, 420","Name":"larger_bkg_test"},{"Bounds":"84, 576, 383, 207","Name":"level_end_main"}]}

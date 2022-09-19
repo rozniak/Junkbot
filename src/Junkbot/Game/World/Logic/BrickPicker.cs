@@ -205,7 +205,7 @@ namespace Junkbot.Game.World.Logic
                 
                 // Check region itself is free (and within the play field)
                 //
-                if (!Scene.CheckGridRegionFreeForActor(brick, newRange))
+                if (!Scene.CheckGridRegionFreeForActor(brick, newRange, out var ignore))
                 {
                     return false;
                 }

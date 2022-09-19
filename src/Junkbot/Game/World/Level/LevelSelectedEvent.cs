@@ -36,12 +36,12 @@ namespace Junkbot.Game.World.Level
         /// <summary>
         /// Gets the index of the building that was selected.
         /// </summary>
-        public int BuildingIndex { get; private set; }
+        public byte BuildingIndex { get; private set; }
         
         /// <summary>
         /// Gets the index of the level that was selected.
         /// </summary>
-        public int LevelIndex { get; private set; }
+        public byte LevelIndex { get; private set; }
         
         
         /// <summary>
@@ -49,8 +49,8 @@ namespace Junkbot.Game.World.Level
         /// class.
         /// </summary>
         public LevelSelectedEventArgs(
-            int buildingIndex,
-            int levelIndex
+            byte buildingIndex,
+            byte levelIndex
         )
         {
             BuildingIndex = buildingIndex;

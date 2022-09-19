@@ -65,11 +65,27 @@ namespace Junkbot.Game
         /// The backing animation store.
         /// </summary>
         private SpriteAnimationStore AnimationStore;
+        
+        /// <summary>
+        /// The number of flags that Junkbot has collected.
+        /// </summary>
+        private int FlagsCollected;
+        
+        /// <summary>
+        /// The number of flags that Junkbot must collect to win the level.
+        /// </summary>
+        private int FlagsRequired;
 
         /// <summary>
         /// The playfield grid.
         /// </summary>
         private JunkbotActorBase[,] PlayField;
+
+
+        /// <summary>
+        /// Occurs when gameplay has ended.
+        /// </summary>
+        public EventHandler GameplayEnded;
 
 
         /// <summary>
@@ -128,6 +144,18 @@ namespace Junkbot.Game
                         
                         break;
 
+                    case "flag":
+                        actor =
+                            new FlagActor(
+                                this,
+                                location,
+                                store
+                            );
+
+                        FlagsRequired++;
+                            
+                        break;
+
                     case "minifig":
                         actor =
                             new JunkbotActor(
@@ -138,6 +166,9 @@ namespace Junkbot.Game
                                   FacingDirection.Right,
                                 store
                             );
+                            
+                        ((JunkbotActor) actor).FlagCollected += Junkbot_FlagCollected;
+                            
                         break;
 
                     default:
@@ -156,8 +187,8 @@ namespace Junkbot.Game
             
             BrickPicker = new BrickPicker(this);
         }
-        
-        
+
+
         /// <summary>
         /// Adds an actor to the scene.
         /// </summary>
@@ -200,15 +231,21 @@ namespace Junkbot.Game
         /// <param name="region">
         /// The region to check.
         /// </param>
+        /// <param name="foundActor">
+        /// (Output) The actor blocking the region, if any.
+        /// </param>
         /// <returns>
         /// True if the region is free.
         /// </returns>
         public bool CheckGridRegionFreeForActor(
-            JunkbotActorBase actor,
-            Rectangle        region
+            JunkbotActorBase     actor,
+            Rectangle            region,
+            out JunkbotActorBase foundActor
         )
         {
             Point[] cellsToCheck = RectToGridCells(region);
+
+            foundActor = null;
 
             foreach (Point cell in cellsToCheck)
             {
@@ -225,6 +262,7 @@ namespace Junkbot.Game
                     PlayField[cell.X, cell.Y] != actor
                 )
                 {
+                    foundActor = PlayField[cell.X, cell.Y];
                     return false;
                 }
             }
@@ -777,6 +815,27 @@ namespace Junkbot.Game
                 e.NewLocation,
                 e.OldLocation
             );
+        }
+        
+        /// <summary>
+        /// (Event) Handles when Junkbot has collected a flag.
+        /// </summary>
+        void Junkbot_FlagCollected(
+            object    sender,
+            EventArgs e
+        )
+        {
+            FlagsCollected++;
+            
+            if (FlagsCollected >= FlagsRequired)
+            {
+                // TODO: This is extremely basic, we will need to expand this event
+                //       to describe why the game ended (win or loss), and handle
+                //       Update() here to freeze the actors (except when Junkbot dies, in
+                //       which case freeze all actors except the dying Junkbot)
+                //
+                GameplayEnded?.Invoke(sender, e);
+            }
         }
         
         

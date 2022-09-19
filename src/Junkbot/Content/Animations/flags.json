@@ -6,15 +6,15 @@
       {
         "sprites": [
           {
-            "sprite": "flag_s1",
-            "offset": "0, 0"
+            "sprite": "flag_s3",
+            "offset": "0, 7"
           },
           {
             "sprite": "flag_s2",
             "offset": "0, 0"
           },
           {
-            "sprite": "flag_s3",
+            "sprite": "flag_s1",
             "offset": "0, 0"
           }
         ],

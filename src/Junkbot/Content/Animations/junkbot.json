@@ -1,5 +1,368 @@
 ﻿[
   {
+    "name": "junkbot-eat-bin",
+    "tick-size": 66.667,
+    "frames": [
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_1_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_1_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_1_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_1_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_2_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_2_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_2_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_2_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_3_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_3_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_3_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_3_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_4_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_4_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_4_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_4_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_5_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_5_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_5_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_5_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_6_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_6_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_6_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_6_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_7_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_7_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_7_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_7_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_8_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_8_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_8_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_8_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_9_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_9_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_9_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_9_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_10_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_10_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_10_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_10_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_11_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_11_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_11_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_11_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_12_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_12_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_12_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_12_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_13_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_13_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_13_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_13_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_14_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_14_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_14_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_14_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_15_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_15_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_15_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_15_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_16_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_16_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_16_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_16_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      },
+      {
+        "sprites": [
+          {
+              "sprite": "minifig_eat_r_17_s4",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_17_s3",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_17_s2",
+              "offset": "0, 0"
+          },
+          {
+              "sprite": "minifig_eat_r_17_s1",
+              "offset": "0, 0"
+          }
+        ],
+        "ticks": 1
+      }
+    ]
+  },
+  {
     "name": "junkbot-walk-left",
     "tick-size": 66.667,
     "frames": [
