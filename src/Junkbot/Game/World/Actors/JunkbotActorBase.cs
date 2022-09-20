@@ -32,6 +32,11 @@ namespace Junkbot.Game.World.Actors
         /// Gets the size of the actor on the grid.
         /// </summary>
         public abstract Size GridSize { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the actor is mobile.
+        /// </summary>
+        public abstract bool IsMobile { get; }
         
         /// <summary>
         /// Gets the location of the actor on the grid.

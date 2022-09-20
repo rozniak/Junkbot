@@ -37,8 +37,14 @@ namespace Junkbot.Game.World.Actors
         {
             get { return FlagBoundingBox.Size; }
         }
-        
-        
+
+        /// <inheritdoc />
+        public override bool IsMobile
+        {
+            get { return false; }
+        }
+
+
         /// <summary>
         /// The scene.
         /// </summary>
@@ -72,6 +78,15 @@ namespace Junkbot.Game.World.Actors
 
                 Animation.GoToAndStop("flag-trashcan");
             }
+        }
+
+
+        /// <summary>
+        /// Collects the flag.
+        /// </summary>
+        public void Collect()
+        {
+            Scene.RemoveActor(this);
         }
         
         

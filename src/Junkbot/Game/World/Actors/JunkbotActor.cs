@@ -45,13 +45,14 @@ namespace Junkbot.Game.World.Actors
         {
             get { return JunkbotGridSize; }
         }
-        
-        
-        /// <summary>
-        /// The current brain state.
-        /// </summary>
-        private JunkbotBrainState BrainState { get; set; }
-        
+
+        /// <inheritdoc />
+        public override bool IsMobile
+        {
+            get { return true; }
+        }
+
+
         /// <summary>
         /// The delegate method that executes the next step for the current brain
         /// state.
@@ -162,7 +163,6 @@ namespace Junkbot.Game.World.Actors
                     BrainStateCallback = StepEatingBinState;
 
                     Animation.GoToAndPlay("junkbot-eat-bin");
-                    
                     Animation.FinishedPlayback += Animation_FinishedPlayback;
 
                     break;
@@ -287,6 +287,7 @@ namespace Junkbot.Game.World.Actors
                     switch (blockingActor)
                     {
                         case FlagActor flag:
+                            flag.Collect();
                             SetBrainState(JunkbotBrainState.EatingBin);
                             return;
                             

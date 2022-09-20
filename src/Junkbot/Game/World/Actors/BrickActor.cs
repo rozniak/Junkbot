@@ -74,7 +74,13 @@ namespace Junkbot.Game.World.Actors
         {
             get { return _Color.Name == "Gray"; }
         }
-        
+
+        /// <inheritdoc />
+        public override bool IsMobile
+        {
+            get { return false; }
+        }
+
         /// <summary>
         /// Gets the size of the brick.
         /// </summary>

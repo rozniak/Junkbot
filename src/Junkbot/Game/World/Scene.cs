@@ -233,7 +233,7 @@ namespace Junkbot.Game
 
             _Actors.Add(actor);
             
-            if (!(actor is BrickActor))
+            if (actor.IsMobile)
             {
                 _MobileActors.Add(actor);
             }
@@ -615,7 +615,7 @@ namespace Junkbot.Game
 
             _Actors.Remove(actor);
             
-            if (!(actor is BrickActor))
+            if (actor.IsMobile)
             {
                 _MobileActors.Remove(actor);
             }

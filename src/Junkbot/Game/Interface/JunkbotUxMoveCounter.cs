@@ -20,9 +20,15 @@ namespace Junkbot.Game.Interface
     /// </summary>
     public class JunkbotUxMoveCounter : UxComponent
     {
+        /// <summary>
+        /// The width of the move counter box, as a <see cref="Size"/>.
+        /// </summary>
         private static readonly Size CounterBoxWidthSize =
             new Size(68, 0);
 
+        /// <summary>
+        /// The top-right padding in the move counter box.
+        /// </summary>
         private static readonly Size PaddingOffsetSize =
             new Size(-2, 3);
 
