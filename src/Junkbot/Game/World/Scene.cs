@@ -28,6 +28,12 @@ namespace Junkbot.Game
     public sealed class Scene
     {
         /// <summary>
+        /// The offset on the y-axis for the actual level itself within the scene.
+        /// </summary>
+        public const int LevelYOffset = 24;
+    
+    
+        /// <summary>
         /// Gets the actors in the scene.
         /// </summary>
         public IList<JunkbotActorBase> Actors
@@ -632,7 +638,7 @@ namespace Junkbot.Game
                             continue;
                         }
 
-                        // Draw now!
+                        // Acquire sprite data from actor, if applicable...
                         //
                         SpriteAnimationSpriteData spriteData =
                             actor.GetSpriteAtCell(x, y);
@@ -642,9 +648,20 @@ namespace Junkbot.Game
                             continue;
                         }
 
+                        // Calculate where exactly to draw the sprite, taking into
+                        // account the isometric view
+                        //
+                        ISprite sprite   = sb.Atlas.Sprites[spriteData.SpriteName];
+                        Point   cellDiff =
+                            new Point(
+                                0,
+                                CellSize.Height - sprite.Size.Height + LevelYOffset
+                            );
+                        
                         sb.Draw(
-                            sb.Atlas.Sprites[spriteData.SpriteName],
+                            sprite,
                             (new Point(x, y)).Product(CellSize)
+                                             .Add(cellDiff)
                                              .Add(spriteData.Offset),
                             Color.Transparent
                         );

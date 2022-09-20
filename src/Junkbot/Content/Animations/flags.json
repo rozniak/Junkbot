@@ -7,7 +7,7 @@
         "sprites": [
           {
             "sprite": "flag_s3",
-            "offset": "0, 7"
+            "offset": "0, 0"
           },
           {
             "sprite": "flag_s2",
@@ -15,7 +15,7 @@
           },
           {
             "sprite": "flag_s1",
-            "offset": "0, 0"
+            "offset": "0, -4"
           }
         ],
         "ticks": 0

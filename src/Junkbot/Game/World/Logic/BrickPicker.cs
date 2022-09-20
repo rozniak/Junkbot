@@ -49,6 +49,13 @@ namespace Junkbot.Game.World.Logic
         /// </summary>
         private static readonly Size IsometricViewOverlapping =
             new Size(11, 14);
+            
+        /// <summary>
+        /// The offset to apply to synchronize drawing and mouse hit test with the
+        /// scene in the viewport.
+        /// </summary>
+        private static readonly Point SyncOffset =
+            new Point(0, Scene.LevelYOffset - IsometricViewOverlapping.Height);
         
 
         /// <summary>
@@ -445,7 +452,8 @@ namespace Junkbot.Game.World.Logic
                 // Draw in the pos by the mouse
                 //
                 Point final = brick.Location.Add(movement)
-                                            .Product(Scene.CellSize);
+                                            .Product(Scene.CellSize)
+                                            .Add(SyncOffset);
 
                 sb.Draw(
                     sb.Atlas.Sprites[spriteData.SpriteName],
@@ -837,6 +845,7 @@ namespace Junkbot.Game.World.Logic
             {
                 Rectangle brickHitBox =
                     brick.BoundingBox.Scale(Scene.CellSize)
+                                     .AddOffset(SyncOffset)
                                      .AddSize(IsometricViewOverlapping);
 
                 if (
