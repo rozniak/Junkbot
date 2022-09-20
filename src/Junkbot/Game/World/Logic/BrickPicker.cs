@@ -138,6 +138,12 @@ namespace Junkbot.Game.World.Logic
 
 
         /// <summary>
+        /// Occurs when bricks are picked up.
+        /// </summary>
+        public event EventHandler PickedUpBricks;
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BrickPicker"/> class.
         /// </summary>
         /// <param name="scene">
@@ -333,6 +339,8 @@ namespace Junkbot.Game.World.Logic
             //
             HandPickupOffset   = brick.Location.ToPointF().Subtract(location);
             HandPickupPosition = location;
+
+            PickedUpBricks?.Invoke(this, EventArgs.Empty);
 
             return true;
         }

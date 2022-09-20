@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Interface\JunkbotUxMoveCounter.cs" />
     <Compile Include="Game\JunkbotEngineParameters.cs" />
     <Compile Include="Game\JunkbotGame.cs" />
     <Compile Include="Game\State\SplashGameState.cs" />

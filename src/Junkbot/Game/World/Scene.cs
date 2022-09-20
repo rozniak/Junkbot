@@ -53,6 +53,11 @@ namespace Junkbot.Game
         public Size CellSize { get; private set; }
 
         /// <summary>
+        /// Gets the number of moves made by the player.
+        /// </summary>
+        public int Moves { get; private set; }
+
+        /// <summary>
         /// Gets the mobile actors in the scene.
         /// </summary>
         public IList<JunkbotActorBase> MobileActors
@@ -92,6 +97,11 @@ namespace Junkbot.Game
         /// Occurs when gameplay has ended.
         /// </summary>
         public EventHandler GameplayEnded;
+
+        /// <summary>
+        /// Occurs when a move has been made.
+        /// </summary>
+        public EventHandler PlayedMove;
 
 
         /// <summary>
@@ -191,7 +201,11 @@ namespace Junkbot.Game
                 );
             }
             
+            // Set up brick picker
+            //
             BrickPicker = new BrickPicker(this);
+
+            BrickPicker.PickedUpBricks += BrickPicker_PickedUpBricks;
         }
 
 
@@ -833,11 +847,24 @@ namespace Junkbot.Game
                 e.OldLocation
             );
         }
-        
+
+        /// <summary>
+        /// (Event) Handles when the player has picked up bricks.
+        /// </summary>
+        private void BrickPicker_PickedUpBricks(
+            object    sender,
+            EventArgs e
+        )
+        {
+            Moves++;
+
+            PlayedMove?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>
         /// (Event) Handles when Junkbot has collected a flag.
         /// </summary>
-        void Junkbot_FlagCollected(
+        private void Junkbot_FlagCollected(
             object    sender,
             EventArgs e
         )

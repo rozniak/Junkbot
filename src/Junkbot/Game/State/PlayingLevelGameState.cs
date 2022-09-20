@@ -7,6 +7,7 @@
  * Author(s): Rory Fewell <roryf@oddmatics.uk>
  */
 
+using Junkbot.Game.Interface;
 using Oddmatics.Rzxe.Game;
 using Oddmatics.Rzxe.Game.Interface;
 using Oddmatics.Rzxe.Input;
@@ -56,8 +57,28 @@ namespace Junkbot.Game.State
         /// The user interface shell.
         /// </summary>
         private UxShell Shell { get; set; }
-        
-        
+
+
+        #region Drawing Related
+
+        /// <summary>
+        /// The target sprite batch for rendering the shell sidebar.
+        /// </summary>
+        private ISpriteBatch SidebarSpriteBatch { get; set; }
+
+        #endregion
+
+
+        #region Shell Components
+
+        /// <summary>
+        /// The move counter.
+        /// </summary>
+        private JunkbotUxMoveCounter MoveCounter { get; set; }
+
+        #endregion
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayingLevelGameState"/> class.
         /// </summary>
@@ -83,13 +104,20 @@ namespace Junkbot.Game.State
                          );
                          
             LevelScene.GameplayEnded += LevelScene_GameplayEnded;
+
+            InitializeShell();
         }
 
 
         /// <inheritdoc />
         public override void Dispose()
         {
-            // TODO: Implement this
+            Shell.Dispose();
+
+            if (SidebarSpriteBatch != null)
+            {
+                SidebarSpriteBatch.Dispose();
+            }
         }
         
         /// <inheritdoc />
@@ -100,8 +128,10 @@ namespace Junkbot.Game.State
             graphics.ClearViewport(Color.CornflowerBlue);
 
             LevelScene.RenderFrame(graphics);
+
+            RenderSidebar(graphics);
             
-            // TODO: Shell renderframe
+            Shell.RenderFrame(graphics);
         }
         
         /// <inheritdoc />
@@ -110,7 +140,10 @@ namespace Junkbot.Game.State
             InputEvents inputs
         )
         {
-            // TODO: Shell handle inputs
+            if (inputs != null)
+            {
+                Shell.HandleMouseInputs(inputs);
+            }
 
             PointF mousePos =
                 Game.EngineHost.Renderer.PointToViewport(
@@ -132,6 +165,59 @@ namespace Junkbot.Game.State
                     deltaTime
                 );
             }
+        }
+
+
+        /// <summary>
+        /// Initializes the in-game shell.
+        /// </summary>
+        private void InitializeShell()
+        {
+            Shell = new UxShell();
+
+            // MoveCounter
+            //
+            MoveCounter =
+                new JunkbotUxMoveCounter(LevelScene)
+                {
+                    Location = new Point(551, 222)
+                };
+
+            Shell.Components.Add(MoveCounter);
+        }
+
+        /// <summary>
+        /// Renders the sidebar graphics.
+        /// </summary>
+        /// <param name="graphics">
+        /// The graphics interface for the renderer.
+        /// </param>
+        private void RenderSidebar(
+            IGraphicsController graphics
+        )
+        {
+            if (SidebarSpriteBatch == null)
+            {
+                ISpriteAtlas atlas = graphics.GetSpriteAtlas("menu");
+
+                SidebarSpriteBatch =
+                    graphics.CreateSpriteBatch(
+                        atlas,
+                        SpriteBatchUsageHint.Static
+                    );
+                
+                SidebarSpriteBatch.Draw(
+                    atlas.Sprites["larger_bkg_test"],
+                    new Rectangle(
+                        new Point(527, 0),
+                        new Size(123, 420)
+                    ),
+                    DrawMode.Stretch,
+                    Color.Transparent
+                );
+            }
+
+            SidebarSpriteBatch.Finish();
         }
         
         
