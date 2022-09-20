@@ -753,71 +753,189 @@
     <Content Include="Content\Levels\Junkbot\levels.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Levels\Junkbot\A New Kind of Gearbot.txt" />
-    <Content Include="Content\Levels\Junkbot\Aerodynamics.txt" />
-    <Content Include="Content\Levels\Junkbot\Air Conditioning.txt" />
-    <Content Include="Content\Levels\Junkbot\All Kinds of Trouble.txt" />
-    <Content Include="Content\Levels\Junkbot\Art Factory.txt" />
+    <Content Include="Content\Levels\Junkbot\A New Kind of Gearbot.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Aerodynamics.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Air Conditioning.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\All Kinds of Trouble.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Art Factory.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Levels\Junkbot\Art in the Lobby.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Levels\Junkbot\Bridge Builder.txt" />
-    <Content Include="Content\Levels\Junkbot\Bridge over Angry Gearbots.txt" />
-    <Content Include="Content\Levels\Junkbot\Caution Fire.txt" />
-    <Content Include="Content\Levels\Junkbot\Caution Leaky Roof.txt" />
-    <Content Include="Content\Levels\Junkbot\Clear the Corners.txt" />
-    <Content Include="Content\Levels\Junkbot\Disgruntled Climbbot.txt" />
-    <Content Include="Content\Levels\Junkbot\Don%27t Let the Dogs Out.txt" />
-    <Content Include="Content\Levels\Junkbot\Don%27t Touch the Gearbots.txt" />
-    <Content Include="Content\Levels\Junkbot\Elevator Action.txt" />
-    <Content Include="Content\Levels\Junkbot\Eyebot on Patrol.txt" />
-    <Content Include="Content\Levels\Junkbot\Fill the Gaps.txt" />
-    <Content Include="Content\Levels\Junkbot\Fire and Ice.txt" />
-    <Content Include="Content\Levels\Junkbot\Gearbots in Cubicles.txt" />
-    <Content Include="Content\Levels\Junkbot\Gearbots That Float.txt" />
-    <Content Include="Content\Levels\Junkbot\Gotcha.txt" />
-    <Content Include="Content\Levels\Junkbot\Happy Holidays!.txt" />
-    <Content Include="Content\Levels\Junkbot\Hot Air.txt" />
-    <Content Include="Content\Levels\Junkbot\Internal Combustion.txt" />
-    <Content Include="Content\Levels\Junkbot\It%27s Raining Climbbots!.txt" />
-    <Content Include="Content\Levels\Junkbot\Jump Around.txt" />
-    <Content Include="Content\Levels\Junkbot\Junkbot is Brave.txt" />
-    <Content Include="Content\Levels\Junkbot\Junkbot%27s Lucky Number.txt" />
-    <Content Include="Content\Levels\Junkbot\Junkbot%27s Secret Weapon.txt" />
+    <Content Include="Content\Levels\Junkbot\Bridge Builder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Bridge over Angry Gearbots.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Caution Fire.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Caution Leaky Roof.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Clear the Corners.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Disgruntled Climbbot.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Don%27t Let the Dogs Out.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Don%27t Touch the Gearbots.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Elevator Action.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Eyebot on Patrol.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Fill the Gaps.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Fire and Ice.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Gearbots in Cubicles.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Gearbots That Float.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Gotcha.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Happy Holidays!.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Hot Air.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Internal Combustion.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\It%27s Raining Climbbots!.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Jump Around.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Junkbot is Brave.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Junkbot%27s Lucky Number.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Junkbot%27s Secret Weapon.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Levels\Junkbot\loading_level.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Levels\Junkbot\Look Before You Leap.txt" />
-    <Content Include="Content\Levels\Junkbot\Move the Stairs.txt" />
-    <Content Include="Content\Levels\Junkbot\Movin%27 On Up.txt" />
-    <Content Include="Content\Levels\Junkbot\New Employee Training.txt" />
-    <Content Include="Content\Levels\Junkbot\Number One Fan.txt" />
-    <Content Include="Content\Levels\Junkbot\Off and On.txt" />
-    <Content Include="Content\Levels\Junkbot\Pardon Me.txt" />
-    <Content Include="Content\Levels\Junkbot\Perpetual Motion Machine.txt" />
-    <Content Include="Content\Levels\Junkbot\Portable Boost.txt" />
-    <Content Include="Content\Levels\Junkbot\Raincoat.txt" />
-    <Content Include="Content\Levels\Junkbot\Ride the Wind.txt" />
-    <Content Include="Content\Levels\Junkbot\Running the Gauntlet.txt" />
-    <Content Include="Content\Levels\Junkbot\Scary, Scary Eyebot.txt" />
-    <Content Include="Content\Levels\Junkbot\Terrarium.txt" />
-    <Content Include="Content\Levels\Junkbot\The Drafty Floor.txt" />
-    <Content Include="Content\Levels\Junkbot\The Engine Room.txt" />
-    <Content Include="Content\Levels\Junkbot\The Garage.txt" />
-    <Content Include="Content\Levels\Junkbot\The Long Umbrella.txt" />
-    <Content Include="Content\Levels\Junkbot\The Quest.txt" />
-    <Content Include="Content\Levels\Junkbot\The Secret Laboratory.txt" />
-    <Content Include="Content\Levels\Junkbot\The Think Tank.txt" />
-    <Content Include="Content\Levels\Junkbot\Thermostat.txt" />
-    <Content Include="Content\Levels\Junkbot\Traffic.txt" />
-    <Content Include="Content\Levels\Junkbot\Trapped in the Freezer.txt" />
-    <Content Include="Content\Levels\Junkbot\Up, Up, and Away.txt" />
-    <Content Include="Content\Levels\Junkbot\Ups and Downs.txt" />
-    <Content Include="Content\Levels\Junkbot\What is Project X.txt" />
-    <Content Include="Content\Levels\Junkbot\Which Switch.txt" />
-    <Content Include="Content\Levels\Junkbot\Wind Tunnel.txt" />
-    <Content Include="Content\Levels\Junkbot\Windy Bridge.txt" />
-    <Content Include="Content\Levels\Junkbot\Working in the Rain.txt" />
+    <Content Include="Content\Levels\Junkbot\Look Before You Leap.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Move the Stairs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Movin%27 On Up.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\New Employee Training.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Number One Fan.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Off and On.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Pardon Me.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Perpetual Motion Machine.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Portable Boost.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Raincoat.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Ride the Wind.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Running the Gauntlet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Scary, Scary Eyebot.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Terrarium.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Drafty Floor.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Engine Room.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Garage.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Long Umbrella.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Quest.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Secret Laboratory.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\The Think Tank.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Thermostat.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Traffic.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Trapped in the Freezer.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Up, Up, and Away.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Ups and Downs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\What is Project X.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Which Switch.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Wind Tunnel.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Windy Bridge.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Levels\Junkbot\Working in the Rain.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\submodules\Rzxe\src\lib\Rzxe\Rzxe.csproj">

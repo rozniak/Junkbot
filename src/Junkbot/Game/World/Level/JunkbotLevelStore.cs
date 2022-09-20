@@ -157,7 +157,7 @@ namespace Junkbot.Game.World.Level
                 
                 for (int j = 0; j < perBuilding; j++)
                 {
-                    int nextLevel = (i * perBuilding) + j + 1; // Offset in array
+                    int nextLevel = (i * perBuilding) + j; // Offset in array
                     
                     if (nextLevel >= listing.Levels.Length)
                     {
