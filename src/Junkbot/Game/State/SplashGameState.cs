@@ -103,6 +103,7 @@ namespace Junkbot.Game.State
         /// <inheritdoc />
         public override void Dispose()
         {
+            DemoScene.Dispose();
             Shell.Dispose();
             
             if (TitleSpriteBatch != null)

@@ -112,6 +112,7 @@ namespace Junkbot.Game.State
         /// <inheritdoc />
         public override void Dispose()
         {
+            LevelScene.Dispose();
             Shell.Dispose();
 
             if (SidebarSpriteBatch != null)

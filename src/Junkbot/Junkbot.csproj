@@ -92,7 +92,6 @@
     <Compile Include="Game\State\SplashGameState.cs" />
     <Compile Include="Game\World\Actors\BrickActor.cs" />
     <Compile Include="Game\World\Actors\BrickSize.cs" />
-    <Compile Include="Game\World\Actors\DecalActor.cs" />
     <Compile Include="Game\World\Actors\FacingDirection.cs" />
     <Compile Include="Game\World\Actors\JunkbotActorBase.cs" />
     <Compile Include="Game\World\Actors\JunkbotActor.cs" />
@@ -129,6 +128,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Animations\legoparts.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\bg-atlas.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menu-atlas.json">
@@ -210,6 +212,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Atlas\bg-atlas.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Atlas\menu-atlas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

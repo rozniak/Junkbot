@@ -25,7 +25,7 @@ namespace Junkbot.Game
     /// <summary>
     /// Represents the main Junkbot game scene.
     /// </summary>
-    public sealed class Scene
+    public sealed class Scene : IDisposable
     {
         /// <summary>
         /// The offset on the y-axis for the actual level itself within the scene.
@@ -76,6 +76,12 @@ namespace Junkbot.Game
         /// The backing animation store.
         /// </summary>
         private SpriteAnimationStore AnimationStore;
+
+        /// <summary>
+        /// The value that indicates whether the scene has been disposed or is
+        /// currently being disposed.
+        /// </summary>
+        private bool Disposing;
         
         /// <summary>
         /// The number of flags that Junkbot has collected.
@@ -88,9 +94,21 @@ namespace Junkbot.Game
         private int FlagsRequired;
 
         /// <summary>
+        /// The parsed level data for the scene.
+        /// </summary>
+        private JunkbotLevelData LevelData;
+
+        /// <summary>
         /// The playfield grid.
         /// </summary>
         private JunkbotActorBase[,] PlayField;
+
+
+        #region Drawing Related
+
+        private ISpriteBatch BackgroundSpriteBatch;
+
+        #endregion
 
 
         /// <summary>
@@ -118,6 +136,8 @@ namespace Junkbot.Game
             SpriteAnimationStore store = null
         )
         {
+            LevelData = levelData;
+
             _Actors        = new List<JunkbotActorBase>();
             _MobileActors  = new List<JunkbotActorBase>();
             AnimationStore = store;
@@ -309,6 +329,25 @@ namespace Junkbot.Game
                     Size
                 )
             );
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            // TODO: Probably shift 'AssertNotDisposed' to an abstract class in
+            //       rzxe?
+            //
+            if (Disposing)
+            {
+                throw new ObjectDisposedException(nameof(Scene));
+            }
+
+            Disposing = true;
+
+            if (BackgroundSpriteBatch != null)
+            {
+                BackgroundSpriteBatch.Dispose();
+            }
         }
 
         /// <summary>
@@ -633,6 +672,8 @@ namespace Junkbot.Game
             IGraphicsController graphics
         )
         {
+            RenderBackground(graphics);
+
             using (
                 ISpriteBatch sb =
                     graphics.CreateSpriteBatch(
@@ -790,6 +831,54 @@ namespace Junkbot.Game
             {
                 PlayField[cell.X, cell.Y] = null;
             }
+        }
+
+        /// <summary>
+        /// Renders the scene background.
+        /// </summary>
+        /// <param name="graphics">
+        /// The graphics interface for the renderer.
+        /// </param>
+        private void RenderBackground(
+            IGraphicsController graphics
+        )
+        {
+            if (BackgroundSpriteBatch == null)
+            {
+                ISpriteAtlas atlas = graphics.GetSpriteAtlas("bg");
+
+                BackgroundSpriteBatch =
+                    graphics.CreateSpriteBatch(
+                        atlas,
+                        SpriteBatchUsageHint.Static
+                    );
+
+                // Render the background itself
+                //
+                BackgroundSpriteBatch.Draw(
+                    atlas.Sprites[LevelData.Backdrop],
+                    Point.Empty,
+                    Color.Transparent
+                );
+
+                // Render decals
+                //
+                // The positioning is because their origin is in the centre rather
+                // than the top left
+                //
+                foreach (JunkbotDecalData decal in LevelData.Decals)
+                {
+                    ISprite sprite = atlas.Sprites[decal.SpriteName];
+
+                    BackgroundSpriteBatch.Draw(
+                        sprite,
+                        decal.Location.Subtract(sprite.Size.Reduce(2)),
+                        Color.Transparent
+                    );
+                }
+            }
+
+            BackgroundSpriteBatch.Finish();
         }
         
         /// <summary>
