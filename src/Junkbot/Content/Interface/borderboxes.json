@@ -18,5 +18,15 @@
         10
       ],
       "SpriteName": "button_s_inactive"
+    },
+    {
+      "Name": "dialog",
+      "Slices": [
+        34,
+        32,
+        34,
+        32
+      ],
+      "SpriteName": "dialog"
     }
 ]

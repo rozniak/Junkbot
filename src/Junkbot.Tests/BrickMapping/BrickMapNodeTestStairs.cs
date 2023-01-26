@@ -8,6 +8,7 @@
  */
 
 using Junkbot.Game;
+using Junkbot.Game.World.Level;
 using Junkbot.Game.World.Logic;
 using Junkbot.Tests.Util;
 using NUnit.Framework;
@@ -43,11 +44,9 @@ namespace Junkbot.Tests.BrickMapping
                         BrickDetachDirection.Either
                     )
                 };
-            
+
             GameScene =
-                Scene.FromLevel(
-                    TestLevels.GetLevelPath("stairs")
-                );
+                new Scene(new JunkbotLevel(TestLevels.GetLevelPath("stairs")));
         }
     }
 }

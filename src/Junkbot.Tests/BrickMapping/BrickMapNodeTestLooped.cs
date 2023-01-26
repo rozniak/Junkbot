@@ -8,6 +8,7 @@
  */
 
 using Junkbot.Game;
+using Junkbot.Game.World.Level;
 using Junkbot.Game.World.Logic;
 using Junkbot.Tests.Util;
 using NUnit.Framework;
@@ -94,9 +95,7 @@ namespace Junkbot.Tests.BrickMapping
                 };
             
             GameScene =
-                Scene.FromLevel(
-                    TestLevels.GetLevelPath("looped")
-                );
+                new Scene(new JunkbotLevel(TestLevels.GetLevelPath("looped")));
         }
     }
 }

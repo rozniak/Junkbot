@@ -118,6 +118,10 @@
     <Compile Include="Game\World\Level\LevelSelectedEvent.cs" />
     <Compile Include="Game\State\PlayingLevelGameState.cs" />
     <Compile Include="Game\World\Actors\FlagActor.cs" />
+    <Compile Include="Game\Interface\JunkbotUxDialog.cs" />
+    <Compile Include="Game\Interface\JunkbotUxText.cs" />
+    <Compile Include="Game\Interface\JunkbotUxImage.cs" />
+    <Compile Include="Game\World\Level\JunkbotLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

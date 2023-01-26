@@ -18,7 +18,7 @@ namespace Junkbot.Game.Interface
     /// <summary>
     /// Represents a Junkbot themed button user interface component.
     /// </summary>
-    public class JunkbotUxButton : UxComponent
+    public sealed class JunkbotUxButton : UxComponent
     {
         /// <summary>
         /// The border metrics for the content area.
@@ -32,30 +32,25 @@ namespace Junkbot.Game.Interface
             new EdgeMetrics(3, 8, 5, 1);
         
         
-        /// <inheritdoc />
-        public override Point Location
+        /// <summary>
+        /// Gets or sets the font size of the text on the button.
+        /// </summary>
+        public int FontSize
         {
-            get { return _Location; }
+            get { return _FontSize; }
             set
             {
-                _Location = value;
-                Dirty     = true;
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Invalid font size specified.");
+                }
+
+                _FontSize = value;
+                Invalidate();
             }
         }
-        private Point _Location;
-        
-        /// <inheritdoc />
-        public override Size Size
-        {
-            get { return _Size; }
-            set
-            {
-                _Size = value;
-                Dirty = true;
-            }
-        }
-        private Size _Size;
-        
+        private int _FontSize;
+
         /// <inheritdoc />
         public string Text
         {
@@ -70,17 +65,11 @@ namespace Junkbot.Game.Interface
                 }
 
                 _Text = value;
-                Dirty = true;
+                Invalidate();
             }
         }
         private string _Text;
         
-        
-        /// <summary>
-        /// The value that indicates whether the state of the button is dirty and
-        /// the sprite batches must be regenerated on the next render call.
-        /// </summary>
-        private bool Dirty { get; set; }
         
         /// <summary>
         /// The font resource used for the button text.
@@ -119,26 +108,17 @@ namespace Junkbot.Game.Interface
         /// </summary>
         public JunkbotUxButton()
         {
-            _Location = new Point(64, 64);
-            _Size     = new Size(100, 64);
-            _Text     = string.Empty;
-
             Dirty = true;
+            FontSize = 1;
         }
         
         
         /// <inheritdoc />
         public override void Dispose()
         {
-            AssertNotDisposed();
-            
-            Disposing = true;
-            
-            if (TargetSpriteBatch != null)
-            {
-                TargetSpriteBatch.Instructions.Remove(ButtonDrawInstruction);
-                TargetSpriteBatch.Instructions.Remove(ButtonTextDrawInstruction);
-            }
+            base.Dispose();
+
+            TargetSpriteBatch?.Dispose();
         }
         
         /// <inheritdoc />
@@ -186,47 +166,52 @@ namespace Junkbot.Game.Interface
         )
         {
             AssertNotDisposed();
-
+            
             if (TargetSpriteBatch == null)
             {
-                if (Font == null)
-                {
-                    Font = sb.Atlas.GetSpriteFont("default", 4);
-                }
+                TargetSpriteBatch = sb;
 
-                var           inactiveBox = sb.Atlas.BorderBoxes["button_s_inactive"];
-                StringMetrics stringSize  = Font.MeasureString(Text);
+                ButtonDrawInstruction =
+                    TargetSpriteBatch.DrawBorderBox(
+                        sb.Atlas.BorderBoxes["button_s_inactive"],
+                        Rectangle.Empty,
+                        Color.Transparent
+                    );
+                    
+                Font = TargetSpriteBatch.Atlas.GetSpriteFont("default", FontSize);
+                ButtonTextDrawInstruction =
+                    TargetSpriteBatch.DrawString(
+                        string.Empty,
+                        Font,
+                        Point.Empty,
+                        Color.Black
+                    );
+            }
+            
+            if (Dirty)
+            {
+                Font = TargetSpriteBatch.Atlas.GetSpriteFont("default", FontSize);
+            
+                StringMetrics stringSize = Font.MeasureString(Text);
 
                 int contentHeight =
                     Size.Height - ContentAreaBorder.Bottom - ContentAreaBorder.Top;
                 int contentWidth =
                     Size.Width - ContentAreaBorder.Left - ContentAreaBorder.Right;
 
-                int contentX = ((contentWidth / 2) - (stringSize.Size.Width / 2));
-                int contentY = ((contentHeight / 2) - (stringSize.Size.Height / 2));
+                int contentX = (contentWidth / 2) - (stringSize.Size.Width / 2);
+                int contentY = (contentHeight / 2) - (stringSize.Size.Height / 2);
 
-                int finalX = Location.X + ContentAreaBorder.Left + contentX;
-                int finalY = Location.Y + ContentAreaBorder.Top + contentY;
+                int finalX = ActualLocation.X + ContentAreaBorder.Left + contentX;
+                int finalY = ActualLocation.Y + ContentAreaBorder.Top + contentY;
 
-                TargetSpriteBatch = sb;
+                ButtonDrawInstruction.Location = ActualLocation;
+                ButtonDrawInstruction.Size = Size;
 
-                ButtonDrawInstruction =
-                    TargetSpriteBatch.DrawBorderBox(
-                        inactiveBox,
-                        new Rectangle(
-                            Location,
-                            Size
-                        ),
-                        Color.Transparent
-                    );
+                ButtonTextDrawInstruction.Location = new Point(finalX, finalY);
+                ButtonTextDrawInstruction.Text = Text;
 
-                ButtonTextDrawInstruction =
-                    TargetSpriteBatch.DrawString(
-                        Text,
-                        Font,
-                        new Point(finalX, finalY),
-                        Color.Black
-                    );
+                Dirty = false;
             }
         }
     }

@@ -14,7 +14,7 @@ namespace Junkbot.Game.World.Level
     /// <summary>
     /// Represets a data model for decal data within Junkbot levels.
     /// </summary>
-    public struct JunkbotDecalData
+    public class JunkbotDecalData
     {
         /// <summary>
         /// Gets or sets the location of the decal.

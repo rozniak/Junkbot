@@ -18,7 +18,7 @@ namespace Junkbot.Game.Interface
     /// <summary>
     /// Represents a Junkbot move counter user interface component.
     /// </summary>
-    public class JunkbotUxMoveCounter : UxComponent
+    public sealed class JunkbotUxMoveCounter : UxComponent
     {
         /// <summary>
         /// The width of the move counter box, as a <see cref="Size"/>.
@@ -31,28 +31,29 @@ namespace Junkbot.Game.Interface
         /// </summary>
         private static readonly Size PaddingOffsetSize =
             new Size(-2, 3);
-
-
+            
+            
         /// <inheritdoc />
-        public override Point Location
+        public override Size Size
         {
-            get { return _Location; }
+            get
+            {
+                if (Font == null)
+                {
+                    return Size.Empty;
+                }
+
+                return Font.MeasureString(Scene.Moves.ToString()).Size;
+            }
+            
             set
             {
-                _Location = value;
-                Invalidate();
+                throw new InvalidOperationException(
+                    "Cannot set the size of move counters."
+                );
             }
         }
-        private Point _Location;
-
-
-        /// <summary>
-        /// The game scene.
-        /// </summary>
-        private Scene Scene;
-
-
-        #region Drawing Related
+            
 
         /// <summary>
         /// The font resource used for the counter.
@@ -69,7 +70,10 @@ namespace Junkbot.Game.Interface
         /// </summary>
         private ISpriteBatch TargetSpriteBatch { get; set; }
 
-        #endregion
+        /// <summary>
+        /// The game scene.
+        /// </summary>
+        private Scene Scene;
 
 
         /// <summary>
@@ -82,6 +86,7 @@ namespace Junkbot.Game.Interface
             Scene scene
         )
         {
+            Dirty = true;
             Scene = scene;
 
             Scene.PlayedMove += Scene_PlayedMove;
@@ -91,13 +96,11 @@ namespace Junkbot.Game.Interface
         /// <inheritdoc />
         public override void Dispose()
         {
-            AssertNotDisposed();
-
-            Disposing = true;
-
+            base.Dispose();
+            
             if (TargetSpriteBatch != null)
             {
-                TargetSpriteBatch.Instructions.Remove(CounterInstruction);
+                TargetSpriteBatch.Dispose();
             }
         }
 
@@ -124,33 +127,19 @@ namespace Junkbot.Game.Interface
                         Point.Empty,
                         Color.FromArgb(204, 153, 0)
                     );
-
-                // Immediately invalidate
-                //
-                Invalidate();
             }
-        }
-
-
-        /// <summary>
-        /// Invalidates the control.
-        /// </summary>
-        private void Invalidate()
-        {
-            if (TargetSpriteBatch == null)
+            
+            if (Dirty)
             {
-                return;
+                CounterInstruction.Location = ActualLocation.Add(CounterBoxWidthSize)
+                                                            .Add(PaddingOffsetSize)
+                                                            .Subtract(
+                                                                new Size(Size.Width, 0)
+                                                            );
+                CounterInstruction.Text     = Scene.Moves.ToString();
+
+                Dirty = false;
             }
-
-            string movesStr = Scene.Moves.ToString();
-            Size   size     = Font.MeasureString(movesStr).Size;
-
-            CounterInstruction.Location = Location.Add(CounterBoxWidthSize)
-                                                  .Add(PaddingOffsetSize)
-                                                  .Subtract(
-                                                      new Size(size.Width, 0)
-                                                  );
-            CounterInstruction.Text     = movesStr;
         }
 
 

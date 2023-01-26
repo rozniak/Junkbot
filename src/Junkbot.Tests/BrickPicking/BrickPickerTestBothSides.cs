@@ -9,6 +9,7 @@
  */
 
 using Junkbot.Game;
+using Junkbot.Game.World.Level;
 using Junkbot.Game.World.Logic;
 using Junkbot.Tests.Util;
 using NUnit.Framework;
@@ -213,9 +214,7 @@ namespace Junkbot.Tests.BrickPicking
                 };
 
             GameScene =
-                Scene.FromLevel(
-                    TestLevels.GetLevelPath("bothsides")
-                );
+                new Scene(new JunkbotLevel(TestLevels.GetLevelPath("bothsides")));
         }
     }
 }

@@ -17,7 +17,6 @@ using Oddmatics.Rzxe.Windowing.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 
 namespace Junkbot.Game
@@ -105,7 +104,10 @@ namespace Junkbot.Game
 
 
         #region Drawing Related
-
+        
+        /// <summary>
+        /// The sprite batch for drawing the level background.
+        /// </summary>
         private ISpriteBatch BackgroundSpriteBatch;
 
         #endregion
@@ -125,107 +127,21 @@ namespace Junkbot.Game
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene"/> class.
         /// </summary>
-        /// <param name="levelData">
-        /// The level data.
+        /// <param name="level">
+        /// The level.
         /// </param>
         /// <param name="store">
         /// The animation store.
         /// </param>
         public Scene(
-            JunkbotLevelData     levelData,
+            JunkbotLevel         level,
             SpriteAnimationStore store = null
         )
         {
-            LevelData = levelData;
-
-            _Actors        = new List<JunkbotActorBase>();
-            _MobileActors  = new List<JunkbotActorBase>();
             AnimationStore = store;
-            PlayField      = new JunkbotActorBase[
-                                 levelData.Size.Width,
-                                 levelData.Size.Height
-                             ];
-            CellSize       = levelData.Spacing;
-            Size           = levelData.Size;
+            LevelData = level.ParseLevel();
 
-            // Read part/actor data in
-            //
-            foreach (JunkbotPartData part in levelData.Parts)
-            {
-                JunkbotActorBase actor    = null;
-                Color            color    = Color.FromName(
-                                                levelData.Colors[part.ColorIndex]
-                                            );
-                Point            location = part.Location;
-                string           partName = levelData.Types[part.TypeIndex];
-
-                switch (partName)
-                {
-                    case "brick_01":
-                    case "brick_02":
-                    case "brick_03":
-                    case "brick_04":
-                    case "brick_06":
-                    case "brick_08":
-                        int brickSize = Convert.ToInt32(partName.Substring(6));
-                        
-                        actor = 
-                            new BrickActor(
-                                this,
-                                location,
-                                color,
-                                (BrickSize) brickSize,
-                                store
-                            );
-                        
-                        break;
-
-                    case "flag":
-                        actor =
-                            new FlagActor(
-                                this,
-                                location,
-                                store
-                            );
-
-                        FlagsRequired++;
-                            
-                        break;
-
-                    case "minifig":
-                        actor =
-                            new JunkbotActor(
-                                this,
-                                location,
-                                part.AnimationName == "walk_l" ?
-                                  FacingDirection.Left :
-                                  FacingDirection.Right,
-                                store
-                            );
-                            
-                        ((JunkbotActor) actor).FlagCollected += Junkbot_FlagCollected;
-                            
-                        break;
-
-                    default:
-                        throw new ArgumentException(
-                            $"Unknown actor '{partName}' in level data."
-                        );
-                }
-
-                // Shift location offset to get true location
-                //
-                AddActor(
-                    actor,
-                    location.Subtract(new Point(1, actor.GridSize.Height))
-                );
-            }
-            
-            // Set up brick picker
-            //
-            BrickPicker = new BrickPicker(this);
-
-            BrickPicker.PickedUpBricks += BrickPicker_PickedUpBricks;
+            GoToInitialState();
         }
 
 
@@ -508,6 +424,105 @@ namespace Junkbot.Game
                 ).Cast<T>();
 
             return new List<T>(actors).AsReadOnly();
+        }
+        
+        /// <summary>
+        /// Sets the scene to its initial state, 
+        /// </summary>
+        public void GoToInitialState()
+        {
+            _Actors        = new List<JunkbotActorBase>();
+            _MobileActors  = new List<JunkbotActorBase>();
+            PlayField      = new JunkbotActorBase[
+                                 LevelData.Size.Width,
+                                 LevelData.Size.Height
+                             ];
+            CellSize       = LevelData.Spacing;
+            Size           = LevelData.Size;
+
+            // Read part/actor data in
+            //
+            foreach (JunkbotPartData part in LevelData.Parts)
+            {
+                JunkbotActorBase actor    = null;
+                Color            color    = Color.FromName(
+                                                LevelData.Colors[part.ColorIndex]
+                                            );
+                Point            location = part.Location;
+                string           partName = LevelData.Types[part.TypeIndex];
+
+                switch (partName)
+                {
+                    case "brick_01":
+                    case "brick_02":
+                    case "brick_03":
+                    case "brick_04":
+                    case "brick_06":
+                    case "brick_08":
+                        int brickSize = Convert.ToInt32(partName.Substring(6));
+                        
+                        actor = 
+                            new BrickActor(
+                                this,
+                                location,
+                                color,
+                                (BrickSize) brickSize,
+                                AnimationStore
+                            );
+                        
+                        break;
+
+                    case "flag":
+                        actor =
+                            new FlagActor(
+                                this,
+                                location,
+                                AnimationStore
+                            );
+
+                        FlagsRequired++;
+                            
+                        break;
+
+                    case "minifig":
+                        actor =
+                            new JunkbotActor(
+                                this,
+                                location,
+                                part.AnimationName == "walk_l" ?
+                                  FacingDirection.Left :
+                                  FacingDirection.Right,
+                                AnimationStore
+                            );
+                            
+                        ((JunkbotActor) actor).FlagCollected += Junkbot_FlagCollected;
+                            
+                        break;
+
+                    default:
+                        throw new ArgumentException(
+                            $"Unknown actor '{partName}' in level data."
+                        );
+                }
+
+                // Shift location offset to get true location
+                //
+                AddActor(
+                    actor,
+                    location.Subtract(new Point(1, actor.GridSize.Height))
+                );
+            }
+            
+            // Set up brick picker
+            //
+            if (BrickPicker != null)
+            {
+                BrickPicker.PickedUpBricks -= BrickPicker_PickedUpBricks;
+            }
+
+            BrickPicker = new BrickPicker(this);
+
+            BrickPicker.PickedUpBricks += BrickPicker_PickedUpBricks;
         }
 
         /// <summary>
@@ -969,236 +984,6 @@ namespace Junkbot.Game
                 //
                 GameplayEnded?.Invoke(sender, e);
             }
-        }
-        
-        
-        /// <summary>
-        /// Creates a <see cref="Scene"/> from the level at the specified path.
-        /// </summary>
-        /// <param name="lvlFilePath">
-        /// The filepath of the level.
-        /// </param>
-        /// <param name="store">
-        /// The <see cref="Scene"/> this method creates.
-        /// </param>
-        public static Scene FromLevel(
-            string               lvlFilePath,
-            SpriteAnimationStore store = null
-        )
-        {
-            return FromLevel(
-                File.ReadAllLines(lvlFilePath),
-                store
-            );
-        }
-
-        /// <summary>
-        /// Creates a <see cref="Scene"/> from the specified file source.
-        /// </summary>
-        /// <param name="lvlFile">
-        /// The lines of the level file.
-        /// </param>
-        /// <param name="store">
-        /// The animation store.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Scene"/> this method creates.
-        /// </returns>
-        public static Scene FromLevel(
-            string[]             lvlFile,
-            SpriteAnimationStore store = null
-        )
-        {
-            var decals    = new List<JunkbotDecalData>();
-            var levelData = new JunkbotLevelData();
-            var parts     = new List<JunkbotPartData>();
-
-            foreach (string line in lvlFile)
-            {
-                // Try retrieving the data
-                //
-                string[] definition = line.Split('=');
-
-                if (definition.Length != 2)
-                {
-                    continue; // Not a definition
-                }
-
-                // Retrieve key and value
-                //
-                string key   = definition[0].ToLower();
-                string value = definition[1];
-
-                switch (key)
-                {
-                    case "backdrop":
-                        levelData.Backdrop = value;
-                        break;
-                
-                    case "colors":
-                        levelData.Colors = value.ToLower().Split(',');
-                        break;
-                        
-                    case "decals":
-                        string[] decalsDef = value.Split(',');
-
-                        foreach (string def in decalsDef)
-                        {
-                            if (string.IsNullOrWhiteSpace(def))
-                            {
-                                continue;
-                            }
-
-                            //
-                            // DECAL FORMAT:
-                            //     [0] - x position
-                            //     [1] - y position
-                            //     [2] - decal sprite name
-                            //
-                            string[] decalData = def.Split(';');
-                            
-                            if (decalData.Length != 3)
-                            {
-                                throw new ArgumentException(
-                                    "Invalid decal data."
-                                );
-                            }
-                            
-                            var decal = new JunkbotDecalData();
-                            
-                            decal.Location =
-                                new Point(
-                                    Convert.ToInt32(decalData[0]),
-                                    Convert.ToInt32(decalData[1])
-                                );
-                                
-                            decal.SpriteName = decalData[2];
-
-                            decals.Add(decal);
-                        }
-                        
-                        break;
-
-                    case "hint":
-                        levelData.Hint = value;
-                        break;
-
-                    case "par":
-                        levelData.Par = Convert.ToUInt16(value);
-                        break;
-
-                    case "parts":
-                        string[] partsDefs = value.ToLower().Split(',');
-
-                        foreach (string def in partsDefs)
-                        {
-                            if (string.IsNullOrWhiteSpace(def))
-                            {
-                                continue;
-                            }
-
-                            //
-                            // PART FORMAT:
-                            //     [0] - x position
-                            //     [1] - y position
-                            //     [2] - type index
-                            //     [3] - colour index
-                            //     [4] - animation name
-                            //     [5] - (UNUSED ATM) ??? possibly whether to animate
-                            //
-                            string[] partData = def.Split(';');
-
-                            if (partData.Length != 7)
-                            {
-                                throw new ArgumentException(
-                                    "Invalid part data encountered."
-                                );
-                            }
-
-                            var part = new JunkbotPartData();
-
-                            part.Location =
-                                new Point(
-                                    Convert.ToInt32(partData[0]),
-                                    Convert.ToInt32(partData[1])
-                                );
-                                
-                            // Minus one to convert to zero-indexed index
-                            //
-                            part.TypeIndex  = (byte)(Convert.ToByte(partData[2]) - 1);
-                            part.ColorIndex = (byte)(Convert.ToByte(partData[3]) - 1);
-
-                            part.AnimationName = partData[4].ToLower();
-
-                            parts.Add(part);
-                        }
-
-                        break;
-
-                    case "scale":
-                        levelData.Scale = Convert.ToByte(value);
-                        break;
-
-                    case "size":
-                        string[] sizeCsv = value.Split(',');
-
-                        if (sizeCsv.Length != 2)
-                        {
-                            throw new ArgumentException(
-                                "Invalid playfield size."
-                            );
-                        }
-
-                        levelData.Size =
-                            new Size(
-                                Convert.ToInt32(sizeCsv[0]),
-                                Convert.ToInt32(sizeCsv[1])
-                            );
-
-                        break;
-
-                    case "spacing":
-                        string[] spacingCsv = value.Split(',');
-
-                        if (spacingCsv.Length != 2)
-                        {
-                            throw new ArgumentException(
-                                "Invalid playfield spacing."
-                            );
-                        }
-
-                        levelData.Spacing =
-                            new Size(
-                                Convert.ToInt32(spacingCsv[0]),
-                                Convert.ToInt32(spacingCsv[1])
-                            );
-
-                        break;
-
-                    case "title":
-                        levelData.Title = value;
-                        break;
-
-                    case "types":
-                        var types = new List<string>();
-
-                        if (levelData.Types != null)
-                        {
-                            types.AddRange(levelData.Types);
-                        }
-
-                        types.AddRange(value.ToLower().Split(','));
-
-                        levelData.Types = types.ToArray();
-
-                        break;
-                }
-            }
-
-            levelData.Decals = decals.AsReadOnly();
-            levelData.Parts  = parts.AsReadOnly();
-            
-            return new Scene(levelData, store);
         }
     }
 }

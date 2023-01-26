@@ -15,7 +15,7 @@ namespace Junkbot.Game.World.Level
     /// <summary>
     /// Represents a data model for level data for Junkbot.
     /// </summary>
-    public struct JunkbotLevelData
+    public class JunkbotLevelData
     {
         #region [info]
         

@@ -90,10 +90,7 @@ namespace Junkbot.Game.State
             JunkbotGame game
         )
         {
-            DemoScene = Scene.FromLevel(
-                            game.Levels.GetLevelSource(0, 0),
-                            game.Animations
-                        );
+            DemoScene = new Scene(game.Levels.GetLevel(0, 0), game.Animations);
             Game      = game;
 
             InitializeShell();
@@ -140,7 +137,7 @@ namespace Junkbot.Game.State
         {
             if (inputs != null)
             {
-                Shell.HandleMouseInputs(inputs);
+                Shell.Update(deltaTime, inputs);
             }
 
             // Check the mouse is within the scene
@@ -180,6 +177,7 @@ namespace Junkbot.Game.State
             PlayButton =
                 new JunkbotUxButton()
                 {
+                    FontSize = 4,
                     Location = new Point(139, 148),
                     Size     = new Size(116, 45),
                     Text     = "play"

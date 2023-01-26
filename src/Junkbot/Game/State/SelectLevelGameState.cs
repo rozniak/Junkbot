@@ -96,10 +96,7 @@ namespace Junkbot.Game.State
             InputEvents inputs
         )
         {
-            if (inputs != null)
-            {
-                Shell.HandleMouseInputs(inputs);
-            }
+            Shell.Update(deltaTime, inputs);
         }
         
         
@@ -133,7 +130,10 @@ namespace Junkbot.Game.State
         )
         {
             Game.CurrentGameState =
-                new PlayingLevelGameState(Game, e.BuildingIndex, e.LevelIndex);
+                new PlayingLevelGameState(
+                    Game,
+                    Game.Levels.GetLevel(e.BuildingIndex, e.LevelIndex)
+                );
 
             Dispose();
         }

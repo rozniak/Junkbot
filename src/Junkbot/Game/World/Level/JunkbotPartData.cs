@@ -14,7 +14,7 @@ namespace Junkbot.Game.World.Level
     /// <summary>
     /// Represents a data model for part data within Junkbot levels.
     /// </summary>
-    public struct JunkbotPartData
+    public class JunkbotPartData
     {
         /// <summary>
         /// Gets or sets the name of the animation to start the actor on.

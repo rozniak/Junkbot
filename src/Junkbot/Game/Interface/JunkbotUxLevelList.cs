@@ -7,6 +7,7 @@
  * Author(s): Rory Fewell <roryf@oddmatics.uk>
  */
 
+using Junkbot.Game.Profile;
 using Junkbot.Game.World.Level;
 using Oddmatics.Rzxe.Extensions;
 using Oddmatics.Rzxe.Game.Interface;
@@ -19,11 +20,60 @@ using System.Drawing;
 
 namespace Junkbot.Game.Interface
 {
+    
+
     /// <summary>
     /// Represents a Junkbot level list user interface component.
     /// </summary>
-    public class JunkbotUxLevelList : UxComponent
+    public sealed class JunkbotUxLevelList : UxComponent
     {
+        private sealed class LevelListDrawData
+        {
+            public ISpriteDrawInstruction CheckBox { get; private set; }
+            
+            public IStringDrawInstruction LevelNumber { get; private set; }
+
+            public IStringDrawInstruction MoveCount { get; private set; }
+            
+            public IStringDrawInstruction Name { get; private set; }
+
+
+            public LevelListDrawData(
+                ISpriteBatch sb,
+                IFont        font
+            )
+            {
+                LevelNumber =
+                    sb.DrawString(
+                        string.Empty,
+                        font,
+                        Point.Empty,
+                        Color.Black
+                    );
+                CheckBox =
+                    sb.Draw(
+                        sb.Atlas.Sprites["checkbox_off"],
+                        Point.Empty,
+                        Color.Transparent
+                    );
+                Name =
+                    sb.DrawString(
+                        string.Empty,
+                        font,
+                        Point.Empty,
+                        Color.Black
+                    );
+                MoveCount =
+                    sb.DrawString(
+                        string.Empty,
+                        font,
+                        Point.Empty,
+                        Color.Black
+                    );
+            }
+        }
+
+
         /// <summary>
         /// The position offset of the checkbox for displaying level completion state.
         /// </summary>
@@ -55,18 +105,6 @@ namespace Junkbot.Game.Interface
         private static readonly Size TitleOffset = new Size(64, 6);
         
         
-        /// <inheritdoc />
-        public override Point Location
-        {
-            get { return _Location; }
-            set
-            {
-                _Location = value;
-                InvalidateLocation();
-            }
-        }
-        private Point _Location;
-        
         /// <summary>
         /// Gets or sets the building that has been selected.
         /// </summary>
@@ -96,6 +134,7 @@ namespace Junkbot.Game.Interface
                     ItemHeight * Game.Levels.LevelsPerBuilding
                 );
             }
+            
             set
             {
                 throw new InvalidOperationException(
@@ -103,7 +142,13 @@ namespace Junkbot.Game.Interface
                 );
             }
         }
-
+        
+        
+        /// <summary>
+        /// The value that indicates whether the state of the level list is dirty and the
+        /// draw instructions must be updated on the next render call.
+        /// </summary>
+        private bool DirtyLevelList { get; set; }
 
         /// <summary>
         /// The font resource used for the list item text.
@@ -114,42 +159,21 @@ namespace Junkbot.Game.Interface
         /// The running Junkbot game instance.
         /// </summary>
         private JunkbotGame Game { get; set; }
-
-
-        #region Drawing Related
         
         /// <summary>
         /// The selection highlight instruction.
         /// </summary>
         private IShapeDrawInstruction HighlightInstruction { get; set; }
-
-        /// <summary>
-        /// The list of drawing instructions for rendering the level completion
-        /// checkboxes.
-        /// </summary>
-        private List<ISpriteDrawInstruction> LevelCheckInstructions { get; set; }
         
         /// <summary>
-        /// The list of drawing instructions for rendering the level move counts.
+        /// The instructions for drawing the level list.
         /// </summary>
-        private List<IStringDrawInstruction> LevelMovesInstructions { get; set; }
-
-        /// <summary>
-        /// The list of drawing instructions for rendering the level names.
-        /// </summary>
-        private List<IStringDrawInstruction> LevelNameInstructions { get; set; }
-        
-        /// <summary>
-        /// The list of drawing instructions for rendering the level numbers.
-        /// </summary>
-        private List<IStringDrawInstruction> LevelNumberInstructions { get; set; }
+        private List<LevelListDrawData> ListInstructions { get; set; }
 
         /// <summary>
         /// The target sprite batch for drawing.
         /// </summary>
         private ISpriteBatch TargetSpriteBatch { get; set; }
-
-        #endregion
         
         
         /// <summary>
@@ -168,36 +192,22 @@ namespace Junkbot.Game.Interface
             JunkbotGame game
         )
         {
-            Game                    = game;
-            LevelCheckInstructions  = new List<ISpriteDrawInstruction>();
-            LevelMovesInstructions  = new List<IStringDrawInstruction>();
-            LevelNameInstructions   = new List<IStringDrawInstruction>();
-            LevelNumberInstructions = new List<IStringDrawInstruction>();
-            SelectedBuilding        = 1;
+            Dirty            = true;
+            DirtyLevelList   = true;
+            Game             = game;
+            ListInstructions = new List<LevelListDrawData>();
+            SelectedBuilding = 1;
         }
         
         
         /// <inheritdoc />
         public override void Dispose()
         {
-            AssertNotDisposed();
-            
-            Disposing = true;
+            base.Dispose();
             
             if (TargetSpriteBatch != null)
             {
-                var toRemove = new List<IDrawInstruction>();
-
-                toRemove.Add(HighlightInstruction);
-                toRemove.AddRange(LevelNumberInstructions);
-                toRemove.AddRange(LevelCheckInstructions);
-                toRemove.AddRange(LevelNameInstructions);
-                toRemove.AddRange(LevelMovesInstructions);
-                
-                foreach (IDrawInstruction d in toRemove)
-                {
-                    TargetSpriteBatch.Instructions.Remove(d);
-                }
+                TargetSpriteBatch.Dispose();
             }
         }
         
@@ -269,43 +279,85 @@ namespace Junkbot.Game.Interface
                 
                 for (int i = 0; i < Game.Levels.LevelsPerBuilding; i++)
                 {
-                    LevelNumberInstructions.Add(
-                        TargetSpriteBatch.DrawString(
-                            (i + 1).ToString(),
-                            Font,
-                            Point.Empty,
-                            Color.Black
-                        )
-                    );
-                    LevelCheckInstructions.Add(
-                        TargetSpriteBatch.Draw(
-                            TargetSpriteBatch.Atlas.Sprites["checkbox_off"],
-                            Point.Empty,
-                            Color.Transparent
-                        )
-                    );
-                    LevelNameInstructions.Add(
-                        TargetSpriteBatch.DrawString(
-                            string.Empty,
-                            Font,
-                            Point.Empty,
-                            Color.Black
-                        )
-                    );
-                    LevelMovesInstructions.Add(
-                        TargetSpriteBatch.DrawString(
-                            string.Empty,
-                            Font,
-                            Point.Empty,
-                            Color.Black
-                        )
+                    ListInstructions.Add(
+                        new LevelListDrawData(TargetSpriteBatch, Font)
                     );
                 }
+            }
+            
+            if (Dirty)
+            {
+                for (int i = 0; i < Game.Levels.LevelsPerBuilding; i++)
+                {
+                    var rowOffset = new Point(0, ItemHeight * i);
+                    
+                    ListInstructions[i].LevelNumber.Location =
+                        ActualLocation.Add(NumberOffset).Add(rowOffset);
+                    ListInstructions[i].CheckBox.Location =
+                        ActualLocation.Add(CheckOffset).Add(rowOffset);
+                    ListInstructions[i].Name.Location =
+                        ActualLocation.Add(TitleOffset).Add(rowOffset);
 
-                // Immediately invalidate
+                    // Right-align the moves counter
+                    //
+                    Size textSize =
+                        Font.MeasureString(
+                            ListInstructions[i].MoveCount.Text
+                        ).Size;
+
+                    int finalX =
+                        ActualLocation.X + ItemWidth - MovesOffset.Width - textSize.Width;
+                    int finalY =
+                        ActualLocation.Y + rowOffset.Y + MovesOffset.Height;
+
+                    ListInstructions[i].MoveCount.Location =
+                        new Point(finalX, finalY);
+                }
+
+                Dirty = false;
+            }
+            
+            if (DirtyLevelList)
+            {
+                // Store references we'll use later
                 //
-                InvalidateLevelListData();
-                InvalidateLocation();
+                ISprite checkboxOff = TargetSpriteBatch.Atlas.Sprites["checkbox_off"];
+                ISprite checkboxOn  = TargetSpriteBatch.Atlas.Sprites["check_light"];
+
+                IList<string> levelNames =
+                    Game.Levels.GetLevelList(SelectedBuilding);
+
+                for (int i = 0; i < Game.Levels.LevelsPerBuilding; i++)
+                {
+                    var progress =
+                        Game.UserProfile.GetLevelCompletionInfo(
+                            SelectedBuilding,
+                            i
+                        );
+
+                    ListInstructions[i].CheckBox.Sprite =
+                        progress.Done ? checkboxOn : checkboxOff;
+
+                    ListInstructions[i].Name.Text = levelNames[i].ToLower();
+
+                    // Right-align the moves counter
+                    //
+                    string moveText = progress.Done ?
+                                          progress.Moves.ToString() :
+                                          string.Empty;
+                    Size   textSize = Font.MeasureString(moveText).Size;
+
+                    int finalX =
+                        ActualLocation.X + ItemWidth - MovesOffset.Width - textSize.Width;
+                    int finalY =
+                        ActualLocation.Y + (ItemHeight * i) + MovesOffset.Height;
+
+                    ListInstructions[i].MoveCount.Location =
+                        new Point(finalX, finalY);
+                    ListInstructions[i].MoveCount.Text = moveText;
+                }
+
+                DirtyLevelList = false;
             }
         }
         
@@ -339,84 +391,7 @@ namespace Junkbot.Game.Interface
         /// </summary>
         private void InvalidateLevelListData()
         {
-            if (TargetSpriteBatch == null)
-            {
-                return;
-            }
-            
-            // Store references we'll use later
-            //
-            ISprite checkboxOff = TargetSpriteBatch.Atlas.Sprites["checkbox_off"];
-            ISprite checkboxOn  = TargetSpriteBatch.Atlas.Sprites["check_light"];
-
-            IList<string> levelNames =
-                Game.Levels.GetLevelList(
-                    (byte) SelectedBuilding
-                );
-                
-            for (int i = 0; i < Game.Levels.LevelsPerBuilding; i++)
-            {
-                var progress =
-                    Game.UserProfile.GetLevelCompletionInfo(
-                        SelectedBuilding,
-                        i
-                    );
-
-                LevelCheckInstructions[i].Sprite =
-                    progress.Done ? checkboxOn : checkboxOff;
-
-                LevelNameInstructions[i].Text = levelNames[i].ToLower();
-
-                // Right-align the moves counter
-                //
-                string moveText = progress.Done ?
-                                      progress.Moves.ToString() :
-                                      string.Empty;
-                Size   textSize = Font.MeasureString(moveText).Size;
-                
-                LevelMovesInstructions[i].Location =
-                    new Point(
-                        Location.X + ItemWidth - MovesOffset.Width - textSize.Width,
-                        Location.Y + (ItemHeight * i) + MovesOffset.Height
-                    );
-                LevelMovesInstructions[i].Text     = moveText;
-            }
-        }
-        
-        /// <summary>
-        /// Invalidates the currently drawn control location.
-        /// </summary>
-        private void InvalidateLocation()
-        {
-            if (TargetSpriteBatch == null)
-            {
-                return;
-            }
-            
-            for (int i = 0; i < Game.Levels.LevelsPerBuilding; i++)
-            {
-                var rowOffset = new Point(0, ItemHeight * i);
-
-                LevelNumberInstructions[i].Location =
-                    Location.Add(NumberOffset).Add(rowOffset);
-                LevelCheckInstructions[i].Location =
-                    Location.Add(CheckOffset).Add(rowOffset);
-                LevelNameInstructions[i].Location =
-                    Location.Add(TitleOffset).Add(rowOffset);
-                    
-                // Right-align the moves counter
-                //
-                Size textSize =
-                    Font.MeasureString(
-                        LevelMovesInstructions[i].Text
-                    ).Size;
-                
-                LevelMovesInstructions[i].Location =
-                    new Point(
-                        Location.X + ItemWidth   - MovesOffset.Width - textSize.Width,
-                        Location.Y + rowOffset.Y + MovesOffset.Height
-                    );
-            }
+            DirtyLevelList = true;
         }
         
         /// <summary>
@@ -429,7 +404,7 @@ namespace Junkbot.Game.Interface
             int highlightedIndex
         )
         {
-            if (TargetSpriteBatch == null)
+            if (HighlightInstruction == null)
             {
                 return;
             }

@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Junkbot.Game.World.Level
 {
@@ -34,17 +33,17 @@ namespace Junkbot.Game.World.Level
         /// Gets the number of levels per building.
         /// </summary>
         public int LevelsPerBuilding { get; private set; }
+        
+        /// <summary>
+        /// Gets the root directory for levels on disk.
+        /// </summary>
+        public string LevelRoot { get; private set; }
 
 
         /// <summary>
         /// The running Junkbot game instance.
         /// </summary>
         private JunkbotGame Junkbot { get; set; }
-        
-        /// <summary>
-        /// The root directory for levels on disk.
-        /// </summary>
-        private string LevelRoot { get; set; }
         
         /// <summary>
         /// Gets or sets the levels.
@@ -73,42 +72,39 @@ namespace Junkbot.Game.World.Level
         
         
         /// <summary>
+        /// Gets a level from the store.
+        /// </summary>
+        /// <param name="buildingIndex">
+        /// The index of the building the level belongs to.
+        /// </param>
+        /// <param name="levelIndex">
+        /// The index of the level within the building.
+        /// </param>
+        /// <returns>
+        /// The level.
+        /// </returns>
+        public JunkbotLevel GetLevel(
+            int buildingIndex,
+            int levelIndex
+        )
+        {
+            return new JunkbotLevel(this, buildingIndex, levelIndex);
+        }
+
+        /// <summary>
         /// Gets the level list for the specified building.
         /// </summary>
-        /// <param name="building">
-        /// The building number.
+        /// <param name="buildingIndex">
+        /// The index of the building.
         /// </param>
         /// <returns>
         /// The level list for the building.
         /// </returns>
         public IList<string> GetLevelList(
-            byte building
+            int buildingIndex
         )
         {
-            return Levels[building];
-        }
-        
-        /// <summary>
-        /// Gets the source for a specific level.
-        /// </summary>
-        /// <param name="building">
-        /// The building number.
-        /// </param>
-        /// <param name="levelIndex">
-        /// The level number.
-        /// </param>
-        /// <returns>
-        /// The source data for the level.
-        /// </returns>
-        public string[] GetLevelSource(
-            byte building,
-            byte levelIndex
-        )
-        {
-            string level         = Levels[building][levelIndex];
-            string levelJsonPath = Path.Combine(LevelRoot, $"{level}.txt");
-
-            return File.ReadLines(levelJsonPath).ToArray();
+            return Levels[buildingIndex];
         }
         
         
